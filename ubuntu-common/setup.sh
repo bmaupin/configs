@@ -14,7 +14,7 @@ ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
 # Install packages
-sudo apt-get install -y aptitude brasero deja-dup gedit gnote icedtea-7-plugin libreoffice openjdk-7-jdk rhythmbox shotwell
+sudo apt-get install -y aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell
 
 # Set up firewall
 sudo ufw default deny  # (defaults to blocking all incoming connections)
@@ -42,4 +42,12 @@ if [ "$LOCATION" = "home" ]
 then
     # Disable daily mlocate update
     sudo chmod -x /etc/cron.daily/mlocate
+if [ "$LOCATION" = "work" ]
+then
+    # Install packages
+    sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
+
+    # Change Thunderbird language
+    cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
+    sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
 fi
