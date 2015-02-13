@@ -59,6 +59,9 @@ then
     # Install packages
     sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
+    # Install prerequisite packages for kernel modules for VirtualBox
+    sudo apt-get -y install build-essential dkms linux-headers-generic
+
     # Change Thunderbird language
     cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
     sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
