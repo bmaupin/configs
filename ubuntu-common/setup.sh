@@ -16,6 +16,15 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 # Install packages
 sudo apt-get install -y aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell
 
+# Install newer version of pidgin-sipe since what comes with 14.04 is buggy
+wget https://launchpad.net/ubuntu/+archive/primary/+files/pidgin-sipe_1.18.2-1_amd64.deb
+sudo dpkg -i pidgin-sipe_1.18.2-1_amd64.deb
+rm pidgin-sipe_1.18.2-1_amd64.deb
+
+# Configure applications to run at start
+mkdir -p ~/.config/autostart
+cp /usr/share/applications/indicator-multiload.desktop ~/.config/autostart/
+
 # Set up firewall
 sudo ufw default deny  # (defaults to blocking all incoming connections)
 sudo ufw enable  # (enables firewall)
@@ -50,4 +59,15 @@ then
     # Change Thunderbird language
     cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
     sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
+
+    # Configure applications to run at start
+    cp /usr/share/applications/pidgin.desktop ~/.config/autostart/
+    # Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
+    printf "%s\n" \
+        "[Desktop Entry]" \
+        "Type=Application" \
+        "Name=Thunderbird Mail" \
+        "Icon=thunderbird" \
+        "Exec=env LC_ALL=fr_CA.utf8 thunderbird" \
+        "Terminal=false" > ~/.config/autostart/thunderbird.desktop
 fi
