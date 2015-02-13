@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# Get the full path of the directory this script is in
+pushd `dirname $0` > /dev/null
+SCRIPTPATH=`pwd`
+popd > /dev/null
+
 # Create symlinks for config files
-ln -s ~/workspace/git/configs/xubuntu/.config/xfce4/terminal/terminalrc ~/.config/xfce4/terminal/terminalrc
+ln -s $SCRIPTPATH/.config/xfce4/terminal/terminalrc ~/.config/xfce4/terminal/terminalrc
 
 # Disable workspace wrapping
 xfconf-query -c xfwm4 -p /general/wrap_layout -t bool -s false
