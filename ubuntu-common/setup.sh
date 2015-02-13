@@ -13,8 +13,11 @@ popd > /dev/null
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
+# Remove unnecessary packages
+sudo apt-get -y autoremove empathy evolution
+
 # Install packages
-sudo apt-get install -y aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell
+sudo apt-get -y install aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell
 
 # Install newer version of pidgin-sipe since what comes with 14.04 is buggy
 wget https://launchpad.net/ubuntu/+archive/primary/+files/pidgin-sipe_1.18.2-1_amd64.deb
