@@ -5,6 +5,10 @@ pushd `dirname $0` > /dev/null
 SCRIPTPATH=`pwd`
 popd > /dev/null
 
+# Parse command-line options
+. $SCRIPTPATH/getopts.sh "$@"
+
+
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
