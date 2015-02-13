@@ -31,7 +31,7 @@ sudo apt-file update
 
 # Configure applications to run at start
 mkdir -p ~/.config/autostart
-cp /usr/share/applications/indicator-multiload.desktop ~/.config/autostart/
+ln -s /usr/share/applications/indicator-multiload.desktop ~/.config/autostart/indicator-multiload.desktop
 
 # Set up firewall
 sudo ufw default deny  # (defaults to blocking all incoming connections)
