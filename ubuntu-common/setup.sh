@@ -9,6 +9,9 @@ popd > /dev/null
 . $SCRIPTPATH/getopts.sh "$@"
 
 
+# Install packages
+sudo apt-get install -y aptitude icedtea-7-plugin openjdk-7-jdk
+
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
@@ -28,3 +31,18 @@ sudo sed -i.bak 's/^#GRUB_DISABLE_RECOVERY="true"$/GRUB_DISABLE_RECOVERY="true"/
 # Remove memory test menu entry
 sudo chmod -x /etc/grub.d/20_memtest86+
 sudo update-grub
+
+
+# Location-based configuration
+if [ "$LOCATION" = "home" ]
+then
+    # Install packages
+    sudo apt-get -y install deja-dup
+
+    # Disable daily mlocate update
+    sudo chmod -x /etc/cron.daily/mlocate
+
+    # Configure Deja Dup (Backup) full backup period
+    gsettings set org.gnome.DejaDup full-backup-period 180
+    gsettings get org.gnome.DejaDup full-backup-period
+fi
