@@ -18,6 +18,10 @@ bash <(curl -s https://raw.githubusercontent.com/bmaupin/misc-shell/master/solar
 # Hide Gnome Terminal menu bar
 gconftool-2 --set "/apps/gnome-terminal/profiles/Default/default_show_menubar" --type bool false
 
+# Set up workspaces in a 2x2 grid
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
+
 
 # 14.04+
 # Remove Amazon icon
