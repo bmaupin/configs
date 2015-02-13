@@ -9,12 +9,12 @@ popd > /dev/null
 . $SCRIPTPATH/getopts.sh "$@"
 
 
-# Install packages
-sudo apt-get install -y aptitude icedtea-7-plugin openjdk-7-jdk
-
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
+
+# Install packages
+sudo apt-get install -y aptitude icedtea-7-plugin openjdk-7-jdk
 
 # Set up firewall
 sudo ufw default deny  # (defaults to blocking all incoming connections)
