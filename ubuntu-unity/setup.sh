@@ -1,5 +1,14 @@
 #!/bin/bash
 
+# Get the full path of the directory this script is in
+pushd `dirname $0` > /dev/null
+SCRIPTPATH=`pwd`
+popd > /dev/null
+
+# Parse command-line options
+. $SCRIPTPATH/../ubuntu-common/getopts.sh "$@"
+
+
 # Configure compose key as right alt (for typing accented characters)
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:ralt']"
 

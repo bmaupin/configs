@@ -5,6 +5,10 @@ pushd `dirname $0` > /dev/null
 SCRIPTPATH=`pwd`
 popd > /dev/null
 
+# Parse command-line options
+. $SCRIPTPATH/../ubuntu-common/getopts.sh "$@"
+
+
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.config/xfce4/terminal/terminalrc ~/.config/xfce4/terminal/terminalrc
 
