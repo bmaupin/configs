@@ -55,9 +55,15 @@ gsettings get org.gnome.DejaDup full-backup-period
 # Location-based configuration
 if [ "$LOCATION" = "home" ]
 then
+    # Install packages
+    sudo apt-get -y install gtk-redshift
+
+    # Configure applications to run at start
+    ln -s /usr/share/applications/redshift-gtk.desktop ~/.config/autostart/redshift-gtk.desktop
+
     # Disable daily mlocate update
     sudo chmod -x /etc/cron.daily/mlocate
-if [ "$LOCATION" = "work" ]
+elif [ "$LOCATION" = "work" ]
 then
     # Install packages
     sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
