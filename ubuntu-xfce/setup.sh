@@ -12,6 +12,12 @@ popd > /dev/null
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.config/xfce4/terminal/terminalrc ~/.config/xfce4/terminal/terminalrc
 
+# Remove unnecessary applications
+sudo apt-get -y remove abiword gmusicbrowser gnumeric mousepad orage xchat xfce4-notes
+
+# Remove the duplicate login screen entry
+sudo mv /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xfce.desktop.bak &> /dev/null
+
 # Disable workspace wrapping
 xfconf-query -c xfwm4 -p /general/wrap_layout -t bool -s false
 
