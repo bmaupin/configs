@@ -61,7 +61,8 @@ then
     sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
 
     # Configure applications to run at start
-    cp /usr/share/applications/pidgin.desktop ~/.config/autostart/
+    ln -s /usr/share/applications/gnote.desktop ~/.config/autostart/gnote.desktop
+    ln -s /usr/share/applications/pidgin.desktop ~/.config/autostart/pidgin.desktop
     # Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
     printf "%s\n" \
         "[Desktop Entry]" \
