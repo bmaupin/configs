@@ -88,4 +88,7 @@ then
         "Icon=thunderbird" \
         "Exec=env LC_ALL=fr_CA.utf8 thunderbird" \
         "Terminal=false" > ~/.config/autostart/thunderbird.desktop
+
+    # Fix headphone sound from rear jack on Dell Optiplex 9020
+    sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
 fi
