@@ -17,7 +17,7 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 sudo apt-get -y autoremove empathy evolution
 
 # Install packages
-sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell vim
+sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell vim
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
