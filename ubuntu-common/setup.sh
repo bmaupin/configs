@@ -65,6 +65,9 @@ then
 
     # Disable daily mlocate update
     sudo chmod -x /etc/cron.daily/mlocate
+
+    # Open port for transmission
+    sudo ufw allow 51413
 elif [ "$LOCATION" = "work" ]
 then
     # Install packages
