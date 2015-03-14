@@ -49,9 +49,11 @@ sudo sed -i.bak 's/^#GRUB_DISABLE_RECOVERY="true"$/GRUB_DISABLE_RECOVERY="true"/
 sudo chmod -x /etc/grub.d/20_memtest86+
 sudo update-grub
 
-# Configure Deja Dup (Backup) full backup period
+# Configure Deja Dup (Backup) frequency of full backups
 gsettings set org.gnome.DejaDup full-backup-period 180
-gsettings get org.gnome.DejaDup full-backup-period
+# Configure length of time to keep backups for since there's currently no way to limit by size
+# (https://bugs.launchpad.net/deja-dup/+bug/846852)
+gsettings set org.gnome.DejaDup delete-after 730
 
 
 # Location-based configuration
