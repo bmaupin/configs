@@ -62,7 +62,7 @@ rm google-chrome-stable_current_amd64.deb
 
 # Change Chrome language
 cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
-sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LC_ALL=fr_CA.utf8 \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
+sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
 
 # Location-based configuration
 if [ "$LOCATION" = "home" ]
