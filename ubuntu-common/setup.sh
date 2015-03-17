@@ -55,6 +55,14 @@ gsettings set org.gnome.DejaDup full-backup-period 180
 # (https://bugs.launchpad.net/deja-dup/+bug/846852)
 gsettings set org.gnome.DejaDup delete-after 730
 
+# Install Chrome
+wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+sudo dpkg -i google-chrome-stable_current_amd64.deb
+rm google-chrome-stable_current_amd64.deb
+
+# Change Chrome language
+cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
+sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LC_ALL=fr_CA.utf8 \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
 
 # Location-based configuration
 if [ "$LOCATION" = "home" ]
