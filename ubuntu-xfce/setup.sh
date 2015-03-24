@@ -36,3 +36,6 @@ xfconf-query -c xfce4-keyboard-shortcuts --create -p "/xfwm4/custom/<Primary><Sh
 # Configure compose key as right alt (for typing accented characters)
 sudo sed -i.bak 's/^XKBOPTIONS=""/XKBOPTIONS="compose:ralt"/' /etc/default/keyboard
 setxkbmap -option compose:ralt
+
+# Enable tiling snap for windows by disabling the ability to drag windows between workspaces
+xfconf-query -c xfwm4 -p /general/wrap_windows -s false
