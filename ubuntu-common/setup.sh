@@ -101,4 +101,7 @@ then
 
     # Fix headphone sound from rear jack on Dell Optiplex 9020
     sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
+
+    # Open firewall ports for pidgin-sipe outgoing file transfers
+    sudo ufw allow 6891:6901/tcp
 fi
