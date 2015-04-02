@@ -103,5 +103,6 @@ then
     sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
 
     # Open firewall ports for pidgin-sipe outgoing file transfers
+    # (http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c)
     sudo ufw allow 6891:6901/tcp
 fi
