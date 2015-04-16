@@ -17,7 +17,7 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 sudo apt-get -y autoremove empathy evolution
 
 # Install packages
-sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin remmina rhythmbox shotwell vim
+sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin python3 remmina rhythmbox shotwell vim
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
@@ -63,6 +63,9 @@ rm google-chrome-stable_current_amd64.deb
 # Change Chrome language
 cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
 sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
+
+# Default to Python 3 for future-proofing
+echo "alias python=python3" >> ~/.bashrc
 
 # Location-based configuration
 if [ "$LOCATION" = "home" ]
