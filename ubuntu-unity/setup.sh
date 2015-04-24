@@ -13,7 +13,7 @@ popd > /dev/null
 gsettings set org.gnome.desktop.input-sources xkb-options "['compose:ralt']"
 
 # Solarize Gnome Terminal
-bash <(curl -s https://raw.githubusercontent.com/bmaupin/misc-shell/master/solarize/solarize-dark-highcontrast.sh)
+bash <(curl -s https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/gnome-terminal/solarized-dark-high-contrast.sh)
 
 # Hide Gnome Terminal menu bar
 gconftool-2 --set "/apps/gnome-terminal/profiles/Default/default_show_menubar" --type bool false
