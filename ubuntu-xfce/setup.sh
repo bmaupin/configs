@@ -9,8 +9,10 @@ popd > /dev/null
 . $SCRIPTPATH/../ubuntu-common/getopts.sh "$@"
 
 
-# Create symlinks for config files
-ln -s $SCRIPTPATH/.config/xfce4/terminal/terminalrc ~/.config/xfce4/terminal/terminalrc
+# Configure Xfce Terminal
+wget https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/xfce4-terminal/terminalrc -O ~/.config/xfce4/terminal/terminalrc
+echo "FontName=DejaVu Sans Mono 11
+MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc
 
 # Remove unnecessary applications
 sudo apt-get -y remove abiword gmusicbrowser gnumeric mousepad orage xchat xfce4-notes
