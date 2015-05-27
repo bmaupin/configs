@@ -68,8 +68,7 @@ sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin
 echo "alias python=python3" >> ~/.bashrc
 
 # Location-based configuration
-if [ "$LOCATION" = "home" ]
-then
+if [ "$LOCATION" == "home" ]; then
     # Install packages
     sudo apt-get -y install gtk-redshift
 
@@ -78,8 +77,7 @@ then
 
     # Disable daily mlocate update
     sudo chmod -x /etc/cron.daily/mlocate
-elif [ "$LOCATION" = "work" ]
-then
+elif [ "$LOCATION" == "work" ]; then
     # Install packages
     sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
