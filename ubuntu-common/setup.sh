@@ -106,4 +106,8 @@ elif [ "$LOCATION" == "work" ]; then
     # Open firewall ports for pidgin-sipe outgoing file transfers
     # (http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c)
     sudo ufw allow 6891:6901/tcp
+
+    # Ignore certificate when using ldapsearch
+    sudo cp -a /etc/ldap/ldap.conf /etc/ldap/ldap.conf.bak
+    grep -q TLS_REQCERT /etc/ldap/ldap.conf || sudo sh -c 'echo TLS_REQCERT never >> /etc/ldap/ldap.conf'
 fi
