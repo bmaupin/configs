@@ -21,10 +21,16 @@ sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
-# Install newer version of pidgin-sipe since what comes with 14.04 is buggy
-wget https://launchpad.net/ubuntu/+archive/primary/+files/pidgin-sipe_1.18.2-1_amd64.deb
-sudo dpkg -i pidgin-sipe_1.18.2-1_amd64.deb
-rm pidgin-sipe_1.18.2-1_amd64.deb
+# Install newer versions of buggy packages that come with 14.04
+if lsb_release -r | grep -q 14.04; then
+    wget https://launchpad.net/ubuntu/+archive/primary/+files/pidgin-sipe_1.18.2-1_amd64.deb
+    sudo dpkg -i pidgin-sipe_1.18.2-1_amd64.deb
+    rm pidgin-sipe_1.18.2-1_amd64.deb
+
+    sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
+    sudo apt-get update
+    sudo apt-get install -y remmina
+fi
 
 # Update apt-file cache
 sudo apt-file update
