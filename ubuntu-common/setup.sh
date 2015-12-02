@@ -73,6 +73,9 @@ sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin
 # Default to Python 3 for future-proofing
 echo "alias python=python3" >> ~/.bashrc
 
+# Set up permissions for debugging Motorola Android devices
+sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\", GROUP=\"plugdev\"" > /etc/udev/rules.d/51-android.rules'
+
 # Location-based configuration
 if [ "$LOCATION" == "home" ]; then
     # Install packages
