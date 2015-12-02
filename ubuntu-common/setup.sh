@@ -87,8 +87,11 @@ elif [ "$LOCATION" == "work" ]; then
     # Install packages
     sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
-    # Install prerequisite packages for kernel modules for VirtualBox
-    sudo apt-get -y install build-essential dkms linux-headers-generic
+    # Install VirtualBox
+    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+    sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian `lsb_release -c | awk '"'"'{print $2}'"'"'` contrib" > /etc/apt/sources.list.d/virtualbox.list'
+    sudo apt-get update
+    sudo apt-get -y install dkms virtualbox-5.0
 
     # Change Thunderbird language
     cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
