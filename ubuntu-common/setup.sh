@@ -79,7 +79,7 @@ sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"18d1\", MODE=\"0666\",
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\", GROUP=\"plugdev\"" >> /etc/udev/rules.d/51-android.rules'
 
 # Ugly hack to clean up extra kernels after installing updates
-grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << PurgeOldKernels >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
+grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
 sudo() {
     if [[ $1 == "apt-get" ]]; then
         if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
