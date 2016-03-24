@@ -17,7 +17,7 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 sudo apt-get -y autoremove empathy evolution
 
 # Install packages
-sudo apt-get -y install apt-file aptitude brasero deja-dup gedit icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+sudo apt-get -y install apt-file aptitude bikeshed brasero deja-dup gedit icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
@@ -77,6 +77,21 @@ echo "alias python=python3" >> ~/.bashrc
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"18d1\", MODE=\"0666\", GROUP=\"plugdev\"" > /etc/udev/rules.d/51-android.rules'
 # Set up permissions for debugging Motorola Android devices
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\", GROUP=\"plugdev\"" >> /etc/udev/rules.d/51-android.rules'
+
+# Ugly hack to clean up extra kernels after installing updates
+grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << PurgeOldKernels >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
+sudo() {
+    if [[ $1 == "apt-get" ]]; then
+        if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
+            command sudo "$@" && sudo purge-old-kernels
+        else
+            command sudo "$@"
+        fi
+    else
+        command sudo "$@"
+    fi
+}
+PurgeOldKernels
 
 # Location-based configuration
 if [ "$LOCATION" == "home" ]; then
