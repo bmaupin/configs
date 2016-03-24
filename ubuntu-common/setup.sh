@@ -17,7 +17,7 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 sudo apt-get -y autoremove empathy evolution
 
 # Install packages
-sudo apt-get -y install apt-file aptitude brasero deja-dup gedit gnote icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+sudo apt-get -y install apt-file aptitude brasero deja-dup gedit icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
@@ -88,6 +88,7 @@ if [ "$LOCATION" == "home" ]; then
 
     # Disable daily mlocate update
     sudo chmod -x /etc/cron.daily/mlocate
+
 elif [ "$LOCATION" == "work" ]; then
     # Install packages
     sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
@@ -103,7 +104,6 @@ elif [ "$LOCATION" == "work" ]; then
     sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
 
     # Configure applications to run at start
-    ln -s /usr/share/applications/gnote.desktop ~/.config/autostart/gnote.desktop
     ln -s /usr/share/applications/pidgin.desktop ~/.config/autostart/pidgin.desktop
     # Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
     printf "%s\n" \
