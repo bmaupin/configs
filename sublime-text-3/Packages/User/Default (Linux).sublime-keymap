@@ -1,0 +1,6 @@
+[
+    { "keys": ["ctrl+g"], "command": "find_next" },
+    { "keys": ["f10"], "command": "toggle_menu" },
+    { "keys": ["ctrl+shift+c"], "command": "open_file_settings" },
+    { "keys": ["alt+shift+f3"], "command": "find_all_under" },
+]
