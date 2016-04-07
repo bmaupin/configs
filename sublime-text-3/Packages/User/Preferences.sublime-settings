@@ -1,0 +1,15 @@
+{
+    "color_scheme": "Packages/User/Solarized (Dark high contrast).tmTheme",
+    "font_size": 11,
+    "ignored_packages":
+    [
+        "Vintage"
+    ],
+    "rulers":
+    [
+        80
+    ],
+    "scroll_speed": 0,
+    "theme": "Soda SolarizedDark.sublime-theme",
+    "translate_tabs_to_spaces": true
+}
