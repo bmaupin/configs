@@ -1,4 +1,4 @@
 {
-    "env": {"GOPATH": "$HOME/go"},
-    "fmt_cmd": ["goimports"],
+  "env": {"GOPATH": "$HOME/go"},
+  "fmt_cmd": ["goimports"]
 }
