@@ -1,14 +1,14 @@
 {
-  "bootstrapped": true,
-  "in_process_packages":
-  [
-  ],
-  "installed_packages":
-  [
-    "GoSublime",
-    "HypnotoadSVN",
-    "Package Control",
-    "Theme - Soda SolarizedDark",
-    "TrailingSpaces"
-  ]
+	"bootstrapped": true,
+	"in_process_packages":
+	[
+	],
+	"installed_packages":
+	[
+		"GoSublime",
+		"HypnotoadSVN",
+		"Package Control",
+		"Theme - Soda SolarizedDark",
+		"TrailingSpaces"
+	]
 }
