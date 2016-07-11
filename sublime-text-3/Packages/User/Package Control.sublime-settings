@@ -6,6 +6,8 @@
 	"installed_packages":
 	[
 		"GoSublime",
+		"Grails",
+		"HexViewer",
 		"HypnotoadSVN",
 		"Package Control",
 		"Theme - Soda SolarizedDark",
