@@ -41,3 +41,7 @@ setxkbmap -option compose:ralt
 
 # Enable tiling snap for windows by disabling the ability to drag windows between workspaces
 xfconf-query -c xfwm4 -p /general/wrap_windows -s false
+
+# Fix missing scrollbar arrow buttons with greybird theme
+# https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
+sudo sed -i.bak -E 's/(GtkScrollbar.+has.+stepper)/#&/' /usr/share/themes/Greybird/gtk-2.0/gtkrc
