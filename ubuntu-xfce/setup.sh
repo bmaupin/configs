@@ -45,3 +45,10 @@ xfconf-query -c xfwm4 -p /general/wrap_windows -s false
 # Fix missing scrollbar arrow buttons with greybird theme
 # https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
 sudo sed -i.bak -E 's/(GtkScrollbar.+has.+stepper)/#&/' /usr/share/themes/Greybird/gtk-2.0/gtkrc
+
+# Configurations for specific releases
+if lsb_release -r | grep -q 16.04; then
+    # Work around bug with /etc/default/keyboard
+    # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
+    grep -q setxkbmap ~/.xprofile || echo "setxkbmap -option compose:ralt" >> ~/.xprofile
+fi
