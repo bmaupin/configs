@@ -93,6 +93,13 @@ sudo() {
 }
 PurgeOldKernels
 
+# Get custom fonts
+mkdir -p ~/.fonts
+if [ ! -f ~/.fonts/SourceCodePro-Regular.ttf ]; then
+    wget https://github.com/adobe-fonts/source-code-pro/raw/gh-pages/TTF/SourceCodePro-Regular.ttf -O ~/.fonts/SourceCodePro-Regular.ttf
+    fc-cache -f -v
+fi
+
 # Location-based configuration
 if [ "$LOCATION" == "home" ]; then
     # Install packages
