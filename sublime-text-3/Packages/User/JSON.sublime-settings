@@ -1,3 +1,7 @@
 {
-  "tab_size": 2
+	"extensions":
+	[
+		"json.j2"
+	],
+	"tab_size": 2
 }
