@@ -39,6 +39,18 @@ sudo apt-file update
 mkdir -p ~/.config/autostart
 ln -s /usr/share/applications/indicator-multiload.desktop ~/.config/autostart/indicator-multiload.desktop
 
+# Reset indicator-multiload settings to default
+# (http://askubuntu.com/a/858069/18665)
+dconf reset -f "/de/mh21/indicator-multiload/"
+
+# Configure indicator-multiload
+gsettings set de.mh21.indicator-multiload.graphs.load enabled true
+gsettings set de.mh21.indicator-multiload.graphs.cpu enabled true
+gsettings set de.mh21.indicator-multiload.graphs.disk enabled true
+gsettings set de.mh21.indicator-multiload.graphs.net enabled true
+gsettings set de.mh21.indicator-multiload.graphs.swap enabled true
+gsettings set de.mh21.indicator-multiload.graphs.mem enabled true
+
 # Set up firewall
 sudo ufw default deny  # (defaults to blocking all incoming connections)
 sudo ufw enable  # (enables firewall)
