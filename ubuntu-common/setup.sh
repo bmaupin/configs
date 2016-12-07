@@ -9,6 +9,11 @@ popd > /dev/null
 . $SCRIPTPATH/getopts.sh "$@"
 
 
+# Set up firewall
+sudo ufw default deny  # (defaults to blocking all incoming connections)
+sudo ufw enable  # (enables firewall)
+sudo ufw status
+
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
@@ -50,11 +55,6 @@ gsettings set de.mh21.indicator-multiload.graphs.disk enabled true
 gsettings set de.mh21.indicator-multiload.graphs.net enabled true
 gsettings set de.mh21.indicator-multiload.graphs.swap enabled true
 gsettings set de.mh21.indicator-multiload.graphs.mem enabled true
-
-# Set up firewall
-sudo ufw default deny  # (defaults to blocking all incoming connections)
-sudo ufw enable  # (enables firewall)
-sudo ufw status
 
 # Disable update-apt-xapian-index
 # (used for synaptic quick search function: http://reformedmusings.wordpress.com/2009/06/05/fixing-update-apt-xapian-in-ubuntu-9-04-jaunty/)
