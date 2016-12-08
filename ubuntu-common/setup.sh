@@ -40,15 +40,12 @@ fi
 # Update apt-file cache
 sudo apt-file update
 
-# Configure applications to run at start
-mkdir -p ~/.config/autostart
-ln -s /usr/share/applications/indicator-multiload.desktop ~/.config/autostart/indicator-multiload.desktop
-
 # Reset indicator-multiload settings to default
 # (http://askubuntu.com/a/858069/18665)
 dconf reset -f "/de/mh21/indicator-multiload/"
 
 # Configure indicator-multiload
+gsettings set de.mh21.indicator-multiload.general autostart true
 gsettings set de.mh21.indicator-multiload.graphs.load enabled true
 gsettings set de.mh21.indicator-multiload.graphs.cpu enabled true
 gsettings set de.mh21.indicator-multiload.graphs.disk enabled true
