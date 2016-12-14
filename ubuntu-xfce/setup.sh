@@ -11,8 +11,8 @@ popd > /dev/null
 
 # Configure Xfce Terminal
 wget https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/xfce4-terminal/terminalrc -O ~/.config/xfce4/terminal/terminalrc
-echo "FontName=DejaVu Sans Mono 11
-MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc
+grep -q FontName ~/.config/xfce4/terminal/terminalrc || echo "FontName=DejaVu Sans Mono 11" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^FontName=.*/FontName=DejaVu Sans Mono 11/' ~/.config/xfce4/terminal/terminalrc
+grep -q MiscMenubarDefault ~/.config/xfce4/terminal/terminalrc || echo "MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^MiscMenubarDefault=.*/MiscMenubarDefault=FALSE/' ~/.config/xfce4/terminal/terminalrc
 grep -q ScrollingOnOutput ~/.config/xfce4/terminal/terminalrc || echo "ScrollingOnOutput=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^ScrollingOnOutput=.*/ScrollingOnOutput=FALSE/' ~/.config/xfce4/terminal/terminalrc
 
 # Remove unnecessary applications
