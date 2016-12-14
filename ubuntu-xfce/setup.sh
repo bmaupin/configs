@@ -13,6 +13,7 @@ popd > /dev/null
 wget https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/xfce4-terminal/terminalrc -O ~/.config/xfce4/terminal/terminalrc
 echo "FontName=DejaVu Sans Mono 11
 MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc
+grep -q ScrollingOnOutput ~/.config/xfce4/terminal/terminalrc || echo "ScrollingOnOutput=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^ScrollingOnOutput=.*/ScrollingOnOutput=FALSE/' ~/.config/xfce4/terminal/terminalrc
 
 # Remove unnecessary applications
 sudo apt-get -y remove abiword gmusicbrowser gnumeric mousepad orage xchat xfce4-notes
