@@ -19,7 +19,7 @@ ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
 # Remove unnecessary packages
-sudo apt-get -y autoremove empathy evolution
+sudo apt-get -y purge --auto-remove empathy evolution
 
 # Install packages
 sudo apt-get -y install apt-file aptitude bikeshed brasero deja-dup gedit icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
