@@ -19,19 +19,19 @@ ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
 # Remove undesired packages
-sudo apt-get -y purge --auto-remove empathy evolution
+sudo apt -y purge --auto-remove empathy evolution
 
 # Install desired packages
-sudo apt-get -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+sudo apt -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
 
 # Install LibreOffice French support
-sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
+sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
 # Install release-specific packages
 if [[ ! `lsb_release -r | awk '{print $2}'` < "16.04" ]]; then
-    sudo apt-get -y install icedtea-8-plugin openjdk-8-jdk
+    sudo apt -y install icedtea-8-plugin openjdk-8-jdk
 else
-    sudo apt-get -y install icedtea-7-plugin openjdk-7-jdk
+    sudo apt -y install icedtea-7-plugin openjdk-7-jdk
 fi
 
 # Install newer versions of buggy packages that come with 14.04
@@ -41,8 +41,8 @@ if lsb_release -r | grep -q 14.04; then
     rm pidgin-sipe_1.18.2-1_amd64.deb
 
     sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
-    sudo apt-get update
-    sudo apt-get install -y libfreerdp-plugins-standard remmina
+    sudo apt update
+    sudo apt install -y libfreerdp-plugins-standard remmina
 fi
 
 # Update apt-file cache
@@ -121,7 +121,7 @@ fi
 # Location-based configuration
 if [ "$LOCATION" == "home" ]; then
     # Install packages
-    sudo apt-get -y install gtk-redshift
+    sudo apt -y install gtk-redshift
 
     # Configure applications to run at start
     ln -s /usr/share/applications/redshift-gtk.desktop ~/.config/autostart/redshift-gtk.desktop
@@ -131,13 +131,13 @@ if [ "$LOCATION" == "home" ]; then
 
 elif [ "$LOCATION" == "work" ]; then
     # Install packages
-    sudo apt-get -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
+    sudo apt -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
     # Install VirtualBox
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian `lsb_release -c | awk '"'"'{print $2}'"'"'` contrib" > /etc/apt/sources.list.d/virtualbox.list'
-    sudo apt-get update
-    sudo apt-get -y install dkms virtualbox-5.0
+    sudo apt update
+    sudo apt -y install dkms virtualbox-5.0
 
     # Change Thunderbird language
     cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
