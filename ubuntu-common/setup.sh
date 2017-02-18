@@ -18,13 +18,21 @@ sudo ufw status
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
-# Remove unnecessary packages
+# Remove undesired packages
 sudo apt-get -y purge --auto-remove empathy evolution
 
-# Install packages
-sudo apt-get -y install apt-file aptitude bikeshed brasero deja-dup gedit icedtea-7-plugin indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap openjdk-7-jdk pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+# Install desired packages
+sudo apt-get -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+
 # Install LibreOffice French support
 sudo apt-get -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
+
+# Install release-specific packages
+if [[ ! `lsb_release -r | awk '{print $2}'` < "16.04" ]]; then
+    sudo apt-get -y install icedtea-8-plugin openjdk-8-jdk
+else
+    sudo apt-get -y install icedtea-7-plugin openjdk-7-jdk
+fi
 
 # Install newer versions of buggy packages that come with 14.04
 if lsb_release -r | grep -q 14.04; then
