@@ -28,7 +28,7 @@ sudo apt -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload
 sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
 # Release-specific configuration
-if [[ ! `lsb_release -r | awk '{print $2}'` < "16.04" ]]; then
+if [[ `lsb_release -r | awk '{print $2}'` > "15.10" ]]; then
     sudo apt -y install icedtea-8-plugin openjdk-8-jdk
 
 else
