@@ -34,6 +34,10 @@ if [[ ! `lsb_release -r | awk '{print $2}'` < "16.04" ]]; then
 else
     sudo apt -y install icedtea-7-plugin openjdk-7-jdk
 
+    sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
+    sudo apt update
+    sudo apt install -y libfreerdp-plugins-standard remmina
+
     # Ugly hack to clean up extra kernels after installing updates
     grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
     sudo() {
@@ -48,17 +52,6 @@ else
         fi
     }
 PurgeOldKernels
-fi
-
-# Install newer versions of buggy packages that come with 14.04
-if lsb_release -r | grep -q 14.04; then
-    wget https://launchpad.net/ubuntu/+archive/primary/+files/pidgin-sipe_1.18.2-1_amd64.deb
-    sudo dpkg -i pidgin-sipe_1.18.2-1_amd64.deb
-    rm pidgin-sipe_1.18.2-1_amd64.deb
-
-    sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
-    sudo apt update
-    sudo apt install -y libfreerdp-plugins-standard remmina
 fi
 
 # Update apt-file cache
