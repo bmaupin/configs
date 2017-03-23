@@ -27,11 +27,27 @@ sudo apt -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload
 # Install LibreOffice French support
 sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
-# Install release-specific packages
+# Release-specific configuration
 if [[ ! `lsb_release -r | awk '{print $2}'` < "16.04" ]]; then
     sudo apt -y install icedtea-8-plugin openjdk-8-jdk
+
 else
     sudo apt -y install icedtea-7-plugin openjdk-7-jdk
+
+    # Ugly hack to clean up extra kernels after installing updates
+    grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
+    sudo() {
+        if [[ $1 == "apt-get" ]]; then
+            if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
+                command sudo "$@" && sudo purge-old-kernels
+            else
+                command sudo "$@"
+            fi
+        else
+            command sudo "$@"
+        fi
+    }
+PurgeOldKernels
 fi
 
 # Install newer versions of buggy packages that come with 14.04
@@ -95,21 +111,6 @@ echo "alias python=python3" >> ~/.bashrc
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"18d1\", MODE=\"0666\", GROUP=\"plugdev\"" > /etc/udev/rules.d/51-android.rules'
 # Set up permissions for debugging Motorola Android devices
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\", GROUP=\"plugdev\"" >> /etc/udev/rules.d/51-android.rules'
-
-# Ugly hack to clean up extra kernels after installing updates
-grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
-sudo() {
-    if [[ $1 == "apt-get" ]]; then
-        if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
-            command sudo "$@" && sudo purge-old-kernels
-        else
-            command sudo "$@"
-        fi
-    else
-        command sudo "$@"
-    fi
-}
-PurgeOldKernels
 
 # Get custom fonts
 mkdir -p ~/.local/share/fonts
