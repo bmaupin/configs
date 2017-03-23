@@ -97,6 +97,15 @@ sudo apt install -fy
 cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
 sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
 
+# Install Sublime Text
+sublime_text_build=`curl -s http://www.sublimetext.com/updates/3/stable/updatecheck?platform=linux | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["latest_version"])'`
+wget https://download.sublimetext.com/sublime-text_build-${sublime_text_build}_amd64.deb
+sudo dpkg -i sublime-text_build-${sublime_text_build}_amd64.deb
+rm sublime-text_build-${sublime_text_build}_amd64.deb
+
+# Set Sublime Text as default editor
+grep -q EDITOR ~/.bashrc || echo "export EDITOR='subl -w'" >> ~/.bashrc
+
 # Default to Python 3 for future-proofing
 echo "alias python=python3" >> ~/.bashrc
 
