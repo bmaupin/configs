@@ -140,7 +140,7 @@ elif [ "$LOCATION" == "work" ]; then
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
     sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian `lsb_release -c | awk '"'"'{print $2}'"'"'` contrib" > /etc/apt/sources.list.d/virtualbox.list'
     sudo apt update
-    sudo apt -y install dkms virtualbox-5.0
+    sudo apt -y install dkms virtualbox-5.1
 
     # Change Thunderbird language
     cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
