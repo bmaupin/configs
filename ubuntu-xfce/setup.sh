@@ -17,7 +17,7 @@ grep -q MiscMenubarDefault ~/.config/xfce4/terminal/terminalrc || echo "MiscMenu
 grep -q ScrollingOnOutput ~/.config/xfce4/terminal/terminalrc || echo "ScrollingOnOutput=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^ScrollingOnOutput=.*/ScrollingOnOutput=FALSE/' ~/.config/xfce4/terminal/terminalrc
 
 # Remove undesired packages
-sudo apt -y purge --auto-remove abiword gmusicbrowser gnumeric mousepad orage xchat xfce4-notes
+sudo apt -y purge --auto-remove abiword gmusicbrowser gnumeric mousepad orage parole xchat xfce4-notes
 
 # Remove the duplicate login screen entry
 sudo mv /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xfce.desktop.bak &> /dev/null
