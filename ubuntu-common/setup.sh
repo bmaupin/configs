@@ -22,7 +22,7 @@ ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 sudo apt -y purge --auto-remove empathy evolution
 
 # Install desired packages
-sudo apt -y install apt-file bikeshed brasero deja-dup gedit indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim
+sudo apt -y install apt-file brasero deja-dup indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim vlc
 
 # Install LibreOffice French support
 sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
@@ -32,7 +32,7 @@ if [[ `lsb_release -r | awk '{print $2}'` > "15.10" ]]; then
     sudo apt -y install icedtea-8-plugin openjdk-8-jdk
 
 else
-    sudo apt -y install icedtea-7-plugin openjdk-7-jdk
+    sudo apt -y install bikeshed icedtea-7-plugin openjdk-7-jdk
 
     sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
     sudo apt update
