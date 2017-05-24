@@ -48,6 +48,11 @@ xfconf-query -c xfwm4 -p /general/wrap_windows -s false
 # https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
 sudo sed -i.bak -E 's/(GtkScrollbar.+has.+stepper)/#&/' /usr/share/themes/Greybird/gtk-2.0/gtkrc
 
+# Make sure power button opens shutdown menu instead of doing an automatic shutdown
+echo "[Desktop Entry]
+> Hidden=false
+> " > ~/.config/autostart/xfce4-power-manager.desktop
+
 # Configurations for specific releases
 if lsb_release -r | grep -q 16.04; then
     # Work around bug with /etc/default/keyboard
