@@ -53,6 +53,11 @@ echo "[Desktop Entry]
 > Hidden=false
 > " > ~/.config/autostart/xfce4-power-manager.desktop
 
+# Set up multimedia keys for Spotify
+xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioNext -s "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" -n -t string
+xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioPlay -s "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" -n -t string
+xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioPrev -s "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" -n -t string
+
 # Configurations for specific releases
 if lsb_release -r | grep -q 16.04; then
     # Work around bug with /etc/default/keyboard
