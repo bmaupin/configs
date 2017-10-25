@@ -23,9 +23,9 @@ gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ hsize 2
 gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ vsize 2
 
 # Disable visual effects
-gsettings set org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins "gsettings get org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins | sed s/"'animation', "//"
-gsettings set org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins "gsettings get org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins | sed s/"'fade', "//"
-gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ active-plugins "gsettings get org.compiz.core:/org/compiz/profiles/unity/plugins/core/ active-plugins | sed s/"'animation', "//"
+gsettings set org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins "`gsettings get org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins | sed s/"'animation', "//`"
+gsettings set org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins "`gsettings get org.compiz.core:/org/compiz/profiles/Default/plugins/core/ active-plugins | sed s/"'fade', "//`"
+gsettings set org.compiz.core:/org/compiz/profiles/unity/plugins/core/ active-plugins "`gsettings get org.compiz.core:/org/compiz/profiles/unity/plugins/core/ active-plugins | sed s/"'animation', "//`"
 
 
 # 14.04+
