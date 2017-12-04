@@ -9,53 +9,53 @@ popd > /dev/null
 . $SCRIPTPATH/getopts.sh "$@"
 
 
-# Set up firewall
-sudo ufw default deny  # (defaults to blocking all incoming connections)
-sudo ufw enable  # (enables firewall)
-sudo ufw status
+# # Set up firewall
+# sudo ufw default deny  # (defaults to blocking all incoming connections)
+# sudo ufw enable  # (enables firewall)
+# sudo ufw status
 
 # Create symlinks for config files
 ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
 ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
-# Remove undesired packages
-sudo apt -y purge --auto-remove empathy evolution
+# # Remove undesired packages
+# sudo apt -y purge --auto-remove empathy evolution
 
-# Install desired packages
-sudo apt -y install apt-file brasero deja-dup indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim vlc
+# # Install desired packages
+# sudo apt -y install apt-file brasero deja-dup indicator-multiload libreoffice-calc libreoffice-impress libreoffice-writer nmap pidgin pidgin-sipe python3 remmina rhythmbox shotwell vim vlc
 
-# Install LibreOffice French support
-sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
+# # Install LibreOffice French support
+# sudo apt -y install hyphen-fr libreoffice-l10n-fr myspell-fr mythes-fr
 
-# Release-specific configuration
-if [[ `lsb_release -r | awk '{print $2}'` > "15.10" ]]; then
-    sudo apt -y install icedtea-8-plugin openjdk-8-jdk
+# # Release-specific configuration
+# if [[ `lsb_release -r | awk '{print $2}'` > "15.10" ]]; then
+#     sudo apt -y install icedtea-8-plugin openjdk-8-jdk
 
-else
-    sudo apt -y install bikeshed icedtea-7-plugin openjdk-7-jdk
+# else
+#     sudo apt -y install bikeshed icedtea-7-plugin openjdk-7-jdk
 
-    sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
-    sudo apt update
-    sudo apt install -y libfreerdp-plugins-standard remmina
+#     sudo apt-add-repository -y ppa:remmina-ppa-team/remmina-next
+#     sudo apt update
+#     sudo apt install -y libfreerdp-plugins-standard remmina
 
-    # Ugly hack to clean up extra kernels after installing updates
-    grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
-    sudo() {
-        if [[ $1 == "apt-get" ]]; then
-            if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
-                command sudo "$@" && sudo purge-old-kernels
-            else
-                command sudo "$@"
-            fi
-        else
-            command sudo "$@"
-        fi
-    }
-PurgeOldKernels
-fi
+#     # Ugly hack to clean up extra kernels after installing updates
+#     grep -q purge-old-kernels ~/.bashrc || ( echo -ne "\n" >> ~/.bashrc; cat << 'PurgeOldKernels' >> ~/.bashrc; echo -ne "\n" >> ~/.bashrc )
+#     sudo() {
+#         if [[ $1 == "apt-get" ]]; then
+#             if [[ $2 == "dist-upgrade" || $2 == "upgrade" ]]; then
+#                 command sudo "$@" && sudo purge-old-kernels
+#             else
+#                 command sudo "$@"
+#             fi
+#         else
+#             command sudo "$@"
+#         fi
+#     }
+# PurgeOldKernels
+# fi
 
-# Update apt-file cache
-sudo apt-file update
+# # Update apt-file cache
+# sudo apt-file update
 
 # Reset indicator-multiload settings to default
 # (http://askubuntu.com/a/858069/18665)
@@ -106,25 +106,25 @@ rm sublime-text_build-${sublime_text_build}_amd64.deb
 # Set Sublime Text as default editor
 grep -q EDITOR ~/.bashrc || echo "export EDITOR='subl -w'" >> ~/.bashrc
 
-# Default to Python 3 for future-proofing
-echo "alias python=python3" >> ~/.bashrc
+# # Default to Python 3 for future-proofing
+# echo "alias python=python3" >> ~/.bashrc
 
 # Set up permissions for debugging Google Android devices
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"18d1\", MODE=\"0666\", GROUP=\"plugdev\"" > /etc/udev/rules.d/51-android.rules'
 # Set up permissions for debugging Motorola Android devices
 sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\", GROUP=\"plugdev\"" >> /etc/udev/rules.d/51-android.rules'
 
-# Get custom fonts
-mkdir -p ~/.local/share/fonts
-if [ ! -f ~/.local/share/fonts/SourceCodePro-Regular.ttf ]; then
-    wget https://github.com/adobe-fonts/source-code-pro/raw/gh-pages/TTF/SourceCodePro-Regular.ttf -O ~/.local/share/fonts/SourceCodePro-Regular.ttf
-    fc-cache -fv
-fi
+# # Get custom fonts
+# mkdir -p ~/.local/share/fonts
+# if [ ! -f ~/.local/share/fonts/SourceCodePro-Regular.ttf ]; then
+#     wget https://github.com/adobe-fonts/source-code-pro/raw/gh-pages/TTF/SourceCodePro-Regular.ttf -O ~/.local/share/fonts/SourceCodePro-Regular.ttf
+#     fc-cache -fv
+# fi
 
 # Location-based configuration
 if [ "$LOCATION" == "home" ]; then
     # Install packages
-    sudo apt -y install gtk-redshift
+    # sudo apt -y install gtk-redshift
 
     # Configure applications to run at start
     ln -s /usr/share/applications/redshift-gtk.desktop ~/.config/autostart/redshift-gtk.desktop
@@ -133,8 +133,8 @@ if [ "$LOCATION" == "home" ]; then
     sudo chmod -x /etc/cron.daily/mlocate
 
 elif [ "$LOCATION" == "work" ]; then
-    # Install packages
-    sudo apt -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
+    # # Install packages
+    # sudo apt -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
     # Install VirtualBox
     wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
@@ -160,9 +160,9 @@ elif [ "$LOCATION" == "work" ]; then
     # Fix headphone sound from rear jack on Dell Optiplex 9020
     sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
 
-    # Open firewall ports for pidgin-sipe outgoing file transfers
-    # (http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c)
-    sudo ufw allow 6891:6901/tcp
+    # # Open firewall ports for pidgin-sipe outgoing file transfers
+    # # (http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c)
+    # sudo ufw allow 6891:6901/tcp
 
     # Ignore certificate when using ldapsearch
     sudo cp -a /etc/ldap/ldap.conf /etc/ldap/ldap.conf.bak

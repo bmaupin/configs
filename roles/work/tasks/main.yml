@@ -1,0 +1,9 @@
+- name: Install desired packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - brasero
+    - thunderbird
+    - thunderbird-locale-fr
+  become: yes
