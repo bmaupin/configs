@@ -1,0 +1,19 @@
+---
+- name: Create ~/.fonts directory
+  file:
+    path: ~/.fonts
+    state: directory
+
+# This is for Office 365/Word Online (https://askubuntu.com/a/983192/18665)
+- name: Install Symbol font
+  get_url:
+    url: https://source.winehq.org/git/wine.git/blob/HEAD:/fonts/symbol.ttf
+    dest: ~/.fonts/symbol.ttf
+  notify: Rebuild font cache
+
+# This is for Office 365/Word Online (https://askubuntu.com/a/983192/18665)
+- name: Install Wingdings font
+  get_url:
+    url: https://source.winehq.org/git/wine.git/blob/HEAD:/fonts/wingding.ttf
+    dest: ~/.fonts/wingding.ttf
+  notify: Rebuild font cache
