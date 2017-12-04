@@ -1,4 +1,62 @@
 ---
+- name: Configure firewall
+  include: ufw.yml
+
+- name: Run tasks for Ubuntu <= 14.04
+  include: ubuntu-le-1404.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('14.04', '<=')
+
+- name: Run tasks for Ubuntu >= 16.04
+  include: ubuntu-ge-1604.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('16.04', '>=')
+
+- name: Remove undesired packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - empathy
+    - evolution
+  become: yes
+
+- name: Install desired packages
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - apt-file
+    - deja-dup
+    - indicator-multiload
+    - language-pack-fr
+    - libreoffice-calc
+    - libreoffice-impress
+    - libreoffice-writer
+    - mpv
+    - nmap
+    - pidgin
+    - pidgin-sipe
+    - python3
+    - remmina
+    - shotwell
+    - vim
+    - vlc
+  become: yes
+
+- name: Install LibreOffice French support
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - hyphen-fr
+    - libreoffice-l10n-fr
+    - myspell-fr
+    - mythes-fr
+  become: yes
+
 - name: Create ~/.fonts directory
   file:
     path: ~/.fonts
@@ -17,3 +75,12 @@
     url: https://source.winehq.org/git/wine.git/blob/HEAD:/fonts/wingding.ttf
     dest: ~/.fonts/wingding.ttf
   notify: Rebuild font cache
+
+- name: Default to Python 3 for future-proofing
+  lineinfile:
+    path: ~/.bashrc
+    line: 'alias python=python3'
+
+- name: Update apt-file cache
+  command: apt-file update
+  become: yes
