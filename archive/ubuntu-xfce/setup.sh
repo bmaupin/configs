@@ -9,15 +9,15 @@ popd > /dev/null
 . $SCRIPTPATH/../ubuntu-common/getopts.sh "$@"
 
 
-# Configure Xfce Terminal
-mkdir -p ~/.config/xfce4/terminal
-wget https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/xfce4-terminal/terminalrc -O ~/.config/xfce4/terminal/terminalrc
-grep -q FontName ~/.config/xfce4/terminal/terminalrc || echo "FontName=DejaVu Sans Mono 11" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^FontName=.*/FontName=DejaVu Sans Mono 11/' ~/.config/xfce4/terminal/terminalrc
-grep -q MiscMenubarDefault ~/.config/xfce4/terminal/terminalrc || echo "MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^MiscMenubarDefault=.*/MiscMenubarDefault=FALSE/' ~/.config/xfce4/terminal/terminalrc
-grep -q ScrollingOnOutput ~/.config/xfce4/terminal/terminalrc || echo "ScrollingOnOutput=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^ScrollingOnOutput=.*/ScrollingOnOutput=FALSE/' ~/.config/xfce4/terminal/terminalrc
+# # Configure Xfce Terminal
+# mkdir -p ~/.config/xfce4/terminal
+# wget https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/xfce4-terminal/terminalrc -O ~/.config/xfce4/terminal/terminalrc
+# #grep -q FontName ~/.config/xfce4/terminal/terminalrc || echo "FontName=DejaVu Sans Mono 11" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^FontName=.*/FontName=DejaVu Sans Mono 11/' ~/.config/xfce4/terminal/terminalrc
+# grep -q MiscMenubarDefault ~/.config/xfce4/terminal/terminalrc || echo "MiscMenubarDefault=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^MiscMenubarDefault=.*/MiscMenubarDefault=FALSE/' ~/.config/xfce4/terminal/terminalrc
+# grep -q ScrollingOnOutput ~/.config/xfce4/terminal/terminalrc || echo "ScrollingOnOutput=FALSE" >> ~/.config/xfce4/terminal/terminalrc && sed -i -E 's/^ScrollingOnOutput=.*/ScrollingOnOutput=FALSE/' ~/.config/xfce4/terminal/terminalrc
 
-# Remove undesired packages
-sudo apt -y purge --auto-remove abiword gmusicbrowser gnumeric mousepad orage parole xchat xfce4-notes
+# # Remove undesired packages
+# sudo apt -y purge --auto-remove abiword gmusicbrowser gnumeric mousepad orage parole xchat xfce4-notes
 
 # Remove the duplicate login screen entry
 sudo mv /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xfce.desktop.bak &> /dev/null
@@ -58,9 +58,9 @@ xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioNext -s "d
 xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioPlay -s "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" -n -t string
 xfconf-query -c xfce4-keyboard-shortcuts -p /commands/custom/XF86AudioPrev -s "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" -n -t string
 
-# Configurations for specific releases
-if lsb_release -r | grep -q 16.04; then
-    # Work around bug with /etc/default/keyboard
-    # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
-    grep -q setxkbmap ~/.xprofile || echo "setxkbmap -option compose:ralt" >> ~/.xprofile
-fi
+# # Configurations for specific releases
+# if lsb_release -r | grep -q 16.04; then
+#     # Work around bug with /etc/default/keyboard
+#     # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
+#     grep -q setxkbmap ~/.xprofile || echo "setxkbmap -option compose:ralt" >> ~/.xprofile
+# fi
