@@ -1,0 +1,6 @@
+---
+# https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
+- name: Work around bug with /etc/default/keyboard
+  lineinfile:
+    path: ~/.xprofile
+    line: 'setxkbmap -option compose:ralt'

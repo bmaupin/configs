@@ -1,0 +1,32 @@
+---
+- name: Run tasks for Ubuntu 16.04
+  include: ubuntu-1604.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version == "16.04"
+
+- name: Remove undesired packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+    purge: yes
+  with_items:
+    - abiword
+    - gmusicbrowser
+    - gnumeric
+    - mousepad
+    - orage
+    - parole
+    - xchat
+    - xfce4-notes
+  become: yes
+
+- name: Create ~/.config/xfce4/terminal directory
+  file:
+    path: ~/.config/xfce4/terminal
+    state: directory
+
+- name: Configure Xfce terminal
+  copy:
+    src: terminalrc
+    dest: ~/.config/xfce4/terminal/terminalrc
