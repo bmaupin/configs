@@ -1,0 +1,8 @@
+---
+- name: Install packages for Ubuntu >= 16.04
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - redshift-gtk
+  become: yes

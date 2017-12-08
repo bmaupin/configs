@@ -1,7 +1,12 @@
-- name: Install desired packages
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - gtk-redshift
-  become: yes
+---
+- name: Run tasks for Ubuntu <= 14.04
+  include: ubuntu-le-1404.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('14.04', '<=')
+
+- name: Run tasks for Ubuntu >= 16.04
+  include: ubuntu-ge-1604.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('16.04', '>=')
