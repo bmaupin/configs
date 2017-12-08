@@ -10,3 +10,15 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version | version_compare('16.04', '>=')
+
+- name: Configure redshift-gtk to run at start
+  copy:
+    src: /usr/share/applications/redshift-gtk.desktop
+    dest: ~/.config/autostart/redshift-gtk.desktop
+    force: no
+
+- name: Disable daily mlocate update
+  file:
+    dest: /etc/cron.daily/mlocate
+    mode: "a-x"
+  become: yes

@@ -126,11 +126,11 @@ if [ "$LOCATION" == "home" ]; then
     # Install packages
     # sudo apt -y install gtk-redshift
 
-    # Configure applications to run at start
-    ln -s /usr/share/applications/redshift-gtk.desktop ~/.config/autostart/redshift-gtk.desktop
+    # # Configure applications to run at start
+    # ln -s /usr/share/applications/redshift-gtk.desktop ~/.config/autostart/redshift-gtk.desktop
 
-    # Disable daily mlocate update
-    sudo chmod -x /etc/cron.daily/mlocate
+    # # Disable daily mlocate update
+    # sudo chmod -x /etc/cron.daily/mlocate
 
 elif [ "$LOCATION" == "work" ]; then
     # # Install packages
