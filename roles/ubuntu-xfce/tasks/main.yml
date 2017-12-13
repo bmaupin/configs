@@ -30,3 +30,77 @@
   copy:
     src: terminalrc
     dest: ~/.config/xfce4/terminal/terminalrc
+    backup: yes
+
+- name: Remove the duplicate login screen entry
+  command: mv /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xfce.desktop.bak
+  args:
+    creates: /usr/share/xsessions/xfce.desktop.bak
+    removes: /usr/share/xsessions/xfce.desktop
+
+- name: Set up workspaces in a 2x2 grid
+  lineinfile:
+    path: ~/.profile
+    line: 'xprop -root -f _NET_DESKTOP_LAYOUT 32cccc -set _NET_DESKTOP_LAYOUT 0,2,2,0'
+  notify: Set up workspaces in a 2x2 grid
+
+# Configure compose key as right alt (for typing accented characters)
+- name: Configure compose key
+  lineinfile:
+    path: /etc/default/keyboard
+    regexp: '^XKBOPTIONS='
+    line: 'XKBOPTIONS="compose:ralt"'
+    backup: yes
+  become: yes
+  notify: Configure compose key
+
+# https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
+- name: Fix missing scrollbar arrow buttons with greybird theme
+  replace:
+    path: /usr/share/themes/Greybird/gtk-2.0/gtkrc
+    regexp: '^(\s+GtkScrollbar.+has.+stepper)'
+    replace: '#\1'
+    backup: yes
+  become: yes
+
+- name: Make sure power button opens shutdown menu instead of doing an automatic shutdown
+  copy:
+    src: xfce4-power-manager.desktop
+    dest: ~/.config/autostart/xfce4-power-manager.desktop
+
+- name: Disable workspace wrapping
+  shell: >
+    xfconf-query -c xfwm4 -p /general/wrap_layout | grep "false" ||
+    xfconf-query -c xfwm4 -p /general/wrap_layout -t bool -s false
+  register: result
+  changed_when: result.stdout.find('false') == -1
+
+- name: Enable tiling snap for windows by disabling the ability to drag windows between workspaces
+  shell: >
+    xfconf-query -c xfwm4 -p /general/wrap_windows | grep "false" ||
+    xfconf-query -c xfwm4 -p /general/wrap_windows -t bool -s false
+  register: result
+  changed_when: result.stdout.find('false') == -1
+
+- name: Configure keyboard shortcuts for moving windows to different workspaces
+  shell: >
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' | grep '{{ item.value }}' ||
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -s '{{ item.value }}'
+  with_items:
+    - { property: "/xfwm4/custom/<Primary><Shift><Alt>Down", type: string, value: "move_window_down_workspace_key" }
+    - { property: "/xfwm4/custom/<Primary><Shift><Alt>Left", type: string, value: "move_window_left_workspace_key" }
+    - { property: "/xfwm4/custom/<Primary><Shift><Alt>Right", type: string, value: "move_window_right_workspace_key" }
+    - { property: "/xfwm4/custom/<Primary><Shift><Alt>Up", type: string, value: "move_window_up_workspace_key" }
+  register: result
+  changed_when: result.stdout.find(item.value) == -1
+
+- name: Set up multimedia keys for Spotify
+  shell: >
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' | grep '{{ item.value }}' ||
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -s '{{ item.value }}'
+  with_items:
+    - { property: "/commands/custom/XF86AudioNext", type: string, value: "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" }
+    - { property: "/commands/custom/XF86AudioPlay", type: string, value: "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" }
+    - { property: "/commands/custom/XF86AudioPrev", type: string, value: "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Previous" }
+  register: result
+  changed_when: result.stdout.find(item.value) == -1

@@ -1,0 +1,6 @@
+---
+- name: Set up workspaces in a 2x2 grid
+  command: xprop -root -f _NET_DESKTOP_LAYOUT 32cccc -set _NET_DESKTOP_LAYOUT 0,2,2,0
+
+- name: Configure compose key
+  command: setxkbmap -option compose:ralt
