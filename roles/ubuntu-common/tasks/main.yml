@@ -58,6 +58,18 @@
     - mythes-fr
   become: yes
 
+- name: Copy .gitconfig
+  copy:
+    src: .gitconfig
+    dest: ~/.gitconfig
+    backup: yes
+
+- name: Copy .vimrc
+  copy:
+    src: .vimrc
+    dest: ~/.vimrc
+    backup: yes
+
 - name: Create ~/.fonts directory
   file:
     path: ~/.fonts
@@ -86,6 +98,8 @@
   apt:
     autoremove: yes
   become: yes
+  register: result
+  changed_when: result.stdout.find('0 to remove') == -1
 
 - name: Update apt-file cache
   command: apt-file update

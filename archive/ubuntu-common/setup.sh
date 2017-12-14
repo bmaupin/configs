@@ -14,9 +14,9 @@ popd > /dev/null
 # sudo ufw enable  # (enables firewall)
 # sudo ufw status
 
-# Create symlinks for config files
-ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
-ln -s $SCRIPTPATH/.vimrc ~/.vimrc
+# # Create symlinks for config files
+# ln -s $SCRIPTPATH/.gitconfig ~/.gitconfig
+# ln -s $SCRIPTPATH/.vimrc ~/.vimrc
 
 # # Remove undesired packages
 # sudo apt -y purge --auto-remove empathy evolution
