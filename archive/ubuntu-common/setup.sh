@@ -57,45 +57,45 @@ popd > /dev/null
 # # Update apt-file cache
 # sudo apt-file update
 
-# Reset indicator-multiload settings to default
-# (http://askubuntu.com/a/858069/18665)
-dconf reset -f "/de/mh21/indicator-multiload/"
+# # Reset indicator-multiload settings to default
+# # (http://askubuntu.com/a/858069/18665)
+# dconf reset -f "/de/mh21/indicator-multiload/"
 
-# Configure indicator-multiload
-gsettings set de.mh21.indicator-multiload.general autostart true
-gsettings set de.mh21.indicator-multiload.graphs.load enabled true
-gsettings set de.mh21.indicator-multiload.graphs.cpu enabled true
-gsettings set de.mh21.indicator-multiload.graphs.disk enabled true
-gsettings set de.mh21.indicator-multiload.graphs.net enabled true
-gsettings set de.mh21.indicator-multiload.graphs.swap enabled true
-gsettings set de.mh21.indicator-multiload.graphs.mem enabled true
+# # Configure indicator-multiload
+# gsettings set de.mh21.indicator-multiload.general autostart true
+# gsettings set de.mh21.indicator-multiload.graphs.load enabled true
+# gsettings set de.mh21.indicator-multiload.graphs.cpu enabled true
+# gsettings set de.mh21.indicator-multiload.graphs.disk enabled true
+# gsettings set de.mh21.indicator-multiload.graphs.net enabled true
+# gsettings set de.mh21.indicator-multiload.graphs.swap enabled true
+# gsettings set de.mh21.indicator-multiload.graphs.mem enabled true
 
-# Disable update-apt-xapian-index
-# (used for synaptic quick search function: http://reformedmusings.wordpress.com/2009/06/05/fixing-update-apt-xapian-in-ubuntu-9-04-jaunty/)
-sudo chmod 644 /etc/cron.weekly/apt-xapian-index
+# # Disable update-apt-xapian-index
+# # (used for synaptic quick search function: http://reformedmusings.wordpress.com/2009/06/05/fixing-update-apt-xapian-in-ubuntu-9-04-jaunty/)
+# sudo chmod 644 /etc/cron.weekly/apt-xapian-index
 
-# Configure grub
-# Remove recovery menu entry
-sudo sed -i.bak 's/^#GRUB_DISABLE_RECOVERY="true"$/GRUB_DISABLE_RECOVERY="true"/' /etc/default/grub
-# Remove memory test menu entry
-sudo chmod -x /etc/grub.d/20_memtest86+
-sudo update-grub
+# # Configure grub
+# # Remove recovery menu entry
+# sudo sed -i.bak 's/^#GRUB_DISABLE_RECOVERY="true"$/GRUB_DISABLE_RECOVERY="true"/' /etc/default/grub
+# # Remove memory test menu entry
+# sudo chmod -x /etc/grub.d/20_memtest86+
+# sudo update-grub
 
-# Configure Deja Dup (Backup) frequency of full backups
-gsettings set org.gnome.DejaDup full-backup-period 180
-# Configure length of time to keep backups for since there's currently no way to limit by size
-# (https://bugs.launchpad.net/deja-dup/+bug/846852)
-gsettings set org.gnome.DejaDup delete-after 730
+# # Configure Deja Dup (Backup) frequency of full backups
+# gsettings set org.gnome.DejaDup full-backup-period 180
+# # Configure length of time to keep backups for since there's currently no way to limit by size
+# # (https://bugs.launchpad.net/deja-dup/+bug/846852)
+# gsettings set org.gnome.DejaDup delete-after 730
 
-# Install Chrome
-wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-sudo dpkg -i google-chrome-stable_current_amd64.deb
-rm google-chrome-stable_current_amd64.deb
-sudo apt install -fy
+# # Install Chrome
+# wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+# sudo dpkg -i google-chrome-stable_current_amd64.deb
+# rm google-chrome-stable_current_amd64.deb
+# sudo apt install -fy
 
-# Change Chrome language
-cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
-sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
+# # Change Chrome language
+# cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
+# sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
 
 # Install Sublime Text
 sublime_text_build=`curl -s http://www.sublimetext.com/updates/3/stable/updatecheck?platform=linux | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["latest_version"])'`

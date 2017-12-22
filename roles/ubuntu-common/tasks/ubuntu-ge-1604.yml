@@ -7,3 +7,13 @@
     - icedtea-8-plugin
     - openjdk-8-jdk
   become: yes
+
+# Ansible has a dconf module but it doesn't work in Ubuntu 16.04 because python-psutil is < 4.0
+# For some reason this keeps getting set to 1 and it resets the indicator display to default
+# http://askubuntu.com/a/858069/18665
+- name: Reset indicator-multiload indicator-expression-index
+  shell: >
+    dconf read /de/mh21/indicator-multiload/general/indicator-expression-index | grep '' &&
+    dconf reset /de/mh21/indicator-multiload/general/indicator-expression-index || true
+  register: result
+  changed_when: result.stdout != ''
