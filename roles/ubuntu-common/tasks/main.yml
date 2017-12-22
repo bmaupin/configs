@@ -58,6 +58,24 @@
     - mythes-fr
   become: yes
 
+- name: Install Google Chrome
+  apt:
+    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  become: yes
+
+- name: Copy Chrome .desktop file
+  copy:
+    src: /usr/share/applications/google-chrome.desktop
+    dest: ~/.local/share/applications/google-chrome.desktop
+    force: no
+
+- name: Set Chrome language
+  replace:
+    path: ~/.local/share/applications/google-chrome.desktop
+    regexp: '^Exec=/usr/bin/google-chrome-stable'
+    replace: 'Exec=env LANGUAGE=fr /usr/bin/google-chrome-stable'
+    backup: yes
+
 - name: Copy .gitconfig
   copy:
     src: .gitconfig
@@ -94,12 +112,53 @@
     path: ~/.bashrc
     line: 'alias python=python3'
 
+# Used for synaptic quick search function:
+# http://reformedmusings.wordpress.com/2009/06/05/fixing-update-apt-xapian-in-ubuntu-9-04-jaunty/
+- name: Disable apt-xapian-index
+  file:
+    path: /etc/cron.weekly/apt-xapian-index
+    mode: "a-x"
+  become: yes
+
+- name: Remove grub recovery menu entry
+  replace:
+    path: /etc/default/grub
+    regexp: '^#GRUB_DISABLE_RECOVERY="true"$'
+    replace: 'GRUB_DISABLE_RECOVERY="true"'
+    backup: yes
+  become: yes
+  notify: Update grub
+
+- name: Remove grub memory test menu entry
+  file:
+    path: /etc/grub.d/20_memtest86+
+    mode: "a-x"
+  become: yes
+  notify: Update grub
+
 - name: Apt autoremove
   apt:
     autoremove: yes
   become: yes
   register: result
   changed_when: result.stdout.find('0 to remove') == -1
+
+# Ansible has a dconf module but it doesn't work in Ubuntu 14.04 because python-psutil is < 4.0
+- name: Configure frequency of full Deja Dup backups
+  shell: >
+    dconf read /org/gnome/deja-dup/full-backup-period | grep 180 ||
+    dconf write /org/gnome/deja-dup/full-backup-period 180
+  register: result
+  changed_when: result.stdout.find('180') == -1
+
+# Configure length of time to keep backups for since there's currently no way to limit by size
+# (https://bugs.launchpad.net/deja-dup/+bug/846852)
+- name: Configure length of time to keep Deja Dup backups
+  shell: >
+    dconf read /org/gnome/deja-dup/delete-after | grep 730 ||
+    dconf write /org/gnome/deja-dup/delete-after 730
+  register: result
+  changed_when: result.stdout.find('730') == -1
 
 - name: Update apt-file cache
   command: apt-file update

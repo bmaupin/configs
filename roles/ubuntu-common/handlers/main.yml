@@ -1,3 +1,7 @@
 ---
 - name: Rebuild font cache
   command: fc-cache -f -v
+
+- name: Update grub
+  command: update-grub
+  become: yes
