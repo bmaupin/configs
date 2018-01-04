@@ -58,10 +58,18 @@
     - mythes-fr
   become: yes
 
+- name: Check if Chrome is installed
+  shell: dpkg -l google-chrome-stable
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+
 - name: Install Google Chrome
   apt:
     deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
   become: yes
+  when: result.rc is defined and result.rc != 0
 
 - name: Copy Chrome .desktop file
   copy:
