@@ -4,6 +4,72 @@
     state: present
   with_items:
     - brasero
+    - ldap-utils
     - thunderbird
     - thunderbird-locale-fr
+  become: yes
+
+- name: Install VirtualBox GPG key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox.asc
+    state: present
+  become: yes
+
+- name: Get Ubuntu release codename
+  shell: lsb_release -cs
+  changed_when: no
+  check_mode: no
+  register: result
+
+- name: Install VirtualBox repository
+  apt_repository:
+    repo: "deb http://download.virtualbox.org/virtualbox/debian {{ result.stdout }} contrib"
+    state: present
+    filename: virtualbox
+  become: yes
+
+- name: Install VirtualBox
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dkms
+    - virtualbox-5.2
+  become: yes
+
+- name: Set Pidgin to autostart
+  file:
+    src: /usr/share/applications/pidgin.desktop
+    dest: ~/.config/autostart/pidgin.desktop
+    state: link
+
+- name: Copy Thunderbird .desktop file
+  copy:
+    src: /usr/share/applications/thunderbird.desktop
+    dest: ~/.local/share/applications/thunderbird.desktop
+    force: no
+
+- name: Set Thunderbird language
+  replace:
+    path: ~/.local/share/applications/thunderbird.desktop
+    regexp: '^Exec=thunderbird'
+    replace: 'Exec=env LC_ALL=fr_CA.utf8 thunderbird'
+    backup: yes
+
+# Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
+- name: Set Thunderbird to autostart
+  copy:
+    src: thunderbird.desktop
+    dest: ~/.config/autostart/thunderbird.desktop
+
+- name: Fix headphone sound from rear jack on Dell Optiplex 9020
+  lineinfile:
+    path: /etc/pulse/default.pa
+    line: set-sink-port 0 analog-output-headphones
+  become: yes
+
+- name: Ignore certificate when using ldapsearch
+  lineinfile:
+    path: /etc/ldap/ldap.conf
+    line: TLS_REQCERT never
   become: yes

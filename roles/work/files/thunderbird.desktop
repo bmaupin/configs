@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Thunderbird Mail
+Icon=thunderbird
+Exec=env LC_ALL=fr_CA.utf8 thunderbird
+Terminal=false
