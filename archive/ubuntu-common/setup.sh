@@ -97,14 +97,14 @@ popd > /dev/null
 # cp /usr/share/applications/google-chrome.desktop ~/.local/share/applications/
 # sed -i 's/^Exec=\/usr\/bin\/google-chrome-stable/Exec=env LANGUAGE=fr \/usr\/bin\/google-chrome-stable/g' ~/.local/share/applications/google-chrome.desktop
 
-# Install Sublime Text
-sublime_text_build=`curl -s http://www.sublimetext.com/updates/3/stable/updatecheck?platform=linux | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["latest_version"])'`
-wget https://download.sublimetext.com/sublime-text_build-${sublime_text_build}_amd64.deb
-sudo dpkg -i sublime-text_build-${sublime_text_build}_amd64.deb
-rm sublime-text_build-${sublime_text_build}_amd64.deb
+# # Install Sublime Text
+# sublime_text_build=`curl -s http://www.sublimetext.com/updates/3/stable/updatecheck?platform=linux | python3 -c 'import json,sys;obj=json.load(sys.stdin);print(obj["latest_version"])'`
+# wget https://download.sublimetext.com/sublime-text_build-${sublime_text_build}_amd64.deb
+# sudo dpkg -i sublime-text_build-${sublime_text_build}_amd64.deb
+# rm sublime-text_build-${sublime_text_build}_amd64.deb
 
-# Set Sublime Text as default editor
-grep -q EDITOR ~/.bashrc || echo "export EDITOR='subl -w'" >> ~/.bashrc
+# # Set Sublime Text as default editor
+# grep -q EDITOR ~/.bashrc || echo "export EDITOR='subl -w'" >> ~/.bashrc
 
 # # Default to Python 3 for future-proofing
 # echo "alias python=python3" >> ~/.bashrc
@@ -122,7 +122,7 @@ sudo sh -c 'echo "\"SUBSYSTEM==\"usb\", ATTR{idVendor}==\"22b8\", MODE=\"0666\",
 # fi
 
 # Location-based configuration
-if [ "$LOCATION" == "home" ]; then
+# if [ "$LOCATION" == "home" ]; then
     # Install packages
     # sudo apt -y install gtk-redshift
 
@@ -132,39 +132,39 @@ if [ "$LOCATION" == "home" ]; then
     # # Disable daily mlocate update
     # sudo chmod -x /etc/cron.daily/mlocate
 
-elif [ "$LOCATION" == "work" ]; then
+# elif [ "$LOCATION" == "work" ]; then
     # # Install packages
     # sudo apt -y install language-pack-fr myspell-fr thunderbird thunderbird-locale-fr
 
-    # Install VirtualBox
-    wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
-    sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian `lsb_release -c | awk '"'"'{print $2}'"'"'` contrib" > /etc/apt/sources.list.d/virtualbox.list'
-    sudo apt update
-    sudo apt -y install dkms virtualbox-5.1
+    # # Install VirtualBox
+    # wget -q https://www.virtualbox.org/download/oracle_vbox.asc -O- | sudo apt-key add -
+    # sudo sh -c 'echo "deb http://download.virtualbox.org/virtualbox/debian `lsb_release -c | awk '"'"'{print $2}'"'"'` contrib" > /etc/apt/sources.list.d/virtualbox.list'
+    # sudo apt update
+    # sudo apt -y install dkms virtualbox-5.1
 
-    # Change Thunderbird language
-    cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
-    sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
+    # # Change Thunderbird language
+    # cp /usr/share/applications/thunderbird.desktop ~/.local/share/applications/
+    # sed -i.bak 's/^Exec=thunderbird %u/Exec=env LC_ALL=fr_CA.utf8 thunderbird %u/' ~/.local/share/applications/thunderbird.desktop
 
-    # Configure applications to run at start
-    ln -s /usr/share/applications/pidgin.desktop ~/.config/autostart/pidgin.desktop
-    # Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
-    printf "%s\n" \
-        "[Desktop Entry]" \
-        "Type=Application" \
-        "Name=Thunderbird Mail" \
-        "Icon=thunderbird" \
-        "Exec=env LC_ALL=fr_CA.utf8 thunderbird" \
-        "Terminal=false" > ~/.config/autostart/thunderbird.desktop
+    # # Configure applications to run at start
+    # ln -s /usr/share/applications/pidgin.desktop ~/.config/autostart/pidgin.desktop
+    # # Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
+    # printf "%s\n" \
+    #     "[Desktop Entry]" \
+    #     "Type=Application" \
+    #     "Name=Thunderbird Mail" \
+    #     "Icon=thunderbird" \
+    #     "Exec=env LC_ALL=fr_CA.utf8 thunderbird" \
+    #     "Terminal=false" > ~/.config/autostart/thunderbird.desktop
 
-    # Fix headphone sound from rear jack on Dell Optiplex 9020
-    sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
+    # # Fix headphone sound from rear jack on Dell Optiplex 9020
+    # sudo sh -c 'echo "set-sink-port 0 analog-output-headphones" >> /etc/pulse/default.pa'
 
     # # Open firewall ports for pidgin-sipe outgoing file transfers
     # # (http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c)
     # sudo ufw allow 6891:6901/tcp
 
-    # Ignore certificate when using ldapsearch
-    sudo cp -a /etc/ldap/ldap.conf /etc/ldap/ldap.conf.bak
-    grep -q TLS_REQCERT /etc/ldap/ldap.conf || sudo sh -c 'echo TLS_REQCERT never >> /etc/ldap/ldap.conf'
-fi
+    # # Ignore certificate when using ldapsearch
+    # sudo cp -a /etc/ldap/ldap.conf /etc/ldap/ldap.conf.bak
+    # grep -q TLS_REQCERT /etc/ldap/ldap.conf || sudo sh -c 'echo TLS_REQCERT never >> /etc/ldap/ldap.conf'
+# fi
