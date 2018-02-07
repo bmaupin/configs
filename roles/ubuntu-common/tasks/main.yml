@@ -24,6 +24,13 @@
     - evolution
   become: yes
 
+# This is for newer versions of Pidgin/Remmina
+- name: Install SIPE collaboration PPA
+  apt_repository:
+    repo: 'ppa:sipe-collab/ppa'
+    state: present
+  become: yes
+
 - name: Install desired packages
   apt:
     name: "{{ item }}"
@@ -206,6 +213,27 @@
   lineinfile:
     path: ~/.bashrc
     line: export EDITOR='subl -w'
+
+- name: Install Spotify GPG key
+  apt_key:
+    keyserver: hkp://keyserver.ubuntu.com:80
+    id: 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+    state: present
+  become: yes
+
+- name: Install Spotify repository
+  apt_repository:
+    repo: deb http://repository.spotify.com stable non-free
+    state: present
+    filename: spotify
+  become: yes
+
+# TODO: install Spotify using snap once snap support is added to ansible (https://www.spotify.com/us/download/linux/)
+- name: Install Spotify
+  apt:
+    name: spotify-client
+    state: present
+  become: yes
 
 - name: Update apt-file cache
   command: apt-file update
