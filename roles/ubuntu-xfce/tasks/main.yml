@@ -91,7 +91,7 @@
 - name: Configure keyboard shortcuts for moving windows to different workspaces
   shell: >
     xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' | grep '{{ item.value }}' ||
-    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -s '{{ item.value }}'
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
   with_items:
     - { property: "/xfwm4/custom/<Primary><Shift><Alt>Down", type: string, value: "move_window_down_workspace_key" }
     - { property: "/xfwm4/custom/<Primary><Shift><Alt>Left", type: string, value: "move_window_left_workspace_key" }
@@ -103,7 +103,7 @@
 - name: Set up multimedia keys for Spotify
   shell: >
     xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' | grep '{{ item.value }}' ||
-    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -s '{{ item.value }}'
+    xfconf-query -c xfce4-keyboard-shortcuts -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
   with_items:
     - { property: "/commands/custom/XF86AudioNext", type: string, value: "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.Next" }
     - { property: "/commands/custom/XF86AudioPlay", type: string, value: "dbus-send --print-reply --dest=org.mpris.MediaPlayer2.spotify /org/mpris/MediaPlayer2 org.mpris.MediaPlayer2.Player.PlayPause" }
