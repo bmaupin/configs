@@ -4,3 +4,4 @@
   lineinfile:
     path: ~/.xprofile
     line: 'setxkbmap -option compose:ralt'
+    create: yes
