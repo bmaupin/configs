@@ -4,3 +4,9 @@
     name: cups-browsed
     state: restarted
   become: yes
+
+- name: Restart fail2ban
+  service:
+    name: fail2ban
+    state: restarted
+  become: yes

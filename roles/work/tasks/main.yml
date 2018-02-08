@@ -4,10 +4,19 @@
     state: present
   with_items:
     - brasero
+    - fail2ban
     - ldap-utils
     - thunderbird
     - thunderbird-locale-fr
   become: yes
+
+- name: Configure fail2ban
+  copy:
+    src: jail.local
+    dest: /etc/fail2ban/jail.local
+    mode: 0444
+  become: yes
+  notify: Restart fail2ban
 
 - name: Install VirtualBox GPG key
   apt_key:

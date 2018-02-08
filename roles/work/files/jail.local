@@ -1,0 +1,3 @@
+[DEFAULT]
+# Ban for 1 year
+bantime = 31536000
