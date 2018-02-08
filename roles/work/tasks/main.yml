@@ -73,3 +73,15 @@
     path: /etc/ldap/ldap.conf
     line: TLS_REQCERT never
   become: yes
+
+- name: Configure cups server
+  lineinfile:
+    path: /etc/cups/cups-browsed.conf
+    line: BrowsePoll {{ vault_cups_server }}
+  become: yes
+  notify: Restart cups-browsed
+
+- name: Configure cups user
+  lineinfile:
+    path: ~/.profile
+    line: export CUPS_USER={{ vault_cups_user }}
