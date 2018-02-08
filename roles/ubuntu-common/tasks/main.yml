@@ -24,13 +24,6 @@
     - evolution
   become: yes
 
-# This is for newer versions of Pidgin/Remmina
-- name: Install SIPE collaboration PPA
-  apt_repository:
-    repo: 'ppa:sipe-collab/ppa'
-    state: present
-  become: yes
-
 - name: Install desired packages
   apt:
     name: "{{ item }}"
