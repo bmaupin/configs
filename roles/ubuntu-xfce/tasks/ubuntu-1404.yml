@@ -12,3 +12,13 @@
     deb: http://mirrors.kernel.org/ubuntu/pool/universe/x/xfce4-whiskermenu-plugin/xfce4-whiskermenu-plugin_1.4.0-1ubuntu1~ubuntu14.04.1_amd64.deb
   become: yes
   when: result.stdout is defined and result.stdout | version_compare('1.4', '<')
+
+# This is to work around this bug: https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
+- name: Configure cron job to kill polkitd
+  cron:
+    name: Kill polkitd
+    special_time: daily
+    user: root
+    job: if ! /bin/ps -ef | /bin/grep -q [x]fce; then /usr/bin/killall /usr/lib/policykit-1/polkitd; fi
+    cron_file: kill-polkitd
+  become: yes
