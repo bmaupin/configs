@@ -2,6 +2,8 @@
 - hosts: 127.0.0.1
   roles:
     - work
+  environment:
+    DISPLAY: :0
   pre_tasks:
     # This is for newer versions of Pidgin/Remmina
     - name: Install SIPE collaboration PPA
