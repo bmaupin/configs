@@ -1,3 +1,10 @@
+---
+- name: Run tasks for Ubuntu 14.04
+  include: ubuntu-1404.yml
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version == "14.04"
+
 - name: Install desired packages
   apt:
     name: "{{ item }}"
@@ -70,12 +77,6 @@
   copy:
     src: thunderbird.desktop
     dest: ~/.config/autostart/thunderbird.desktop
-
-- name: Fix headphone sound from rear jack on Dell Optiplex 9020
-  lineinfile:
-    path: /etc/pulse/default.pa
-    line: set-sink-port 0 analog-output-headphones
-  become: yes
 
 - name: Ignore certificate when using ldapsearch
   lineinfile:

@@ -1,0 +1,6 @@
+---
+- name: Fix headphone sound from rear jack on Dell Optiplex 9020
+  lineinfile:
+    path: /etc/pulse/default.pa
+    line: set-sink-port 0 analog-output-headphones
+  become: yes
