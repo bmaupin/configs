@@ -1,0 +1,3 @@
+---
+cups_server: "{{ vault_cups_server }}"
+cups_user: "{{ vault_cups_user }}"
