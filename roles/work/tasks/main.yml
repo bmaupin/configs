@@ -95,3 +95,10 @@
   lineinfile:
     path: ~/.profile
     line: export CUPS_USER={{ cups_user }}
+
+# https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
+- name: Configure cron job to report polkitd memory usage
+  cron:
+    name: Report polkitd memory usage
+    special_time: daily
+    job: SHELL=/bin/bash ps aux | grep -v grep | grep polkitd > ~/Desktop/polkitd-$(date +\%Y\%m\%d).txt
