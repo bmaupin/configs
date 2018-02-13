@@ -101,4 +101,4 @@
   cron:
     name: Report polkitd memory usage
     special_time: daily
-    job: SHELL=/bin/bash ps aux | grep -v grep | grep polkitd > ~/Desktop/polkitd-$(date +\%Y\%m\%d).txt
+    job: /bin/bash -c 'if [ $(ps aux | grep -v grep | grep polkitd | awk "{print \$6}") -gt 100000 ]; then ps aux | grep -v grep | grep polkitd > ~/Desktop/polkitd-$(date +\%Y\%m\%d).txt; fi'

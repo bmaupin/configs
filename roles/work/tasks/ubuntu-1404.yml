@@ -11,6 +11,6 @@
     name: Kill polkitd
     special_time: daily
     user: root
-    job: SHELL=/bin/bash if ! /bin/ps -ef | /bin/grep -q [x]fce; then /usr/bin/killall /usr/lib/policykit-1/polkitd; fi
+    job: /bin/bash -c 'if ! /bin/ps -ef | /bin/grep -q [x]fce; then /usr/bin/killall /usr/lib/policykit-1/polkitd; fi'
     cron_file: kill-polkitd
   become: yes
