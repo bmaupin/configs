@@ -41,8 +41,8 @@
 - name: Remove the duplicate login screen entry
   command: mv /usr/share/xsessions/xfce.desktop /usr/share/xsessions/xfce.desktop.bak
   args:
-    creates: /usr/share/xsessions/xfce.desktop.bak
     removes: /usr/share/xsessions/xfce.desktop
+  become: yes
 
 - name: Set up workspaces in a 2x2 grid
   lineinfile:
