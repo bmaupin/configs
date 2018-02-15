@@ -1,0 +1,33 @@
+---
+- name: Install ClamAV
+  apt:
+    name: clamav
+    state: present
+  become: yes
+
+# We'll run this manually before scanning, so no need to have it running in the background
+- name: Disable clamav-freshclam service
+  service:
+    name: clamav-freshclam
+    enabled: no
+    state: stopped
+  become: yes
+
+- name: Configure cron job to run clamscan
+  cron:
+    name: Run clamscan
+    special_time: monthly
+    user: root
+    job: >
+      /bin/bash -c 'freshclam;
+      mkdir -p /home/{{ ansible_user_id }}/Desktop/infected;
+      clamscan -r -i
+      --move=/home/{{ ansible_user_id }}/Desktop/infected
+      --exclude-dir=^/dev/
+      --exclude-dir=/home/{{ ansible_user_id }}/Desktop/infected/
+      --exclude-dir="/home/{{ ansible_user_id }}/VirtualBox VMs/Windows 7/"
+      --exclude-dir=^/proc/
+      --exclude-dir=^/sys/
+      / &>> /home/{{ ansible_user_id }}/Desktop/infected/scan.txt'
+    cron_file: run-clamscan
+  become: yes
