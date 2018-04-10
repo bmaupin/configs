@@ -1,0 +1,44 @@
+---
+- name: Install VS Code GPG key
+  apt_key:
+    url: https://packages.microsoft.com/keys/microsoft.asc
+    state: present
+  become: yes
+
+- name: Install VS Code repository
+  apt_repository:
+    repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+    state: present
+    filename: vscode
+  become: yes
+
+- name: Install VS Code
+  apt:
+    name: code
+    state: present
+  become: yes
+
+- name: Create theme-solarized-dark-high-contrast directories
+  file:
+    path: ~/.vscode/extensions/theme-solarized-dark-high-contrast/themes
+    state: directory
+
+- name: Copy package.json
+  get_url:
+    url: https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/vscode/package.json
+    dest: ~/.vscode/extensions/theme-solarized-dark-high-contrast/package.json
+
+- name: Copy solarized-dark-high-contrast-color-theme.json
+  get_url:
+    url: https://raw.githubusercontent.com/bmaupin/solarized-dark-high-contrast/master/vscode/themes/solarized-dark-high-contrast-color-theme.json
+    dest: ~/.vscode/extensions/theme-solarized-dark-high-contrast/themes/solarized-dark-high-contrast-color-theme.json
+
+- name: Copy User/keybindings.json
+  copy:
+    src: keybindings.json
+    dest: ~/.config/Code/User/keybindings.json
+
+- name: Copy User/settings.json
+  copy:
+    src: settings.json
+    dest: ~/.config/Code/User/settings.json
