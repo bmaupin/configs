@@ -1,5 +1,11 @@
 {
     "editor.fontSize": 15,
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        // This enables autocomplete similar to default Sublime Text behaviour
+        "strings": true
+    },
     "editor.rulers": [
         120
     ],
@@ -14,5 +20,6 @@
     },
     "files.trimTrailingWhitespace": true,
     "workbench.colorTheme": "Solarized Dark High Contrast",
+    // This will disable the icons in the file explorer sidebar
     "workbench.iconTheme": null
 }
