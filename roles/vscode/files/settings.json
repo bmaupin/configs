@@ -1,5 +1,7 @@
 {
     "editor.fontSize": 15,
+    // Detected links get underlined which is quite distracting
+    "editor.links": false,
     "editor.quickSuggestions": {
         "other": true,
         "comments": false,
@@ -18,7 +20,9 @@
         "*.sh.j2": "shellscript",
         "*.xml.j2": "xml"
     },
-    "files.trimTrailingWhitespace": true,
+    "trailing-spaces.deleteModifiedLinesOnly": true,
+    "trailing-spaces.highlightCurrentLine": false,
+    "trailing-spaces.trimOnSave": true,
     "workbench.colorTheme": "Solarized Dark High Contrast",
     // This will disable the icons in the file explorer sidebar
     "workbench.iconTheme": null
