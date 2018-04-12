@@ -35,3 +35,9 @@
   copy:
     src: settings.json
     dest: ~/.config/Code/User/settings.json
+
+- name: Set VS Code as default editor
+  replace:
+    path: ~/.bashrc
+    regexp: '^export EDITOR=.*'
+    replace: "export EDITOR='code -w -n'"
