@@ -1,0 +1,19 @@
+---
+- name: Install git
+  apt:
+    name: git
+    state: present
+  become: yes
+
+- name: Copy .gitconfig
+  copy:
+    src: .gitconfig
+    dest: ~/.gitconfig
+    backup: yes
+
+# Git will fall back to core.editor in .gitconfig, then VISUAL, then EDITOR, so this isn't necessary
+- name: Unset default git editor
+  lineinfile:
+    path: ~/.bashrc
+    regexp: '^export GIT_EDITOR=.*'
+    state: absent

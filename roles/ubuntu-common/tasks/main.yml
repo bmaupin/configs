@@ -84,12 +84,6 @@
     replace: 'Exec=env LANGUAGE=fr /usr/bin/google-chrome-stable'
     backup: yes
 
-- name: Copy .gitconfig
-  copy:
-    src: .gitconfig
-    dest: ~/.gitconfig
-    backup: yes
-
 - name: Copy .vimrc
   copy:
     src: .vimrc
