@@ -1,0 +1,11 @@
+---
+# For some reason the brightness increments when using Xfce Power Manager are way too big
+- name: Don't handle brightness keys with Xfce Power Manager
+  shell: >
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
+  with_items:
+    - { property: "/xfce4-power-manager/brightness-switch", type: int, value: "1" }
+    - { property: "/xfce4-power-manager/handle-brightness-keys", type: bool, value: "false" }
+  register: result
+  changed_when: result.stdout.find(item.value) == -1
