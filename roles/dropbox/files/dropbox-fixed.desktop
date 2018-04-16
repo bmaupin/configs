@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Dropbox
+GenericName=File Synchronizer
+Comment=Sync your files across computers and to the web
+Exec=sh -c 'dbus-launch dropbox start -i && renice +19 $(pgrep dropbox)'
+Terminal=false
+Type=Application
+Icon=dropbox
+Categories=Network;FileTransfer;
+StartupNotify=false
