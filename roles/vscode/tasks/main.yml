@@ -4,6 +4,7 @@
     url: https://packages.microsoft.com/keys/microsoft.asc
     state: present
   become: yes
+  tags: [vscode]
 
 - name: Install VS Code repository
   apt_repository:
@@ -11,12 +12,14 @@
     state: present
     filename: vscode
   become: yes
+  tags: [vscode]
 
 - name: Install VS Code
   apt:
     name: code
     state: present
   become: yes
+  tags: [vscode]
 
 - name: Install extensions
   shell: code --list-extensions | grep '{{ item }}' || code --install-extension '{{ item }}' > /dev/null
@@ -25,19 +28,23 @@
     - shardulm94.trailing-spaces
   register: result
   changed_when: result.stdout.find(item) == -1
+  tags: [vscode]
 
 - name: Copy User/keybindings.json
   copy:
     src: keybindings.json
     dest: ~/.config/Code/User/keybindings.json
+  tags: [vscode]
 
 - name: Copy User/settings.json
   copy:
     src: settings.json
     dest: ~/.config/Code/User/settings.json
+  tags: [vscode]
 
 - name: Set VS Code as default editor
   replace:
     path: ~/.bashrc
     regexp: '^export EDITOR=.*'
     replace: "export EDITOR='code -w -n'"
+  tags: [vscode]
