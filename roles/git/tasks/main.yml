@@ -4,12 +4,14 @@
     name: git
     state: present
   become: yes
+  tags: [git]
 
 - name: Copy .gitconfig
   copy:
     src: .gitconfig
     dest: ~/.gitconfig
     backup: yes
+  tags: [git]
 
 # Git will fall back to core.editor in .gitconfig, then VISUAL, then EDITOR, so this isn't necessary
 - name: Unset default git editor
@@ -17,3 +19,4 @@
     path: ~/.bashrc
     regexp: '^export GIT_EDITOR=.*'
     state: absent
+  tags: [git]
