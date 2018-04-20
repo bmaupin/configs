@@ -25,12 +25,3 @@
     src: dropbox-fixed.desktop
     dest: ~/.config/autostart
   tags: [dropbox]
-
-- name: Cleanup old Dropbox autostart files
-  file:
-    path: "{{ item }}"
-    state: absent
-  with_items:
-    - ~/.config/autostart/00dropbox-fixed.desktop
-    - ~/.config/autostart/start_dropbox.desktop
-  tags: [dropbox]
