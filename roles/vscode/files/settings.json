@@ -25,5 +25,8 @@
     "trailing-spaces.trimOnSave": true,
     "workbench.colorTheme": "Solarized Dark High Contrast",
     // This will disable the icons in the file explorer sidebar
-    "workbench.iconTheme": null
+    "workbench.iconTheme": null,
+    "[javascript]": {
+        "editor.tabSize": 2
+    }
 }
