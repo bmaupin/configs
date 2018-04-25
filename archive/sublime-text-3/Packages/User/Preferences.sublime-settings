@@ -11,6 +11,7 @@
 		120
 	],
 	"scroll_speed": 0,
+	"tab_completion": false,
 	"theme": "Soda SolarizedDark.sublime-theme",
 	"translate_tabs_to_spaces": true
 }
