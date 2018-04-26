@@ -1,0 +1,45 @@
+---
+- name: Install VirtualBox GPG key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox.asc
+    state: present
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('14.04', '<=')
+  tags: [virtualbox]
+
+- name: Install VirtualBox GPG key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('16.04', '>=')
+  tags: [virtualbox]
+
+- name: Get Ubuntu release codename
+  shell: lsb_release -cs
+  changed_when: no
+  check_mode: no
+  register: result
+  tags: [virtualbox]
+
+- name: Install VirtualBox repository
+  apt_repository:
+    repo: "deb http://download.virtualbox.org/virtualbox/debian {{ result.stdout }} contrib"
+    state: present
+    filename: virtualbox
+  become: yes
+  tags: [virtualbox]
+
+- name: Install VirtualBox
+  apt:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - dkms
+    - virtualbox-5.2
+  become: yes
+  tags: [virtualbox]

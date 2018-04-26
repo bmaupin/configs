@@ -27,46 +27,6 @@
   become: yes
   notify: Restart fail2ban
 
-- name: Install VirtualBox GPG key
-  apt_key:
-    url: https://www.virtualbox.org/download/oracle_vbox.asc
-    state: present
-  become: yes
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version | version_compare('14.04', '<=')
-
-- name: Install VirtualBox GPG key
-  apt_key:
-    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
-    state: present
-  become: yes
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version | version_compare('16.04', '>=')
-
-- name: Get Ubuntu release codename
-  shell: lsb_release -cs
-  changed_when: no
-  check_mode: no
-  register: result
-
-- name: Install VirtualBox repository
-  apt_repository:
-    repo: "deb http://download.virtualbox.org/virtualbox/debian {{ result.stdout }} contrib"
-    state: present
-    filename: virtualbox
-  become: yes
-
-- name: Install VirtualBox
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - dkms
-    - virtualbox-5.2
-  become: yes
-
 - name: Set Pidgin to autostart
   file:
     src: /usr/share/applications/pidgin.desktop
