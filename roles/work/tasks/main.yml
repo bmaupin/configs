@@ -32,6 +32,18 @@
     url: https://www.virtualbox.org/download/oracle_vbox.asc
     state: present
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('14.04', '<=')
+
+- name: Install VirtualBox GPG key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version | version_compare('16.04', '>=')
 
 - name: Get Ubuntu release codename
   shell: lsb_release -cs
