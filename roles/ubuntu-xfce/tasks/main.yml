@@ -60,15 +60,6 @@
   become: yes
   notify: Configure compose key
 
-# https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
-- name: Fix missing scrollbar arrow buttons with greybird theme
-  replace:
-    path: /usr/share/themes/Greybird/gtk-2.0/gtkrc
-    regexp: '^(\s+GtkScrollbar.+has.+stepper)'
-    replace: '#\1'
-    backup: yes
-  become: yes
-
 - name: Make sure power button opens shutdown menu instead of doing an automatic shutdown
   copy:
     src: xfce4-power-manager.desktop

@@ -12,3 +12,12 @@
     deb: http://mirrors.kernel.org/ubuntu/pool/universe/x/xfce4-whiskermenu-plugin/xfce4-whiskermenu-plugin_1.4.0-1ubuntu1~ubuntu14.04.1_amd64.deb
   become: yes
   when: result.stdout is defined and result.stdout | version_compare('1.4', '<')
+
+# https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
+- name: Fix missing scrollbar arrow buttons with greybird theme
+  replace:
+    path: /usr/share/themes/Greybird/gtk-2.0/gtkrc
+    regexp: '^(\s+GtkScrollbar.+has.+stepper)'
+    replace: '#\1'
+    backup: yes
+  become: yes
