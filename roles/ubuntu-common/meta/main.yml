@@ -1,5 +1,6 @@
 ---
 dependencies:
+  - docker
   - dropbox
   - git
   - vscode
