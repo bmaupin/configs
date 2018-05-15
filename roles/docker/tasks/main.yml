@@ -12,3 +12,18 @@
   include_tasks: install.yml
   when: result.rc is defined and result.rc != 0
   tags: [docker, docker-install]
+
+# This allows running docker commands without sudo
+- name: Add user to docker group
+  user:
+    name: "{{ ansible_user_id }}"
+    groups: docker
+    append: yes
+  become: yes
+
+- name: Install Docker Compose
+  get_url:
+    url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
+    dest: /usr/local/bin/docker-compose
+    mode: 0755
+  become: yes
