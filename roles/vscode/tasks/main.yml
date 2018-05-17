@@ -1,25 +1,17 @@
 ---
-- name: Install VS Code GPG key
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    state: present
-  become: yes
-  tags: [vscode]
+- name: Check if VS Code is installed
+  shell: dpkg -l code
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+  tags: [vscode, vscode-install]
 
-- name: Install VS Code repository
-  apt_repository:
-    repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
-    state: present
-    filename: vscode
-  become: yes
-  tags: [vscode]
-
-- name: Install VS Code
-  apt:
-    name: code
-    state: present
-  become: yes
-  tags: [vscode]
+- name: Include VS Code install tasks
+  # Use dynamic include so skipped tasks won't show in output
+  include_tasks: install.yml
+  when: result.rc is defined and result.rc != 0
+  tags: [vscode, vscode-install]
 
 - name: Install extensions
   shell: code --list-extensions | grep '{{ item }}' || code --install-extension '{{ item }}' > /dev/null
