@@ -1,0 +1,14 @@
+---
+- name: Check if Spotify is installed
+  shell: dpkg -l spotify-client
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+  tags: [spotify, spotify-install]
+
+- name: Include Spotify install tasks
+  # Use dynamic include so skipped tasks won't show in output
+  include_tasks: install.yml
+  when: result.rc is defined and result.rc != 0
+  tags: [spotify, spotify-install]
