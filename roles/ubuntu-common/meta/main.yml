@@ -3,4 +3,5 @@ dependencies:
   - docker
   - dropbox
   - git
+  - spotify
   - vscode
