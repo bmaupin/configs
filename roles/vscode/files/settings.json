@@ -26,6 +26,9 @@
     "workbench.colorTheme": "Solarized Dark High Contrast",
     // This will disable the icons in the file explorer sidebar
     "workbench.iconTheme": null,
+    "[html]": {
+        "editor.tabSize": 2
+    },
     "[javascript]": {
         "editor.tabSize": 2
     },
