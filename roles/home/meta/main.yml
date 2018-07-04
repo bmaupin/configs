@@ -1,3 +1,4 @@
 ---
 dependencies:
+  - redshift
   - ubuntu-xfce

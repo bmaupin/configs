@@ -1,0 +1,25 @@
+---
+- name: Install Redshift for Ubuntu <= 14.04
+  apt:
+    name: gtk-redshift
+    state: present
+  become: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('14.04', '<=')
+
+- name: Install Redshift for Ubuntu >= 16.04
+  apt:
+    name: redshift-gtk
+    state: present
+  become: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('16.04', '>=')
+
+- name: Configure Redshift to autostart
+  copy:
+    src: /usr/share/applications/redshift-gtk.desktop
+    dest: ~/.config/autostart/redshift-gtk.desktop
+    force: no
+
+- name: Copy Redshift configuration
+  copy:
+    src: redshift.conf
+    dest: ~/.config/redshift.conf
