@@ -1,8 +1,0 @@
----
-- name: Install packages for Ubuntu <= 14.04
-  apt:
-    name: "{{ item }}"
-    state: present
-  with_items:
-    - gtk-redshift
-  become: yes

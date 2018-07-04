@@ -1,27 +1,9 @@
 ---
-- name: Run tasks for Ubuntu <= 14.04
-  include: ubuntu-le-1404.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version | version_compare('14.04', '<=')
-
 - name: Run tasks for Ubuntu 16.04
   include: ubuntu-1604.yml
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version == "16.04"
-
-- name: Run tasks for Ubuntu >= 16.04
-  include: ubuntu-ge-1604.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version | version_compare('16.04', '>=')
-
-- name: Configure redshift-gtk to run at start
-  copy:
-    src: /usr/share/applications/redshift-gtk.desktop
-    dest: ~/.config/autostart/redshift-gtk.desktop
-    force: no
 
 - name: Disable daily mlocate update
   file:
