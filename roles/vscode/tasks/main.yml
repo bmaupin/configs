@@ -35,8 +35,8 @@
   tags: [vscode]
 
 - name: Set VS Code as default editor
-  replace:
+  lineinfile:
     path: ~/.bashrc
     regexp: '^export EDITOR=.*'
-    replace: "export EDITOR='code -w -n'"
+    line: "export EDITOR='code -w -n'"
   tags: [vscode]

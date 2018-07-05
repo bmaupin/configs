@@ -19,7 +19,7 @@
   become: yes
 
 - name: Set Sublime Text as default editor
-  replace:
+  lineinfile:
     path: ~/.bashrc
     regexp: '^export EDITOR=.*'
-    replace: export EDITOR='subl -w'
+    line: "export EDITOR='subl -w'"
