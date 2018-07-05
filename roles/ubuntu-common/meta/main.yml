@@ -4,4 +4,5 @@ dependencies:
   - dropbox
   - git
   - spotify
+  - { role: sublime-text, sublime_text_uninstall: yes }
   - vscode
