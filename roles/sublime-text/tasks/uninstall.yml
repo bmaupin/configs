@@ -1,0 +1,25 @@
+---
+- name: Remove Sublime Text GPG key
+  apt_key:
+    id: 8A8F901A
+    state: absent
+  become: yes
+
+- name: Remove Sublime Text repository
+  apt_repository:
+    repo: deb https://download.sublimetext.com/ apt/stable/
+    state: absent
+    filename: sublime-text
+  become: yes
+
+- name: Uninstall Sublime Text
+  apt:
+    name: sublime-text
+    state: absent
+  become: yes
+
+- name: Remove Sublime Text as default editor
+  lineinfile:
+    path: ~/.bashrc
+    state: absent
+    regexp: '^export EDITOR=.*subl.*'
