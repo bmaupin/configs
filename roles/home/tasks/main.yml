@@ -1,10 +1,4 @@
 ---
-- name: Run tasks for Ubuntu 16.04
-  include: ubuntu-1604.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version == "16.04"
-
 - name: Disable daily mlocate update
   file:
     dest: /etc/cron.daily/mlocate
@@ -16,3 +10,28 @@
     dest: /usr/sbin/hddtemp
     mode: "u+s"
   become: yes
+
+- name: Handle brightness keys with Xfce Power Manager
+  shell: >
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
+  with_items:
+    - { property: "/xfce4-power-manager/brightness-switch", type: int, value: "0" }
+    - { property: "/xfce4-power-manager/handle-brightness-keys", type: bool, value: "true" }
+  register: result
+  changed_when: result.stdout.find(item.value) == -1
+  when:
+    - ansible_distribution == "Ubuntu" and ansible_distribution_version != "16.04"
+
+# For some reason the brightness increments when using Xfce Power Manager are way too big
+- name: Don't handle brightness keys with Xfce Power Manager
+  shell: >
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
+    xfconf-query -c xfce4-power-manager -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
+  with_items:
+    - { property: "/xfce4-power-manager/brightness-switch", type: int, value: "1" }
+    - { property: "/xfce4-power-manager/handle-brightness-keys", type: bool, value: "false" }
+  register: result
+  changed_when: result.stdout.find(item.value) == -1
+  when:
+    - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
