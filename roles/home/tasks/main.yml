@@ -10,3 +10,9 @@
     dest: /etc/cron.daily/mlocate
     mode: "a-x"
   become: yes
+
+- name: Set permissions for hddtemp
+  file:
+    dest: /usr/sbin/hddtemp
+    mode: "u+s"
+  become: yes
