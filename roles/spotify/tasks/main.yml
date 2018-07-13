@@ -1,14 +1,34 @@
 ---
-- name: Check if Spotify is installed
-  shell: dpkg -l spotify-client
-  changed_when: no
-  check_mode: no
-  failed_when: no
-  register: result
-  tags: [spotify, spotify-install]
+- block:
+    - name: Install Spotify repository
+      apt_repository:
+        repo: deb http://repository.spotify.com stable non-free
+        state: present
+        filename: spotify
+      become: yes
+      tags: [spotify]
 
-- name: Include Spotify install tasks
-  # Use dynamic include so skipped tasks won't show in output
-  include_tasks: install.yml
-  when: result.rc is defined and result.rc != 0
-  tags: [spotify, spotify-install]
+  rescue:
+    - name: Install Spotify GPG key
+      apt_key:
+        keyserver: hkp://keyserver.ubuntu.com:80
+        id: 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+        state: present
+      become: yes
+      tags: [spotify]
+
+    - name: Install Spotify repository
+      apt_repository:
+        repo: deb http://repository.spotify.com stable non-free
+        state: present
+        filename: spotify
+      become: yes
+      tags: [spotify]
+
+# TODO: install Spotify using snap once snap support is added to ansible (https://www.spotify.com/us/download/linux/)
+- name: Install Spotify
+  apt:
+    name: spotify-client
+    state: present
+  become: yes
+  tags: [spotify]
