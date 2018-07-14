@@ -1,4 +1,12 @@
 ---
+# https://bugs.launchpad.net/ubuntu/+source/xfce4-volumed/+bug/1781733
+- name: Install missing xfce4-volumed
+  apt:
+    name: xfce4-volumed
+    state: present
+  become: yes
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
+
 # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
 - name: Work around bug with /etc/default/keyboard
   lineinfile:
