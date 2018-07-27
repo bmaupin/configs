@@ -40,6 +40,8 @@
     - nmap
     - pidgin
     - pidgin-sipe
+    # Required for Ansible dconf module
+    - python-psutil
     - python3
     - remmina
     - shotwell
