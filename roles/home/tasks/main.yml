@@ -35,3 +35,8 @@
   changed_when: result.stdout.find(item.value) == -1
   when:
     - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
+
+- name: Disable bluetooth auto power on
+  dconf:
+    key: "/org/blueman/plugins/powermanager/auto-power-on"
+    value: "false"
