@@ -2,7 +2,7 @@
 - block:
     - name: Install VS Code repository
       apt_repository:
-        repo: deb [arch=amd64] http://packages.microsoft.com/repos/vscode stable main
+        repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
         state: present
         filename: vscode
       become: yes
@@ -18,7 +18,7 @@
 
     - name: Install VS Code repository
       apt_repository:
-        repo: deb [arch=amd64] https://packages.microsoft.com/repos/vscode stable main
+        repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
         state: present
         filename: vscode
       become: yes
