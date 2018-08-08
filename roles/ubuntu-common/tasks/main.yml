@@ -179,10 +179,6 @@
   register: result
   changed_when: result.stdout.find(item.value) == -1
 
-- name: Update apt-file cache
-  command: apt-file update
-  become: yes
-
 - name: Copy .eslintrc
   copy:
     src: .eslintrc
