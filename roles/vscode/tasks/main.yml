@@ -35,6 +35,7 @@
   shell: code --list-extensions | grep '{{ item }}' || code --install-extension '{{ item }}' > /dev/null
   with_items:
     - bmaupin.theme-solarized-dark-high-contrast
+    - dbaeumer.vscode-eslint
     - shardulm94.trailing-spaces
   register: result
   changed_when: result.stdout.find(item) == -1
