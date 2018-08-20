@@ -23,6 +23,7 @@
     "trailing-spaces.deleteModifiedLinesOnly": true,
     "trailing-spaces.highlightCurrentLine": false,
     "trailing-spaces.trimOnSave": true,
+    "window.titleBarStyle": "custom",
     "workbench.colorTheme": "Solarized Dark High Contrast",
     // This will disable the icons in the file explorer sidebar
     "workbench.iconTheme": null,
