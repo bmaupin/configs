@@ -1,9 +1,13 @@
 ---
 # https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
-- name: Hide deprecated sound indicator in panel
-  dconf:
-    key: "/com/canonical/indicator/sound/visible"
-    value: "false"
+- name: Remove deprecated sound indicator packages
+  apt:
+    name: "{{ item }}"
+    state: absent
+  with_items:
+    - indicator-sound
+    - xfce4-volumed
+  become: yes
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
 # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
