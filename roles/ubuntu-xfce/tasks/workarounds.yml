@@ -1,10 +1,9 @@
 ---
-# https://bugs.launchpad.net/ubuntu/+source/xfce4-volumed/+bug/1781733
-- name: Install missing xfce4-volumed
-  apt:
-    name: xfce4-volumed
-    state: present
-  become: yes
+# https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
+- name: Hide deprecated sound indicator in panel
+  dconf:
+    key: "/com/canonical/indicator/sound/visible"
+    value: "false"
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
 # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
