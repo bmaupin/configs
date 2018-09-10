@@ -67,3 +67,19 @@
     mode: 0755
   become: yes
   tags: [docker]
+
+- name: Get list of Docker container IDs
+  shell: docker container ls -aq
+  register: docker_container_ids
+  changed_when: no
+  check_mode: no
+  tags: [docker]
+
+# https://docs.docker.com/config/containers/start-containers-automatically/
+# The docker_container Ansible module isn't usable here because it always insists on changing container state
+- name: Disable auto restart of containers
+  shell: docker inspect {{ item }} --format={{ '{{.HostConfig.RestartPolicy}}' }} | grep -q '{no ' || docker update --restart=no {{ item }}
+  loop: "{{ docker_container_ids.stdout_lines }}"
+  register: result
+  changed_when: result.stdout.find(item) != -1
+  tags: [docker]
