@@ -3,6 +3,7 @@ dependencies:
   - docker
   - dropbox
   - git
+  - golang
   - spotify
   - { role: sublime-text, sublime_text_uninstall: yes }
   - vscode
