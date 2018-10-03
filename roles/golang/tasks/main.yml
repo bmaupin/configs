@@ -1,0 +1,19 @@
+---
+- name: Update path for Go binaries
+  lineinfile:
+    path: ~/.bashrc
+    line: 'export PATH=$PATH:/usr/local/go/bin'
+  tags: [golang]
+
+- name: Set GOPATH
+  lineinfile:
+    path: ~/.bashrc
+    line: "export GOPATH=/home/{{ ansible_user_id }}/go"
+  tags: [golang]
+
+# https://github.com/golang/go/wiki/Modules#how-to-install-and-activate-module-support
+- name: Enable Go modules for v1.11
+  lineinfile:
+    path: ~/.bashrc
+    line: 'export GO111MODULE=on'
+  tags: [golang]
