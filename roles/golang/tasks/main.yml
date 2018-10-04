@@ -10,10 +10,3 @@
     path: ~/.bashrc
     line: "export GOPATH=/home/{{ ansible_user_id }}/go"
   tags: [golang]
-
-# https://github.com/golang/go/wiki/Modules#how-to-install-and-activate-module-support
-- name: Enable Go modules for v1.11
-  lineinfile:
-    path: ~/.bashrc
-    line: 'export GO111MODULE=on'
-  tags: [golang]
