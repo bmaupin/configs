@@ -27,7 +27,7 @@
 - name: Install VS Code
   apt:
     name: code
-    state: present
+    state: latest
   become: yes
   tags: [vscode]
 

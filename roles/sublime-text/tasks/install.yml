@@ -15,7 +15,7 @@
 - name: Install Sublime Text
   apt:
     name: sublime-text
-    state: present
+    state: latest
   become: yes
 
 - name: Set Sublime Text as default editor
