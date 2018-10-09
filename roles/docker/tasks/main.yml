@@ -2,13 +2,12 @@
 # https://docs.docker.com/install/linux/docker-ce/ubuntu/
 - name: Install prerequisites for Docker
   apt:
-    name: "{{ item }}"
+    name:
+      - apt-transport-https
+      - ca-certificates
+      - curl
+      - software-properties-common
     state: present
-  with_items:
-    - apt-transport-https
-    - ca-certificates
-    - curl
-    - software-properties-common
   become: yes
   tags: [docker]
 

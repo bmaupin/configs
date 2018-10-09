@@ -4,18 +4,17 @@
 
 - name: Remove undesired packages
   apt:
-    name: "{{ item }}"
+    name:
+      - abiword
+      - gmusicbrowser
+      - gnumeric
+      - mousepad
+      - orage
+      - parole
+      - xchat
+      - xfce4-notes
     state: absent
     purge: yes
-  with_items:
-    - abiword
-    - gmusicbrowser
-    - gnumeric
-    - mousepad
-    - orage
-    - parole
-    - xchat
-    - xfce4-notes
   become: yes
 
 - name: Create ~/.config/xfce4/terminal directory
