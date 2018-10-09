@@ -16,48 +16,45 @@
 
 - name: Remove undesired packages
   apt:
-    name: "{{ item }}"
+    name:
+      - empathy
+      - evolution
     state: absent
     purge: yes
-  with_items:
-    - empathy
-    - evolution
   become: yes
 
 - name: Install desired packages
   apt:
-    name: "{{ item }}"
+    name:
+      - apt-file
+      - deja-dup
+      - indicator-multiload
+      - language-pack-fr
+      - libreoffice-calc
+      - libreoffice-impress
+      - libreoffice-writer
+      - mpv
+      - nmap
+      - pidgin
+      - pidgin-sipe
+      # Required for Ansible dconf module
+      - python-psutil
+      - python3
+      - remmina
+      - shotwell
+      - vim
+      - vlc
     state: present
-  with_items:
-    - apt-file
-    - deja-dup
-    - indicator-multiload
-    - language-pack-fr
-    - libreoffice-calc
-    - libreoffice-impress
-    - libreoffice-writer
-    - mpv
-    - nmap
-    - pidgin
-    - pidgin-sipe
-    # Required for Ansible dconf module
-    - python-psutil
-    - python3
-    - remmina
-    - shotwell
-    - vim
-    - vlc
   become: yes
 
 - name: Install LibreOffice French support
   apt:
-    name: "{{ item }}"
+    name:
+      - hyphen-fr
+      - libreoffice-l10n-fr
+      - myspell-fr
+      - mythes-fr
     state: present
-  with_items:
-    - hyphen-fr
-    - libreoffice-l10n-fr
-    - myspell-fr
-    - mythes-fr
   become: yes
 
 - name: Check if Chrome is installed

@@ -9,14 +9,13 @@
 
 - name: Install desired packages
   apt:
-    name: "{{ item }}"
+    name:
+      - brasero
+      - fail2ban
+      - ldap-utils
+      - thunderbird
+      - thunderbird-locale-fr
     state: present
-  with_items:
-    - brasero
-    - fail2ban
-    - ldap-utils
-    - thunderbird
-    - thunderbird-locale-fr
   become: yes
 
 - name: Configure fail2ban

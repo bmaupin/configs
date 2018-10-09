@@ -38,10 +38,9 @@
 
 - name: Install VirtualBox
   apt:
-    name: "{{ item }}"
+    name:
+      - dkms
+      - "virtualbox-{{ virtualbox_version }}"
     state: latest
-  with_items:
-    - dkms
-    - "virtualbox-{{ virtualbox_version }}"
   become: yes
   tags: [virtualbox]

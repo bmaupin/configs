@@ -1,13 +1,12 @@
 ---
 - name: Install packages for Ubuntu <= 14.04
   apt:
-    name: "{{ item }}"
+    name:
+      # Provides purge-old-kernels, used by Remove old kernels
+      - bikeshed
+      - icedtea-7-plugin
+      - openjdk-7-jdk
     state: present
-  with_items:
-    # Provides purge-old-kernels, used by Remove old kernels
-    - bikeshed
-    - icedtea-7-plugin
-    - openjdk-7-jdk
   become: yes
 
 - name: Remove old kernels

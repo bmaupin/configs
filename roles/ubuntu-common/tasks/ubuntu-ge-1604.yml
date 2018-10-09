@@ -1,11 +1,10 @@
 ---
 - name: Install packages for Ubuntu >= 16.04
   apt:
-    name: "{{ item }}"
+    name:
+      - icedtea-8-plugin
+      - openjdk-8-jdk
     state: present
-  with_items:
-    - icedtea-8-plugin
-    - openjdk-8-jdk
   become: yes
 
 # Ansible has a dconf module but it doesn't work in Ubuntu 16.04 because python-psutil is < 4.0

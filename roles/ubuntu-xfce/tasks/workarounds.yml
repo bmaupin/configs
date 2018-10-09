@@ -2,11 +2,10 @@
 # https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
 - name: Remove deprecated sound indicator packages
   apt:
-    name: "{{ item }}"
+    name:
+      - indicator-sound
+      - xfce4-volumed
     state: absent
-  with_items:
-    - indicator-sound
-    - xfce4-volumed
   become: yes
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
