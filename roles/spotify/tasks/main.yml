@@ -39,6 +39,6 @@
 - name: Install Spotify
   apt:
     name: spotify-client
-    state: present
+    state: latest
   become: yes
   tags: [spotify]
