@@ -4,7 +4,7 @@
     name: gtk-redshift
     state: present
   become: yes
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('14.04', '<=')
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version is version_compare('14.04', '<=')
   tags: [redshift]
 
 - name: Install Redshift for Ubuntu >= 16.04
@@ -12,7 +12,7 @@
     name: redshift-gtk
     state: present
   become: yes
-  when: ansible_distribution == "Ubuntu" and ansible_distribution_version | version_compare('16.04', '>=')
+  when: ansible_distribution == "Ubuntu" and ansible_distribution_version is version_compare('16.04', '>=')
   tags: [redshift]
 
 - name: Configure Redshift to autostart
