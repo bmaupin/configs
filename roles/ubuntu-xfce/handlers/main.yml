@@ -4,3 +4,6 @@
 
 - name: Configure compose key
   command: setxkbmap -option compose:ralt
+
+- name: Restart Xfce panel
+  command: xfce4-panel -r
