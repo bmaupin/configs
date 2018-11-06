@@ -9,6 +9,7 @@
       - xfce4-volumed
     state: absent
   become: yes
+  notify: Restart Xfce panel
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
 # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
