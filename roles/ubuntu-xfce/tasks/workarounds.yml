@@ -1,8 +1,10 @@
 ---
-# https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
-- name: Remove deprecated sound indicator packages
+- name: Remove deprecated indicator packages
   apt:
     name:
+      # https://bugs.launchpad.net/ubuntu/+source/xfce4-indicator-plugin/+bug/1801724
+      - indicator-application
+      # https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
       - indicator-sound
       - xfce4-volumed
     state: absent
