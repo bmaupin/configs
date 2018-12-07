@@ -1,0 +1,32 @@
+---
+- name: Install necessary packages
+  apt:
+    name:
+      - language-pack-fr
+      - thunderbird
+      - thunderbird-locale-fr
+    state: present
+  become: yes
+  tags: [thunderbird]
+
+- name: Copy Thunderbird .desktop file
+  copy:
+    src: /usr/share/applications/thunderbird.desktop
+    dest: ~/.local/share/applications/thunderbird.desktop
+    force: no
+  tags: [thunderbird]
+
+- name: Set Thunderbird language
+  replace:
+    path: ~/.local/share/applications/thunderbird.desktop
+    regexp: '^Exec=thunderbird'
+    replace: 'Exec=env LC_ALL=fr_CA.utf8 thunderbird'
+    backup: yes
+  tags: [thunderbird]
+
+# Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
+- name: Set Thunderbird to autostart
+  copy:
+    src: thunderbird.desktop
+    dest: ~/.config/autostart/thunderbird.desktop
+  tags: [thunderbird]

@@ -13,8 +13,6 @@
       - brasero
       - fail2ban
       - ldap-utils
-      - thunderbird
-      - thunderbird-locale-fr
     state: present
   become: yes
 
@@ -31,25 +29,6 @@
     src: /usr/share/applications/pidgin.desktop
     dest: ~/.config/autostart/pidgin.desktop
     state: link
-
-- name: Copy Thunderbird .desktop file
-  copy:
-    src: /usr/share/applications/thunderbird.desktop
-    dest: ~/.local/share/applications/thunderbird.desktop
-    force: no
-
-- name: Set Thunderbird language
-  replace:
-    path: ~/.local/share/applications/thunderbird.desktop
-    regexp: '^Exec=thunderbird'
-    replace: 'Exec=env LC_ALL=fr_CA.utf8 thunderbird'
-    backup: yes
-
-# Thunderbird needs a simpler entry for autostart or it won't work, in particular for Xfce
-- name: Set Thunderbird to autostart
-  copy:
-    src: thunderbird.desktop
-    dest: ~/.config/autostart/thunderbird.desktop
 
 - name: Ignore certificate when using ldapsearch
   lineinfile:
