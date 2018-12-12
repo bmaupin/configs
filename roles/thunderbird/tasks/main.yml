@@ -19,7 +19,7 @@
 - name: Set Thunderbird language
   replace:
     path: ~/.local/share/applications/thunderbird.desktop
-    regexp: '^Exec=thunderbird'
+    regexp: '^Exec=.*thunderbird'
     replace: 'Exec=env LC_ALL=fr_CA.utf8 thunderbird'
     backup: yes
   tags: [thunderbird]
