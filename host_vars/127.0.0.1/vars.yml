@@ -1,3 +1,5 @@
 ---
 cups_server: "{{ vault_cups_server }}"
 cups_user: "{{ vault_cups_user }}"
+firewall_add: "{{ vault_firewall_add }}"
+firewall_delete: "{{ vault_firewall_delete }}"

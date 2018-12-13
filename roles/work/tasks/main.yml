@@ -48,6 +48,25 @@
     path: ~/.profile
     line: export CUPS_USER={{ cups_user }}
 
+- name: Add firewall rules
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    src: "{{ item.src }}"
+  loop: "{{ firewall_add }}"
+  become: yes
+
+- name: Delete firewall rules
+  ufw:
+    rule: "{{ item.rule }}"
+    port: "{{ item.port }}"
+    proto: "{{ item.proto }}"
+    src: "{{ item.src }}"
+    delete: yes
+  loop: "{{ firewall_delete }}"
+  become: yes
+
 # https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to report polkitd memory usage
   cron:
