@@ -38,9 +38,7 @@
 
 - name: Install VirtualBox
   apt:
-    name:
-      - dkms
-      - "virtualbox-{{ virtualbox_version }}"
+    name: "virtualbox-{{ virtualbox_version }}"
     state: latest
   become: yes
   tags: [virtualbox]
