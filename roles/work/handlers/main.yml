@@ -10,3 +10,8 @@
     name: fail2ban
     state: restarted
   become: yes
+
+- name: Remove ~/.config/pulse
+  file:
+    path: ~/.config/pulse
+    state: absent
