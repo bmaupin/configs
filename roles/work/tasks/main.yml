@@ -67,6 +67,13 @@
   loop: "{{ firewall_delete }}"
   become: yes
 
+- name: Set default audio output device
+  lineinfile:
+    path: /etc/pulse/default.pa
+    line: set-default-sink 0
+  become: yes
+  notify: Remove ~/.config/pulse
+
 # https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to report polkitd memory usage
   cron:
