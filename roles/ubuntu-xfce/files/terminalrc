@@ -7,4 +7,5 @@ ColorPalette=#073642;#dc322f;#859900;#b58900;#268bd2;#d33682;#2aa198;#fdf6e3;#00
 
 FontName=DejaVu Sans Mono 11
 MiscMenubarDefault=FALSE
+ScrollingLines=2000
 ScrollingOnOutput=FALSE
