@@ -5,6 +5,7 @@
         repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
         state: present
         filename: vscode
+        update_cache: yes
       become: yes
       tags: [vscode]
 
@@ -21,6 +22,7 @@
         repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
         state: present
         filename: vscode
+        update_cache: yes
       become: yes
       tags: [vscode]
 

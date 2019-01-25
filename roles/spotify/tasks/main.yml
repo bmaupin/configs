@@ -5,6 +5,7 @@
         repo: deb http://repository.spotify.com stable non-free
         state: present
         filename: spotify
+        update_cache: yes
       become: yes
       tags: [spotify]
 
@@ -32,6 +33,7 @@
         repo: deb http://repository.spotify.com stable non-free
         state: present
         filename: spotify
+        update_cache: yes
       become: yes
       tags: [spotify]
 

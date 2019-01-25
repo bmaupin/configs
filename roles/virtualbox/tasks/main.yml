@@ -12,6 +12,7 @@
         repo: "deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib"
         state: present
         filename: virtualbox
+        update_cache: yes
       become: yes
       tags: [virtualbox]
 
