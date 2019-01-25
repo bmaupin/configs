@@ -17,6 +17,7 @@
 - name: Remove undesired packages
   apt:
     name:
+      - apt-xapian-index
       - empathy
       - evolution
     state: absent
@@ -109,14 +110,6 @@
   lineinfile:
     path: ~/.bashrc
     line: 'alias python=python3'
-
-# Used for synaptic quick search function:
-# http://reformedmusings.wordpress.com/2009/06/05/fixing-update-apt-xapian-in-ubuntu-9-04-jaunty/
-- name: Disable apt-xapian-index
-  file:
-    path: /etc/cron.weekly/apt-xapian-index
-    mode: "a-x"
-  become: yes
 
 - name: Remove grub recovery menu entry
   replace:
