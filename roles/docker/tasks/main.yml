@@ -24,6 +24,7 @@
         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
         state: present
         filename: docker
+        update_cache: yes
       become: yes
       tags: [docker]
 
@@ -40,6 +41,7 @@
         repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
         state: present
         filename: docker
+        update_cache: yes
       become: yes
       tags: [docker]
 

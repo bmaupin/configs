@@ -3,6 +3,7 @@
 - name: Install Redshift PPA for Ubuntu 16.04 - 18.04
   apt_repository:
     repo: ppa:dobey/redshift-daily
+    update_cache: yes
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
