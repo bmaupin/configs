@@ -27,14 +27,12 @@
   apt:
     name:
       - apt-file
-      - deja-dup
       - indicator-multiload
       - language-pack-fr
       - libreoffice-calc
       - libreoffice-impress
       - libreoffice-writer
       - mpv
-      - nmap
       - pidgin
       - pidgin-sipe
       # Required for Ansible dconf module
@@ -43,7 +41,6 @@
       - remmina
       - shotwell
       - vim
-      - vlc
     state: present
   become: yes
 
@@ -143,23 +140,6 @@
   become: yes
   register: result
   changed_when: result.stdout.find(' 0 to remove') == -1
-
-# Ansible has a dconf module but it doesn't work in Ubuntu 14.04 because python-psutil is < 4.0
-- name: Configure frequency of full Deja Dup backups
-  shell: >
-    dconf read /org/gnome/deja-dup/full-backup-period | grep 180 ||
-    dconf write /org/gnome/deja-dup/full-backup-period 180
-  register: result
-  changed_when: result.stdout.find('180') == -1
-
-# Configure length of time to keep backups for since there's currently no way to limit by size
-# (https://bugs.launchpad.net/deja-dup/+bug/846852)
-- name: Configure length of time to keep Deja Dup backups
-  shell: >
-    dconf read /org/gnome/deja-dup/delete-after | grep 730 ||
-    dconf write /org/gnome/deja-dup/delete-after 730
-  register: result
-  changed_when: result.stdout.find('730') == -1
 
 - name: Configure indicator-multiload
   shell: >
