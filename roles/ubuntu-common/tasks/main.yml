@@ -1,4 +1,7 @@
 ---
+- name: Do encrypted tasks
+  include: vault.yml
+
 - name: Configure firewall
   include: ufw.yml
 
