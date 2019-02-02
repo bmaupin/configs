@@ -1,4 +1,7 @@
 ---
+- name: Include workaround tasks
+  import_tasks: workarounds.yml
+
 - name: Do encrypted tasks
   include: vault.yml
 
@@ -10,12 +13,6 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version_compare('14.04', '<=')
-
-- name: Run tasks for Ubuntu >= 16.04
-  include: ubuntu-ge-1604.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('16.04', '>=')
 
 - name: Remove undesired packages
   apt:
