@@ -24,6 +24,7 @@
       clamscan -r -i
       --move=/home/{{ ansible_user_id }}/Desktop/infected
       --exclude-dir=^/dev/
+      --exclude-dir=/home/{{ ansible_user_id }}/.nvm/versions/node/v*/lib/node_modules/apiconnect
       --exclude-dir=/home/{{ ansible_user_id }}/Desktop/infected/
       --exclude-dir="/home/{{ ansible_user_id }}/VirtualBox VMs/Windows 7/"
       --exclude-dir=^/proc/
