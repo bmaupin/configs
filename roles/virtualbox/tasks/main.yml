@@ -37,6 +37,15 @@
         - ansible_distribution_version | version_compare('16.04', '>=')
       tags: [virtualbox]
 
+    - name: Install VirtualBox repository
+      apt_repository:
+        repo: "deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib"
+        state: present
+        filename: virtualbox
+        update_cache: yes
+      become: yes
+      tags: [virtualbox]
+
 - name: Install VirtualBox
   apt:
     name: "virtualbox-{{ virtualbox_version }}"
