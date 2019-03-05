@@ -1,4 +1,5 @@
 ---
 dependencies:
+  - deja-dup
   - redshift
   - ubuntu-xfce
