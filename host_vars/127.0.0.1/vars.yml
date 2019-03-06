@@ -1,5 +1,8 @@
 ---
 cups_server: "{{ vault_cups_server }}"
 cups_user: "{{ vault_cups_user }}"
+deja_dup_remote_location: "{{ vault_deja_dup_remote_location }}"
+deja_dup_remote_password: "{{ vault_deja_dup_remote_password }}"
+deja_dup_remote_user: "{{ vault_deja_dup_remote_user }}"
 firewall_add: "{{ vault_firewall_add }}"
 firewall_delete: "{{ vault_firewall_delete }}"

@@ -7,18 +7,28 @@
   become: yes
 
 # Ansible has a dconf module but it doesn't work in Ubuntu 14.04 because python-psutil is < 4.0
-- name: Configure frequency of full Deja Dup backups
+- name: Configure frequency of full backups
   shell: >
     dconf read /org/gnome/deja-dup/full-backup-period | grep 180 ||
     dconf write /org/gnome/deja-dup/full-backup-period 180
   register: result
   changed_when: result.stdout.find('180') == -1
 
-# Configure length of time to keep backups for since there's currently no way to limit by size
-# (https://bugs.launchpad.net/deja-dup/+bug/846852)
-- name: Configure length of time to keep Deja Dup backups
-  shell: >
-    dconf read /org/gnome/deja-dup/delete-after | grep 730 ||
-    dconf write /org/gnome/deja-dup/delete-after 730
-  register: result
-  changed_when: result.stdout.find('730') == -1
+# Deja Dup's /org/gnome/deja-dup/delete-after setting only deletes old backups when the drive runs out of space
+- name: Configure cron job to delete old backups
+  cron:
+    name: Delete old Deja Dup backups
+    special_time: monthly
+    user: root
+    job: >
+      /bin/mkdir -p /mnt/backup &&
+      /bin/mount -t cifs
+      -o username={{ deja_dup_remote_user }},password={{ deja_dup_remote_password }},uid=$(id -u {{ ansible_user_id }}),gid=$(id -g {{ ansible_user_id }})
+      {{ deja_dup_remote_location }}
+      /mnt/backup/ &&
+      /usr/bin/sudo -i -u {{ ansible_user_id }} /usr/bin/duplicity remove-older-than 18M --force file:///mnt/backup/;
+      /bin/sleep 5;
+      /bin/umount /mnt/backup &&
+      /bin/rmdir /mnt/backup
+    cron_file: delete-old-deja-dup-backups
+  become: yes
