@@ -2,10 +2,18 @@
 - name: Remove deprecated indicator packages
   apt:
     name:
+      # Replaced by xfce4-indicator-plugin
+      - indicator-applet-complete
       # https://bugs.launchpad.net/ubuntu/+source/xfce4-indicator-plugin/+bug/1801724
       - indicator-application
-      # https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733
+      # This seems to be handled by xfce4-power-manager-plugins
+      - indicator-power
+      - indicator-printers
+      # Replaced by xfce4-pulseaudio-plugin (https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733)
       - indicator-sound
+      # https://bugs.launchpad.net/ubuntu/+source/xfce4-indicator-plugin/+bug/1801724
+      - xfce4-indicator-plugin
+      # Replaced by xfce4-pulseaudio-plugin (https://bugs.launchpad.net/ubuntu/+source/xubuntu-meta/+bug/1781733)
       - xfce4-volumed
     state: absent
   become: yes
