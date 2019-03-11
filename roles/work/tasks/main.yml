@@ -74,6 +74,17 @@
   become: yes
   notify: Remove ~/.config/pulse
 
+- name: Get the power manager plugin ID
+  shell: xfconf-query -lv -c xfce4-panel | grep power-manager-plugin | awk '{print $1}'
+  register: power_manager_plugin_id
+  changed_when: no
+  check_mode: no
+
+- name: Remove the power manager plugin
+  shell: "xfconf-query -c xfce4-panel -p {{ power_manager_plugin_id.stdout }} -r"
+  notify: Restart Xfce panel
+  when: power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
+
 # https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to report polkitd memory usage
   cron:
