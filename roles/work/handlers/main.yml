@@ -15,3 +15,6 @@
   file:
     path: ~/.config/pulse
     state: absent
+
+- name: Restart Xfce panel
+  command: xfce4-panel -r
