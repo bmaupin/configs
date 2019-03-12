@@ -2,4 +2,5 @@
 dependencies:
   - thunderbird
   - ubuntu-xfce
+  - vagrant
   - virtualbox
