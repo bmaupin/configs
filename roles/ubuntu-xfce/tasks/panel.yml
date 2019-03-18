@@ -1,0 +1,29 @@
+---
+- name: Get the workspace switcher panel plugin ID
+  shell: xfconf-query -lv -c xfce4-panel | grep pager | awk '{print $1}'
+  register: workspace_switcher_plugin_id
+  changed_when: no
+  check_mode: no
+
+- name: Add the workspace switcher plugin to the panel
+  block:
+    - name: Get the list of panel plugin IDs
+      shell: xfconf-query -c xfce4-panel -p /panels/panel-0/plugin-ids | egrep '^[0-9]'
+      register: panel_plugin_ids
+      changed_when: no
+      check_mode: no
+
+    - name: Get the highest panel plugin ID
+      set_fact:
+        highest_panel_plugin_id: "{{ panel_plugin_ids.stdout_lines | map('int') | list | max }}"
+
+    - name: Add the workspace switcher plugin to the panel
+      shell: xfconf-query -c xfce4-panel -p /plugins/plugin-{{ (highest_panel_plugin_id | int) + 1 }} -n -s pager -t string
+      check_mode: no
+
+    - name: Add the workspace switcher plugin ID to the list of panel plugin ids
+      shell: "{{ panel_plugin_ids.stdout_lines.append((highest_panel_plugin_id | int) + 1) }}\
+        xfconf-query -c xfce4-panel -p /panels/panel-0/plugin-ids {{ panel_plugin_ids.stdout_lines | map('regex_replace', '(\\d+)', '-s \\1 -t int') | list | join(' ') }}"
+      notify: Restart Xfce panel
+      check_mode: no
+  when: (workspace_switcher_plugin_id is not defined) or (workspace_switcher_plugin_id.stdout == '')

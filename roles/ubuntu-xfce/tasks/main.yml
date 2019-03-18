@@ -1,4 +1,7 @@
 ---
+- name: Include tasks for configuring the panel
+  import_tasks: panel.yml
+
 - name: Include workaround tasks
   import_tasks: workarounds.yml
 
