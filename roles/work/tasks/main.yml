@@ -75,7 +75,9 @@
   check_mode: no
 
 - name: Remove the power manager plugin
+  # This removes the plugin from xfconf, but not the list of active plugins
   shell: "xfconf-query -c xfce4-panel -p {{ power_manager_plugin_id.stdout }} -r"
+  # Restarting the panel will also remove the plugin from the list of active plugins
   notify: Restart Xfce panel
   when: power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
 
