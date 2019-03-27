@@ -11,6 +11,7 @@
     "editor.rulers": [
         120
     ],
+    "extensions.ignoreRecommendations": true,
     "files.associations": {
         "*.conf.j2": "properties",
         "*.json.j2": "json",
