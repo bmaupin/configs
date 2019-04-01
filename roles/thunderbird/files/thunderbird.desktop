@@ -2,5 +2,6 @@
 Type=Application
 Name=Thunderbird Mail
 Icon=thunderbird
-Exec=env LC_ALL=fr_CA.utf8 thunderbird
+# If Thunderbird is opened while Xfce is still starting, the fonts are much larger than usual
+Exec=sh -c 'sleep 60; env LC_ALL=fr_CA.utf8 thunderbird'
 Terminal=false
