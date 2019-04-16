@@ -36,6 +36,7 @@
 - name: Install extensions
   shell: code --list-extensions | grep '{{ item }}' || code --install-extension '{{ item }}' > /dev/null
   with_items:
+    - bmaupin.copy-without-formatting
     - bmaupin.theme-solarized-dark-high-contrast
     - dbaeumer.vscode-eslint
     - shardulm94.trailing-spaces
