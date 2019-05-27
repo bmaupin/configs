@@ -44,3 +44,15 @@
     state: latest
   become: yes
   tags: [spotify]
+
+# https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
+- name: Make sure Spotify ads aren't blocked
+  lineinfile:
+    path: /etc/hosts
+    regexp: '^{{ item | regex_escape() }}'
+    line: "#{{ item }}"
+  loop:
+    - 0.0.0.0 pagead.l.doubleclick.net
+    - 0.0.0.0 spclient.wg.spotify.com
+  become: yes
+  tags: [spotify]
