@@ -14,6 +14,7 @@
     "extensions.ignoreRecommendations": true,
     "files.associations": {
         "*.conf.j2": "properties",
+        ".env*": "properties",
         "*.json.j2": "json",
         "*.properties.j2": "properties",
         "*.service": "properties",
