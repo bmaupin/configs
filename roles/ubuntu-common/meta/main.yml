@@ -1,8 +1,8 @@
 ---
 dependencies:
-  - docker
   - dropbox
   - git
   - golang
+  - podman
   - spotify
   - vscode
