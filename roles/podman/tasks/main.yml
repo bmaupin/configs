@@ -1,0 +1,33 @@
+---
+- name: Install PPA for Podman
+  apt_repository:
+    repo: ppa:projectatomic/ppa
+    update_cache: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+  tags: [podman]
+
+- name: Install Podman
+  apt:
+    name: podman
+    state: latest
+  become: yes
+  tags: [podman]
+
+# This matches the default behaviour of docker
+- name: Add docker.io to Podman registry search configuration
+  replace:
+    path: /etc/containers/registries.conf
+    regexp: "{{ '[registries.search]\nregistries = []' | regex_escape }}"
+    replace: "[registries.search]\nregistries = ['docker.io']"
+  become: yes
+  tags: [podman]
+
+- name: Create cron job to stop running containers
+  cron:
+    name: Stop running containers
+    minute: 5
+    hour: 17
+    job: "for container_id in $(podman container ls -q); do podman stop $container_id; done"
+  tags: [podman]
