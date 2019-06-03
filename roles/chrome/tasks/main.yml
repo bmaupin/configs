@@ -1,0 +1,30 @@
+---
+- name: Check if Chrome is installed
+  shell: dpkg -l google-chrome-stable
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+  tags: [chrome]
+
+- name: Install Google Chrome
+  apt:
+    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+  become: yes
+  when: result.rc is defined and result.rc != 0
+  tags: [chrome]
+
+- name: Copy Chrome .desktop file
+  copy:
+    src: /usr/share/applications/google-chrome.desktop
+    dest: ~/.local/share/applications/google-chrome.desktop
+    force: no
+  tags: [chrome]
+
+- name: Set Chrome language
+  replace:
+    path: ~/.local/share/applications/google-chrome.desktop
+    regexp: '^Exec=/usr/bin/google-chrome-stable'
+    replace: 'Exec=env LANGUAGE=fr /usr/bin/google-chrome-stable'
+    backup: yes
+  tags: [chrome]
