@@ -1,0 +1,25 @@
+---
+- name: Install necessary packages
+  apt:
+    name:
+      - firefox
+      - firefox-locale-fr
+      - language-pack-fr
+    state: present
+  become: yes
+  tags: [firefox]
+
+- name: Copy Firefox .desktop file
+  copy:
+    src: /usr/share/applications/firefox.desktop
+    dest: ~/.local/share/applications/firefox.desktop
+    force: no
+  tags: [firefox]
+
+- name: Set Firefox language
+  replace:
+    path: ~/.local/share/applications/firefox.desktop
+    regexp: '^Exec=.*firefox'
+    replace: 'Exec=env LC_ALL=fr_CA.utf8 firefox'
+    backup: yes
+  tags: [firefox]
