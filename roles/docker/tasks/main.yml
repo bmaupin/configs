@@ -61,6 +61,14 @@
   become: yes
   tags: [docker]
 
+- name: Don't change iptables rules
+  lineinfile:
+    path: /etc/default/docker
+    line: DOCKER_OPTS="--iptables=false"
+  become: yes
+  notify: Restart docker
+  tags: [docker]
+
 - name: Install Docker Compose
   get_url:
     url: https://github.com/docker/compose/releases/download/1.21.2/docker-compose-Linux-x86_64
