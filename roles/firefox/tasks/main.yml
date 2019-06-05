@@ -20,6 +20,6 @@
   replace:
     path: ~/.local/share/applications/firefox.desktop
     regexp: '^Exec=.*firefox'
-    replace: 'Exec=env LC_ALL=fr_CA.utf8 firefox'
+    replace: 'Exec=env LC_ALL=en_CA.utf8 firefox'
     backup: yes
   tags: [firefox]

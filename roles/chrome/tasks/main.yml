@@ -25,6 +25,6 @@
   replace:
     path: ~/.local/share/applications/google-chrome.desktop
     regexp: '^Exec=.*/usr/bin/google-chrome-stable'
-    replace: 'Exec=env LANGUAGE=en /usr/bin/google-chrome-stable'
+    replace: 'Exec=env LANGUAGE=fr /usr/bin/google-chrome-stable'
     backup: yes
   tags: [chrome]
