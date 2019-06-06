@@ -1,7 +1,10 @@
-[user]
-	name = bmaupin
-	email = bmaupin@users.noreply.github.com
 [color]
 	ui = auto
 [core]
 	autocrlf = input
+[includeIf "gitdir:~/Dropbox/Projects/"]
+    path = ~/workspace/personal/.gitconfig
+[includeIf "gitdir:~/workspace/personal/"]
+    path = ~/workspace/personal/.gitconfig
+[includeIf "gitdir:~/workspace/work/"]
+    path = ~/workspace/work/.gitconfig
