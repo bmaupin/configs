@@ -1,0 +1,14 @@
+---
+- name: Stop and disable Docker service
+  service:
+    name: docker.service
+    enabled: no
+    state: stopped
+  become: yes
+
+- name: Stop and disable Docker socket
+  service:
+    name: docker.socket
+    enabled: no
+    state: stopped
+  become: yes

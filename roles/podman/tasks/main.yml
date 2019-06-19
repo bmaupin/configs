@@ -1,4 +1,8 @@
 ---
+- name: Remove Docker
+  import_tasks: remove-docker.yml
+  tags: [podman]
+
 - name: Install PPA for Podman
   apt_repository:
     repo: ppa:projectatomic/ppa
