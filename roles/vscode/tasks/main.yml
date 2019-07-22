@@ -62,3 +62,12 @@
     regexp: '^export EDITOR=.*'
     line: "export EDITOR='code -w -n'"
   tags: [vscode]
+
+# This should be set up by the code package but every once in a while it seems to be missing
+- name: Set up /usr/bin/code symlink
+  file:
+    src: /usr/share/code/bin/code
+    dest: /usr/bin/code
+    state: link
+  become: yes
+  tags: [vscode]
