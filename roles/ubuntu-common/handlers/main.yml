@@ -1,4 +1,5 @@
 ---
+# TODO: Remove this once workaround task is removed
 - name: Rebuild font cache
   command: fc-cache -f -v
 
