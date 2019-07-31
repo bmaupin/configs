@@ -3,7 +3,7 @@ Name=Dropbox
 GenericName=File Synchronizer
 Comment=Sync your files across computers and to the web
 # Dropbox hijacks io when it's first starting up, even with renice. So wait a bit before starting it
-Exec=sh -c 'sleep 900; dbus-launch dropbox start -i && renice +19 $(pgrep dropbox)'
+Exec=sh -c 'sleep 300; dbus-launch dropbox start -i && renice +19 $(pgrep dropbox)'
 Terminal=false
 Type=Application
 Icon=dropbox
