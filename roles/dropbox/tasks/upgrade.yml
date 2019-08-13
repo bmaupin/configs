@@ -1,0 +1,19 @@
+- name: Stop Dropbox
+  shell: dropbox stop && sleep 60
+  check_mode: no
+
+- name: Download latest version of Dropbox
+  get_url:
+    url: https://www.dropbox.com/download?plat=lnx.x86_64
+    dest: /tmp
+  register: result
+
+- name: Extract latest version of Dropbox
+  unarchive:
+    # This will contain the full destination path of the dropbox archive including the filename
+    src: "{{ result.dest }}"
+    dest: "~"
+
+- name: Start Dropbox
+  shell: dbus-launch dropbox start -i && renice +19 $(pgrep dropbox)
+  check_mode: no
