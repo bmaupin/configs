@@ -30,6 +30,9 @@
     // This will disable the icons in the file explorer sidebar
     "workbench.iconTheme": null,
     "workbench.statusBar.feedback.visible": false,
+    "[css]": {
+        "editor.tabSize": 2
+    },
     "[html]": {
         "editor.tabSize": 2
     },
