@@ -87,7 +87,7 @@
 
 - name: Create cron job to stop running containers
   cron:
-    name: Stop running containers
+    name: Stop running docker containers
     minute: 5
     hour: 17
     job: "for container_id in $(docker container ls -aq); do docker container stop $container_id; done"
