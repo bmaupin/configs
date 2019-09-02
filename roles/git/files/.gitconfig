@@ -4,6 +4,8 @@
 	autocrlf = input
 [includeIf "gitdir:~/Dropbox/Projects/"]
     path = ~/workspace/personal/.gitconfig
+[includeIf "gitdir:~/go/src/"]
+    path = ~/workspace/personal/.gitconfig
 [includeIf "gitdir:~/workspace/personal/"]
     path = ~/workspace/personal/.gitconfig
 [includeIf "gitdir:~/workspace/work/"]
