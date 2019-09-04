@@ -28,9 +28,15 @@
   become: yes
   tags: [podman]
 
-- name: Create cron job to stop running containers
+- name: Remove old cron job
   cron:
     name: Stop running containers
+    state: absent
+  tags: [podman]
+
+- name: Create cron job to stop running podman containers
+  cron:
+    name: Stop running podman containers
     minute: 5
     hour: 17
     job: "for container_id in $(podman container ls -q); do podman stop $container_id; done"
