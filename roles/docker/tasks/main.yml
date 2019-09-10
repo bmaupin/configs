@@ -79,7 +79,7 @@
 
 - name: Create cron job to disable auto restart of containers
   cron:
-    name: Disable auto restart of containers
+    name: Disable auto restart of docker containers
     minute: 0
     hour: 17
     job: "for container_id in $(docker container ls -aq); do docker update --restart=no $container_id; done"
