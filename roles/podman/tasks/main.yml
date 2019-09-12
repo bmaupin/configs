@@ -1,6 +1,6 @@
 ---
-- name: Remove Docker
-  import_tasks: remove-docker.yml
+- name: Disable Docker
+  import_tasks: disable-docker.yml
   tags: [podman]
 
 - name: Install PPA for Podman
