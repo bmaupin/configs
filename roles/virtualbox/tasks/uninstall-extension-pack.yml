@@ -1,0 +1,14 @@
+---
+- name: Check if extension pack is installed
+  shell: vboxmanage list extpacks | grep "Oracle VM VirtualBox Extension Pack"
+  changed_when: no
+  check_mode: no
+  register: result
+  tags: [virtualbox]
+
+- name: Uninstall extension pack
+  shell: vboxmanage extpack uninstall --force "Oracle VM VirtualBox Extension Pack"
+  changed_when: no
+  check_mode: no
+  when: result.rc is defined and result.rc == 0
+  tags: [virtualbox]

@@ -52,3 +52,7 @@
     state: latest
   become: yes
   tags: [virtualbox]
+
+# The extension pack requires a paid license for anything other than personal or evaluation use
+- name: Make sure extension pack is uninstalled
+  import_tasks: uninstall-extension-pack.yml
