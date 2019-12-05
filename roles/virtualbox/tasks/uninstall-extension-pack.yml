@@ -3,6 +3,7 @@
   shell: vboxmanage list extpacks | grep "Oracle VM VirtualBox Extension Pack"
   changed_when: no
   check_mode: no
+  failed_when: no
   register: result
   tags: [virtualbox]
 
