@@ -12,3 +12,25 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version == "16.04"
+
+- name: Install packages for Ubuntu <= 14.04
+  apt:
+    name:
+      # Provides purge-old-kernels, used by Remove old kernels
+      - bikeshed
+      - icedtea-7-plugin
+      - openjdk-7-jdk
+    state: present
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version_compare('14.04', '<=')
+
+- name: Remove old kernels
+  command: purge-old-kernels -y
+  become: yes
+  register: result
+  changed_when: result.stdout.find('No kernels are eligible for removal') == -1
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version_compare('14.04', '<=')
