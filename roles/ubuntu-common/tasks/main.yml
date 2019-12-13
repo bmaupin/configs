@@ -8,12 +8,6 @@
 - name: Configure firewall
   include: ufw.yml
 
-- name: Run tasks for Ubuntu <= 14.04
-  include: ubuntu-le-1404.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('14.04', '<=')
-
 - name: Remove undesired packages
   apt:
     name:
