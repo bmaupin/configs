@@ -20,6 +20,7 @@
   notify: Restart Xfce panel
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
+# Note that this will only fix apps which use Gtk 3
 # https://bugs.launchpad.net/ubuntu/+source/shimmer-themes/+bug/881472
 # https://unix.stackexchange.com/a/247758/14436
 - name: Fix missing scrollbar arrow buttons with greybird theme
