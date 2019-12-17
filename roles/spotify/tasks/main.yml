@@ -46,6 +46,14 @@
   tags: [spotify]
 
 # https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
+# To see which domains are being blocked:
+# 1. Make a note of when Spotify was opened (in case it's doing DNS caching, it might only do DNS request once)
+# 2. Clear old logs
+#    sudo journalctl --vacuum-time=1d
+# 3. List all hosts that have been looked up that are blocked in /etc/hosts
+#    for hostname in $(sudo journalctl -u systemd-resolved | grep "Looking up RR" | awk '{print $10}' | sort -u); do grep "\s$hostname$" /etc/hosts | egrep -v '^#'; done
+# 4. See when that host was actually blocked
+#    sudo journalctl -u systemd-resolved | grep hostname
 - name: Make sure Spotify ads aren't blocked
   lineinfile:
     path: /etc/hosts
