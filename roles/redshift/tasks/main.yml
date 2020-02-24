@@ -7,8 +7,8 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('16.04', '>=')
-    - ansible_distribution_version is version_compare('18.04', '<=')
+    - ansible_distribution_version is version('16.04', '>=')
+    - ansible_distribution_version is version('18.04', '<=')
   tags: [redshift]
 
 - name: Install Redshift for Ubuntu >= 16.04
@@ -18,7 +18,7 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('16.04', '>=')
+    - ansible_distribution_version is version('16.04', '>=')
   tags: [redshift]
 
 - name: Configure Redshift to autostart

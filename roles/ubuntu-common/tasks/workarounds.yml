@@ -24,7 +24,7 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('14.04', '<=')
+    - ansible_distribution_version is version('14.04', '<=')
 
 - name: Remove old kernels
   command: purge-old-kernels -y
@@ -33,4 +33,4 @@
   changed_when: result.stdout.find('No kernels are eligible for removal') == -1
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version_compare('14.04', '<=')
+    - ansible_distribution_version is version('14.04', '<=')
