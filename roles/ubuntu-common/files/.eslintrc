@@ -15,7 +15,10 @@
     "max-len": [
       "error",
       120,
-      { "ignoreUrls": true }
+      {
+        "ignoreStrings": true,
+        "ignoreUrls": true
+      }
     ],
     "quotes": [
       "error",
