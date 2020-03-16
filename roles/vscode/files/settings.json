@@ -1,5 +1,6 @@
 {
     "editor.fontSize": 15,
+    "editor.formatOnSave": true,
     // Detected links get underlined which is quite distracting
     "editor.links": false,
     "editor.quickSuggestions": {
@@ -22,6 +23,7 @@
         "*.sh.j2": "shellscript",
         "*.xml.j2": "xml"
     },
+    "prettier.requireConfig": true,
     "trailing-spaces.deleteModifiedLinesOnly": true,
     "trailing-spaces.highlightCurrentLine": false,
     "trailing-spaces.trimOnSave": true,
