@@ -50,3 +50,15 @@
     replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash noapic"'
   become: yes
   notify: Update grub
+
+- name: Disable Docker service
+  service:
+    name: docker.service
+    enabled: no
+  become: yes
+
+- name: Disable Docker socket
+  service:
+    name: docker.socket
+    enabled: no
+  become: yes
