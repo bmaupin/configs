@@ -1,8 +1,4 @@
 ---
-- name: Disable Docker
-  import_tasks: disable-docker.yml
-  tags: [podman]
-
 - name: Install PPA for Podman
   apt_repository:
     repo: ppa:projectatomic/ppa

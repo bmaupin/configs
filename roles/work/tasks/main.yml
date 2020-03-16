@@ -87,3 +87,15 @@
     name: Report polkitd memory usage
     special_time: daily
     job: /bin/bash -c 'if [ $(ps aux | grep -v grep | grep polkitd | awk "{print \$6}") -gt 100000 ]; then ps aux | grep -v grep | grep polkitd > ~/Desktop/polkitd-$(date +\%Y\%m\%d).txt; fi'
+
+- name: Enable Docker service
+  service:
+    name: docker.service
+    enabled: yes
+  become: yes
+
+- name: Enable Docker socket
+  service:
+    name: docker.socket
+    enabled: yes
+  become: yes
