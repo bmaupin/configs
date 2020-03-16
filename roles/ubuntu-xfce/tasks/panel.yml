@@ -1,4 +1,5 @@
 ---
+# We can't use the xfconf module here because it doesn't support arrays (https://docs.ansible.com/ansible/latest/modules/xfconf_module.html)
 - name: Get the workspace switcher panel plugin ID
   shell: xfconf-query -lv -c xfce4-panel | grep pager | awk '{print $1}'
   register: workspace_switcher_plugin_id
