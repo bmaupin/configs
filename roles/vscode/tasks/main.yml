@@ -39,6 +39,7 @@
     - bmaupin.copy-without-formatting
     - bmaupin.theme-solarized-dark-high-contrast
     - dbaeumer.vscode-eslint
+    - esbenp.prettier-vscode
     - shardulm94.trailing-spaces
   register: result
   changed_when: result.stdout.find(item) == -1
