@@ -1,6 +1,12 @@
 ---
 dependencies:
+  - chrome
   - deja-dup
+  - docker
+  - dropbox
+  - firefox
+  - git
   - redshift
+  - spotify
   - ubuntu-xfce
-  - virtualbox
+  - vscode

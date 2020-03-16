@@ -1,5 +1,12 @@
 ---
 dependencies:
+  - chrome
+  - docker
+  - dropbox
+  - firefox
+  - git
+  - spotify
   - ubuntu-xfce
   - vagrant
   - virtualbox
+  - vscode
