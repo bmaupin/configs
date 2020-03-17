@@ -1,47 +1,15 @@
 ---
-- block:
-    - name: Install Spotify repository
-      apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        state: present
-        filename: spotify
-        update_cache: yes
-      become: yes
-      tags: [spotify]
-
-  rescue:
-    # TODO: This doesn't actually seem to do anything...
-    - name: Clean up old Spotify GPG keys
-      apt_key:
-        id: "{{ item }}"
-        state: absent
-      with_items:
-        - 0DF731E45CE24F27EEEB1450EFDC8610341D9410
-      become: yes
-      tags: [spotify]
-
-    - name: Install Spotify GPG key
-      apt_key:
-        keyserver: hkp://keyserver.ubuntu.com:80
-        id: 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
-        state: present
-      become: yes
-      tags: [spotify]
-
-    - name: Install Spotify repository
-      apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        state: present
-        filename: spotify
-        update_cache: yes
-      become: yes
-      tags: [spotify]
-
-# TODO: install Spotify using snap once snap support is added to ansible (https://www.spotify.com/us/download/linux/)
 - name: Install Spotify
+  snap:
+    name: spotify
+  become: yes
+  tags: [spotify]
+
+# This is the old package used for installing Spotify before snap support
+- name: Uninstall spotify-client
   apt:
     name: spotify-client
-    state: latest
+    state: absent
   become: yes
   tags: [spotify]
 
