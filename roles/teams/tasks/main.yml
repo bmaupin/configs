@@ -1,0 +1,15 @@
+---
+- name: Check if Teams is installed
+  shell: dpkg -l teams
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+  tags: [teams]
+
+- name: Install Teams
+  apt:
+    deb: https://teams.microsoft.com/downloads/desktopurl?env=production&plat=linux&arch=x64&download=true&linuxArchiveType=deb
+  become: yes
+  when: result.rc is defined and result.rc != 0
+  tags: [teams]
