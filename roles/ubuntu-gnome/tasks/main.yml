@@ -58,14 +58,20 @@
     value: "false"
   tags: [ubuntu-gnome]
 
-- name: Set screen inctivity timeout
+- name: Set screen inactivity timeout
   dconf:
     key: /org/gnome/desktop/session/idle-delay
     value: "900"
   tags: [ubuntu-gnome]
 
+- name: Show minimize button
+  dconf:
+    key: /org/gnome/desktop/wm/preferences/button-layout
+    value: "'appmenu:minimize,close'"
+  tags: [ubuntu-gnome]
+
 - name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
-    value: "['system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
+    value: "['system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com', 'ubuntu-dock@ubuntu.com']"
   tags: [ubuntu-gnome]
