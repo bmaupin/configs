@@ -6,10 +6,24 @@
   become: yes
   tags: [git]
 
-- name: Copy .gitconfig
+- name: Copy global .gitconfig
   copy:
     src: .gitconfig
     dest: ~/.gitconfig
+    backup: yes
+  tags: [git]
+
+- name: Make sure ~/workspace/personal exists
+  file:
+    path: ~/workspace/personal
+    state: directory
+    recurse: yes
+  tags: [git]
+
+- name: Copy personal .gitconfig
+  copy:
+    src: personal/.gitconfig
+    dest: ~/workspace/personal/.gitconfig
     backup: yes
   tags: [git]
 
