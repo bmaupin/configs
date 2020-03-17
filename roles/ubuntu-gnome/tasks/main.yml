@@ -6,7 +6,7 @@
   become: yes
   tags: [ubuntu-gnome]
 
-- name: Install Pop!_OS theme
+- name: Install Pop!_OS packages
   apt:
     name:
       - pop-session
@@ -15,4 +15,57 @@
     state: present
   become: yes
   notify: Restart Gnome Shell
+  tags: [ubuntu-gnome]
+
+- name: Install Gnome Shell system monitor extension
+  apt:
+    name: gnome-shell-extension-system-monitor
+    state: present
+  become: yes
+  tags: [ubuntu-gnome]
+
+# This is a prerequisite for the ansible dconf module
+- name: Install python-psutil
+  apt:
+    name: python-psutil
+    state: present
+  become: yes
+  tags: [ubuntu-gnome]
+
+- name: Configure Gnome Shell system monitor extension
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - { key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/cpu-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-display, value: "true" }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/icon-display, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/memory-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/memory-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/net-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/net-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-display, value: "true" }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-show-text, value: "false" }
+  tags: [ubuntu-gnome]
+
+- name: Disable animations
+  dconf:
+    key: /org/gnome/desktop/interface/enable-animations
+    value: "false"
+  tags: [ubuntu-gnome]
+
+- name: Set screen inctivity timeout
+  dconf:
+    key: /org/gnome/desktop/session/idle-delay
+    value: "900"
+  tags: [ubuntu-gnome]
+
+- name: Set enabled extensions
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: "['system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com']"
   tags: [ubuntu-gnome]
