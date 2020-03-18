@@ -1,4 +1,12 @@
 ---
+# This is a prerequisite for the ansible dconf module
+- name: Install python-psutil
+  apt:
+    name: python-psutil
+    state: present
+  become: yes
+  tags: [ubuntu-gnome]
+
 - name: Install Pop!_OS repository
   apt_repository:
     repo: ppa:system76/pop
@@ -9,6 +17,7 @@
 - name: Install Pop!_OS packages
   apt:
     name:
+      - pop-session
       - pop-theme
       - pop-wallpapers
     state: present
@@ -57,6 +66,16 @@
     value: "false"
   tags: [ubuntu-gnome]
 
+- name: Set clock format
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - { key: /org.gnome.desktop.interface/clock-format, value: "'24h'" }
+    - { key: /org/gnome/desktop/interface/clock-show-date, value: "false" }
+    - { key: /org/gtk/Settings/FileChooser/clock-format, value: "'24h'" }
+  tags: [ubuntu-gnome]
+
 - name: Set screen inactivity timeout
   dconf:
     key: /org/gnome/desktop/session/idle-delay
@@ -95,5 +114,14 @@
 - name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
-    value: "['system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com', 'ubuntu-dock@ubuntu.com']"
+    value: "['donotdisturb@kylecorry31.github.io', 'system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com', 'ubuntu-dock@ubuntu.com']"
+  tags: [ubuntu-gnome]
+
+# https://askubuntu.com/q/1032624/18665
+- name: Fix lock screen bug
+  lineinfile:
+    path: /etc/sysctl.conf
+    regexp: '^fs.inotify.max_user_watches=.*'
+    line: fs.inotify.max_user_watches=1048576
+  become: yes
   tags: [ubuntu-gnome]
