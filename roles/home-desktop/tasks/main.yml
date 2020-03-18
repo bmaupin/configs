@@ -1,0 +1,8 @@
+---
+# https://bugs.launchpad.net/ubuntu/+source/linux-oem-osp1/+bug/1864061
+- name: Fix audio
+  lineinfile:
+    path: /etc/modprobe.d/alsa-base.conf
+    line: options snd-hda-intel dmic_detect=0
+  become: yes
+  tags: [home-desktop]
