@@ -5,6 +5,7 @@
       - deja-dup
     state: present
   become: yes
+  tags: [deja-dup]
 
 # Ansible has a dconf module but it doesn't work in Ubuntu 14.04 because python-psutil is < 4.0
 - name: Configure frequency of full backups
@@ -13,6 +14,7 @@
     dconf write /org/gnome/deja-dup/full-backup-period 180
   register: result
   changed_when: result.stdout.find('180') == -1
+  tags: [deja-dup]
 
 # Deja Dup's /org/gnome/deja-dup/delete-after setting only deletes old backups when the drive runs out of space
 - name: Configure cron job to delete old backups
@@ -32,3 +34,4 @@
       /bin/rmdir /mnt/backup
     cron_file: delete-old-deja-dup-backups
   become: yes
+  tags: [deja-dup]
