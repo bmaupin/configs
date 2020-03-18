@@ -7,6 +7,13 @@
   register: result
   tags: [dropbox]
 
+- name: Install dependencies
+  apt:
+    name: python-gpg
+    state: present
+  become: yes
+  tags: [dropbox]
+
 - name: Install Dropbox
   apt:
     deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2018.11.28_amd64.deb
