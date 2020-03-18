@@ -1,0 +1,20 @@
+---
+- name: Install Terminator
+  apt:
+    name: terminator
+    state: present
+  become: yes
+  tags: [terminator]
+
+- name: Make sure ~/.config/terminator exists
+  file:
+    path: ~/.config/terminator
+    state: directory
+    recurse: yes
+  tags: [terminator]
+
+- name: Copy Terminator config
+  copy:
+    src: config
+    dest: ~/.config/terminator/config
+  tags: [terminator]
