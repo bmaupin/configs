@@ -8,5 +8,6 @@ dependencies:
   - git
   - redshift
   - spotify
+  - terminator
   - ubuntu-xfce
   - vscode
