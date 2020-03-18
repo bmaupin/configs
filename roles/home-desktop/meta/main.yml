@@ -1,0 +1,9 @@
+---
+dependencies:
+  - chrome
+  #- dropbox
+  - git
+  - spotify
+  - teams
+  - ubuntu-gnome
+  - vscode
