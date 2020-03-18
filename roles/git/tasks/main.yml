@@ -27,6 +27,20 @@
     backup: yes
   tags: [git]
 
+- name: Make sure ~/workspace/work exists
+  file:
+    path: ~/workspace/work
+    state: directory
+    recurse: yes
+  tags: [git]
+
+- name: Copy work .gitconfig
+  copy:
+    src: work/.gitconfig
+    dest: ~/workspace/work/.gitconfig
+    backup: yes
+  tags: [git]
+
 # Git will fall back to core.editor in .gitconfig, then VISUAL, then EDITOR, so this isn't necessary
 - name: Unset default git editor
   lineinfile:
