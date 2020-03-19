@@ -17,6 +17,8 @@
 - name: Install Pop!_OS packages
   apt:
     name:
+      - gnome-shell-extension-do-not-disturb
+      - gnome-shell-extension-pop-suspend-button
       - pop-session
       - pop-theme
       - pop-wallpapers
@@ -142,7 +144,13 @@
 - name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
-    value: "['donotdisturb@kylecorry31.github.io', 'system-monitor@paradoxxx.zero.gmail.com', 'ubuntu-appindicators@ubuntu.com', 'ubuntu-dock@ubuntu.com']"
+    value: "[\
+        'donotdisturb@kylecorry31.github.io',
+        'pop-suspend-button@system76.com',
+        'system-monitor@paradoxxx.zero.gmail.com',
+        'ubuntu-appindicators@ubuntu.com',
+        'ubuntu-dock@ubuntu.com'\
+      ]"
   tags: [ubuntu-gnome]
 
 # https://askubuntu.com/q/1032624/18665
