@@ -22,13 +22,10 @@
   apt:
     name:
       - apt-file
-      - indicator-multiload
       - language-pack-fr
       - mpv
       - pidgin
       - pidgin-sipe
-      # Required for Ansible dconf module
-      - python-psutil
       - python3
       - remmina
       - shotwell
@@ -69,21 +66,6 @@
   become: yes
   register: result
   changed_when: result.stdout.find(' 0 to remove') == -1
-
-- name: Configure indicator-multiload
-  shell: >
-    dconf read '{{ item.property }}' | grep '{{ item.value }}' ||
-    dconf write '{{ item.property }}' '{{ item.value }}'
-  with_items:
-    - { property: "/de/mh21/indicator-multiload/general/autostart", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/load/enabled", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/cpu/enabled", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/disk/enabled", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/net/enabled", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/swap/enabled", value: "true" }
-    - { property: "/de/mh21/indicator-multiload/graphs/mem/enabled", value: "true" }
-  register: result
-  changed_when: result.stdout.find(item.value) == -1
 
 - name: Copy .eslintrc
   copy:
