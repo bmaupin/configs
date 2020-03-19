@@ -55,19 +55,6 @@
     dest: ~/.vimrc
     backup: yes
 
-# TODO: remove this once it's been run everywhere
-# Clean up from this issue: https://askubuntu.com/a/983192/18665
-- name: Remove workaround fonts
-  file:
-    state: absent
-    path: "{{ item }}"
-  loop:
-    - ~/.fonts/symbol.ttf
-    - ~/.fonts/symbol_msfontservice.ttf
-    - ~/.fonts/wingding.ttf
-    - ~/.fonts/wingdings_msfontservice.ttf
-  notify: Rebuild font cache
-
 - name: Default to Python 3 for future-proofing
   lineinfile:
     path: ~/.bashrc
