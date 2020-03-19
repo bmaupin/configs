@@ -1,0 +1,21 @@
+- name: Install LibreOffice
+  apt:
+    name:
+      - language-pack-fr
+      - libreoffice-calc
+      - libreoffice-impress
+      - libreoffice-writer
+    state: present
+  become: yes
+  tags: [libreoffice]
+
+- name: Install LibreOffice French support
+  apt:
+    name:
+      - hyphen-fr
+      - libreoffice-l10n-fr
+      - myspell-fr
+      - mythes-fr
+    state: present
+  become: yes
+  tags: [libreoffice]

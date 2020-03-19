@@ -24,9 +24,6 @@
       - apt-file
       - indicator-multiload
       - language-pack-fr
-      - libreoffice-calc
-      - libreoffice-impress
-      - libreoffice-writer
       - mpv
       - pidgin
       - pidgin-sipe
@@ -36,16 +33,6 @@
       - remmina
       - shotwell
       - vim
-    state: present
-  become: yes
-
-- name: Install LibreOffice French support
-  apt:
-    name:
-      - hyphen-fr
-      - libreoffice-l10n-fr
-      - myspell-fr
-      - mythes-fr
     state: present
   become: yes
 
