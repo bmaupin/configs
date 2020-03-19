@@ -3,6 +3,7 @@ dependencies:
   - chrome
   - dropbox
   - git
+  - libreoffice
   - spotify
   - teams
   - terminator
