@@ -21,14 +21,10 @@
 - name: Install desired packages
   apt:
     name:
-      - apt-file
-      - language-pack-fr
       - mpv
       - pidgin
       - pidgin-sipe
       - python3
-      - remmina
-      - shotwell
       - vim
     state: present
   become: yes
