@@ -22,8 +22,6 @@
   apt:
     name:
       - mpv
-      - pidgin
-      - pidgin-sipe
       - python3
       - vim
     state: present

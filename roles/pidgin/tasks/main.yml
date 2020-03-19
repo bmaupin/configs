@@ -1,0 +1,16 @@
+---
+- name: Install Pidgin
+  apt:
+    name:
+      - pidgin
+      - pidgin-sipe
+    state: present
+  become: yes
+
+# http://repo.or.cz/w/siplcs.git/blob/HEAD:/src/core/sipe-ft.c
+- name: Open firewall ports for pidgin-sipe outgoing file transfers
+  ufw:
+    rule: allow
+    port: 6891:6901
+    proto: tcp
+  become: yes
