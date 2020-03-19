@@ -24,12 +24,6 @@
   become: yes
   notify: Restart fail2ban
 
-- name: Set Pidgin to autostart
-  file:
-    src: /usr/share/applications/pidgin.desktop
-    dest: ~/.config/autostart/pidgin.desktop
-    state: link
-
 - name: Configure cups server
   lineinfile:
     path: /etc/cups/cups-browsed.conf
