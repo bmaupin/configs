@@ -30,6 +30,20 @@
     force: no
   when: ansible_distribution == "Ubuntu" and ansible_distribution_version == "18.04"
 
+# Ansible has a dconf module but it doesn't work in Ubuntu 16.04 because python-psutil is < 4.0
+# For some reason this keeps getting set to 1 and it resets the indicator display to default
+# http://askubuntu.com/a/858069/18665
+# https://bugs.launchpad.net/ubuntu/+source/indicator-multiload/+bug/1740751
+- name: Reset indicator-multiload indicator-expression-index
+  shell: >
+    dconf read /de/mh21/indicator-multiload/general/indicator-expression-index | grep '' &&
+    dconf reset /de/mh21/indicator-multiload/general/indicator-expression-index || true
+  register: result
+  changed_when: result.stdout != ''
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version == "16.04"
+
 # https://bugs.launchpad.net/ubuntu/+source/console-setup/+bug/1612951
 - name: Work around bug with /etc/default/keyboard
   lineinfile:
