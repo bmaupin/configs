@@ -1,7 +1,9 @@
 ---
 dependencies:
   - chrome
-  - docker
+  - role: docker
+    vars:
+      docker_enable_service: yes
   - dropbox
   - firefox
   - git

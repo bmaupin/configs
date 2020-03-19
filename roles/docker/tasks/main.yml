@@ -61,6 +61,7 @@
   become: yes
   tags: [docker]
 
+# TODO: Based on the comment at the top of this file, I don't think it applies to docker in systemd
 - name: Don't change iptables rules
   lineinfile:
     path: /etc/default/docker
@@ -80,15 +81,29 @@
 - name: Create cron job to disable auto restart of containers
   cron:
     name: Disable auto restart of docker containers
-    minute: 0
-    hour: 17
+    minute: "0"
+    hour: "17"
     job: "for container_id in $(docker container ls -aq); do docker update --restart=no $container_id; done"
   tags: [docker]
 
 - name: Create cron job to stop running containers
   cron:
     name: Stop running docker containers
-    minute: 5
-    hour: 17
+    minute: "5"
+    hour: "17"
     job: "for container_id in $(docker container ls -aq); do docker container stop $container_id; done"
+  tags: [docker]
+
+- name: Configure Docker service
+  service:
+    name: docker.service
+    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+  become: yes
+  tags: [docker]
+
+- name: Configure Docker socket
+  service:
+    name: docker.socket
+    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+  become: yes
   tags: [docker]
