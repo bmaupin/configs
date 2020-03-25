@@ -16,4 +16,4 @@
     foreground_color = "#93a1a1"
     background_color = "#002b36"
     cursor_color = "#93a1a1"
-    scrollback_lines = 2000
+    scrollback_lines = 5000
