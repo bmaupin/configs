@@ -89,6 +89,9 @@
     - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-left, value: "['<Control><Alt>Left', '<Super>Left']" }
     - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-right, value: "['<Control><Alt>Right', '<Super>Right']" }
     - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up, value: "['<Control><Alt>Up', '<Super>Up']" }
+    # TODO: For now, use the Xfce shortcut to lock the screen in Gnome. If we switch completely to Gnome it might be best to revert this
+    - { key: /org/gnome/settings-daemon/plugins/media-keys/logout, value: "''" }
+    - { key: /org/gnome/settings-daemon/plugins/media-keys/screensaver, value: "'<Primary><Alt>Delete'" }
   tags: [ubuntu-gnome]
 
 - name: Show minimize button
