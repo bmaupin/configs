@@ -65,7 +65,7 @@
     key: "{{ item.key }}"
     value: "{{ item.value }}"
   loop:
-    - { key: /org.gnome.desktop.interface/clock-format, value: "'24h'" }
+    - { key: /org/gnome/desktop/interface/clock-format, value: "'24h'" }
     - { key: /org/gnome/desktop/interface/clock-show-date, value: "false" }
     - { key: /org/gtk/Settings/FileChooser/clock-format, value: "'24h'" }
   tags: [ubuntu-gnome]
