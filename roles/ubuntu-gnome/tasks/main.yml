@@ -9,9 +9,11 @@
 - name: Install desired packages
   apt:
     name:
+      - gnome-shell-extension-appindicator
       - gnome-shell-extension-do-not-disturb
       - gnome-shell-extension-pop-suspend-button
       - gnome-shell-extension-system-monitor
+      - gnome-shell-extension-ubuntu-dock
       - pop-session
       - pop-theme
       - pop-wallpapers
