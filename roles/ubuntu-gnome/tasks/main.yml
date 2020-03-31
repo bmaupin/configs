@@ -1,12 +1,4 @@
 ---
-# This is a prerequisite for the ansible dconf module
-- name: Install python-psutil
-  apt:
-    name: python-psutil
-    state: present
-  become: yes
-  tags: [ubuntu-gnome]
-
 - name: Install Pop!_OS repository
   apt_repository:
     repo: ppa:system76/pop
@@ -14,44 +6,20 @@
   become: yes
   tags: [ubuntu-gnome]
 
-- name: Install Pop!_OS packages
+- name: Install desired packages
   apt:
     name:
       - gnome-shell-extension-do-not-disturb
       - gnome-shell-extension-pop-suspend-button
+      - gnome-shell-extension-system-monitor
       - pop-session
       - pop-theme
       - pop-wallpapers
+      # This is a prerequisite for the ansible dconf module
+      - python-psutil
     state: present
   become: yes
   notify: Restart Gnome Shell
-  tags: [ubuntu-gnome]
-
-- name: Install Gnome Shell system monitor extension
-  apt:
-    name: gnome-shell-extension-system-monitor
-    state: present
-  become: yes
-  tags: [ubuntu-gnome]
-
-- name: Configure Gnome Shell system monitor extension
-  dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
-  loop:
-    - { key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/cpu-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-display, value: "true" }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/icon-display, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/memory-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/memory-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/net-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/net-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-display, value: "true" }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-show-text, value: "false" }
   tags: [ubuntu-gnome]
 
 - name: Set compose key
@@ -135,6 +103,18 @@
     - { key: /org/gnome/settings-daemon/plugins/color/night-light-enabled, value: "true" }
   tags: [ubuntu-gnome]
 
+- name: Set enabled extensions
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: "[\
+        'donotdisturb@kylecorry31.github.io',
+        'pop-suspend-button@system76.com',
+        'system-monitor@paradoxxx.zero.gmail.com',
+        'ubuntu-appindicators@ubuntu.com',
+        'ubuntu-dock@ubuntu.com'\
+      ]"
+  tags: [ubuntu-gnome]
+
 - name: Make dock non-transparent
   dconf:
     key: "{{ item.key }}"
@@ -150,16 +130,24 @@
     value: "true"
   tags: [ubuntu-gnome]
 
-- name: Set enabled extensions
+- name: Configure Gnome Shell system monitor extension
   dconf:
-    key: /org/gnome/shell/enabled-extensions
-    value: "[\
-        'donotdisturb@kylecorry31.github.io',
-        'pop-suspend-button@system76.com',
-        'system-monitor@paradoxxx.zero.gmail.com',
-        'ubuntu-appindicators@ubuntu.com',
-        'ubuntu-dock@ubuntu.com'\
-      ]"
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    - { key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/cpu-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-display, value: "true" }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/disk-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/icon-display, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/memory-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/memory-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/net-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/net-show-text, value: "false" }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-display, value: "true" }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-graph-width, value: 50 }
+    - { key: /org/gnome/shell/extensions/system-monitor/swap-show-text, value: "false" }
   tags: [ubuntu-gnome]
 
 # https://askubuntu.com/q/1032624/18665
