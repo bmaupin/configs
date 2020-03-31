@@ -54,6 +54,12 @@
     - { key: /org/gnome/shell/extensions/system-monitor/swap-show-text, value: "false" }
   tags: [ubuntu-gnome]
 
+- name: Set compose key
+  dconf:
+    key: /org/gnome/desktop/input-sources/xkb-options
+    value: "['compose:ralt']"
+  tags: [ubuntu-gnome]
+
 - name: Disable animations
   dconf:
     key: /org/gnome/desktop/interface/enable-animations
