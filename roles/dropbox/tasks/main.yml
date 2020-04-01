@@ -21,34 +21,55 @@
   when: result.rc is defined and result.rc != 0
   tags: [dropbox]
 
-- name: Disable broken Dropbox autostart
+- name: Disable default autostart
   shell: dropbox autostart n
   args:
     removes: ~/.config/autostart/dropbox.desktop
   tags: [dropbox]
 
-- name: Copy fixed Dropbox autostart
+- name: Clean up old custom autostart files
+  file:
+    path: "{{ item }}"
+    state: absent
+  loop:
+    - ~/.config/autostart/dropbox-delayed.desktop
+    - ~/.config/autostart/dropbox-fixed.desktop
+  tags: [dropbox]
+
+# We have to use a custom desktop file because the default one (dropbox.desktop) is managed by the Dropbox app and will
+# be deleted or overwritten
+- name: Copy custom autostart file
   copy:
-    src: dropbox-fixed.desktop
-    dest: ~/.config/autostart
+    src: /usr/share/applications/dropbox.desktop
+    dest: ~/.config/autostart/dropbox-custom.desktop
+    force: no
   tags: [dropbox]
 
-- name: Get installed version of Dropbox
-  set_fact:
-    dropbox_installed_version: "{{ lookup('file', '~/.dropbox-dist/VERSION') }}"
+  # Dropbox hijacks io when it's first starting up, even with renice. So wait a bit before starting it
+- name: Wait a bit before automatically starting Dropbox
+  replace:
+    path: ~/.config/autostart/dropbox-custom.desktop
+    regexp: '^Exec=.*'
+    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 5 && renice +19 $(pgrep dropbox)'"
   tags: [dropbox]
 
-- name: Get latest version of Dropbox
-  uri:
-    url: https://www.dropbox.com/download?plat=lnx.x86_64
-    # Don't download the file just yet
-    method: HEAD
-  register: response
-  tags: [dropbox]
+# TODO: is this still needed?
+# - name: Get installed version of Dropbox
+#   set_fact:
+#     dropbox_installed_version: "{{ lookup('file', '~/.dropbox-dist/VERSION') }}"
+#   tags: [dropbox]
 
-# Dropbox doesn't seem to always be able to upgrade itself
-# https://www.dropboxforum.com/t5/Installs-integrations/Stuck-on-quot-upgrading-dropbox-quot/td-p/284217
-- name: Upgrade Dropbox
-  import_tasks: upgrade.yml
-  when: response.url | basename != 'dropbox-lnx.x86_64-' ~ dropbox_installed_version ~ '.tar.gz'
-  tags: [dropbox]
+# - name: Get latest version of Dropbox
+#   uri:
+#     url: https://www.dropbox.com/download?plat=lnx.x86_64
+#     # Don't download the file just yet
+#     method: HEAD
+#   register: response
+#   tags: [dropbox]
+
+# # Dropbox doesn't seem to always be able to upgrade itself
+# # https://www.dropboxforum.com/t5/Installs-integrations/Stuck-on-quot-upgrading-dropbox-quot/td-p/284217
+# - name: Upgrade Dropbox
+#   import_tasks: upgrade.yml
+#   when: response.url | basename != 'dropbox-lnx.x86_64-' ~ dropbox_installed_version ~ '.tar.gz'
+#   tags: [dropbox]
