@@ -50,7 +50,7 @@
   replace:
     path: ~/.config/autostart/dropbox-custom.desktop
     regexp: '^Exec=.*'
-    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 5 && renice +19 $(pgrep dropbox)'"
+    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 10 && renice +19 $(pgrep dropbox)'"
   tags: [dropbox]
 
 # TODO: is this still needed?
