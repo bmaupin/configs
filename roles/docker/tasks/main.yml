@@ -53,6 +53,7 @@
   tags: [docker]
 
 # This allows running docker commands without sudo
+# Run su - $USER to make it take effect immediately (https://superuser.com/a/354475/93066)
 - name: Add user to docker group
   user:
     name: "{{ ansible_user_id }}"
@@ -61,11 +62,10 @@
   become: yes
   tags: [docker]
 
-# TODO: Based on the comment at the top of this file, I don't think it applies to docker in systemd
-- name: Don't change iptables rules
-  lineinfile:
-    path: /etc/default/docker
-    line: DOCKER_OPTS="--iptables=false"
+- name: Disable iptables integration
+  copy:
+    src: daemon.json
+    dest: /etc/docker/daemon.json
   become: yes
   notify: Restart docker
   tags: [docker]
