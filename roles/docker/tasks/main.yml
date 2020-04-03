@@ -94,14 +94,21 @@
     job: "for container_id in $(docker container ls -aq); do docker container stop $container_id; done"
   tags: [docker]
 
-- name: Configure Docker service
+- name: Configure containerd service
+  service:
+    name: containerd.service
+    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+  become: yes
+  tags: [docker]
+
+- name: Configure docker service
   service:
     name: docker.service
     enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
   become: yes
   tags: [docker]
 
-- name: Configure Docker socket
+- name: Configure docker socket
   service:
     name: docker.socket
     enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
