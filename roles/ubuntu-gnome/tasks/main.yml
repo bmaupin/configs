@@ -11,6 +11,7 @@
     name:
       - gnome-shell-extension-appindicator
       - gnome-shell-extension-do-not-disturb
+      - gnome-shell-extension-pop-battery-icon-fix
       - gnome-shell-extension-pop-suspend-button
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
@@ -109,6 +110,7 @@
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: "[\
+        'batteryiconfix@kylecorry31.github.io',
         'donotdisturb@kylecorry31.github.io',
         'pop-suspend-button@system76.com',
         'system-monitor@paradoxxx.zero.gmail.com',
