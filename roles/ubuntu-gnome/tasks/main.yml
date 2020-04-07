@@ -6,15 +6,72 @@
   become: yes
   tags: [ubuntu-gnome]
 
+- name: Remove undesired apps from autostart
+  file:
+    path: ~/.config/autostart/{{ item }}
+    state: absent
+  loop:
+    - blueman.desktop
+    - evolution-alarm-notify.desktop
+    - google-chrome.desktop
+    - indicator-multiload.desktop
+    - indicator-sensors.desktop
+    - light-locker.desktop
+    - redshift-gtk.desktop
+    - screensaver-settings.desktop
+    - tracker-extract.desktop
+    - tracker-miner-apps.desktop
+    - tracker-miner-fs.desktop
+    - tracker-miner-user-guides.desktop
+    - tracker-store.desktop
+    - xfce4-power-manager.desktop
+    - xscreensaver.desktop
+    - zeitgeist-datahub.desktop
+
+- name: Remove undesired snap packages
+  snap:
+    name:
+      - gnome-calculator
+      - gnome-characters
+    state: absent
+  become: yes
+  tags: [ubuntu-gnome]
+
+- name: Remove undesired packages
+  apt:
+    name:
+      - doc-base
+      - indicator*
+      - lightdm*
+      - pavucontrol
+      - pinentry-gtk2
+      - plymouth-theme-xubuntu*
+      - redshift
+      - xfce4*
+      - xfdesktop4*
+      - xterm
+      - xubuntu*
+    state: absent
+    purge: yes
+  become: yes
+  tags: [ubuntu-gnome]
+
 - name: Install desired packages
   apt:
     name:
+      - fonts-noto-color-emoji
+      - gdm3
+      - gnome-calculator
+      - gnome-characters
+      - gnome-control-center
+      - gnome-screenshot
       - gnome-shell-extension-appindicator
       - gnome-shell-extension-do-not-disturb
       - gnome-shell-extension-pop-battery-icon-fix
       - gnome-shell-extension-pop-suspend-button
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
+      - nautilus
       - pop-session
       - pop-theme
       - pop-wallpapers
