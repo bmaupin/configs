@@ -1,4 +1,11 @@
 ---
+- name: Install vagrant
+  apt:
+    name: vagrant
+    state: present
+  become: yes
+  tags: [vagrant]
+
 - name: Create cron job to stop running VMs
   cron:
     name: Stop running vagrant VMs
