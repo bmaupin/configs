@@ -30,6 +30,7 @@
   register: result
   changed_when: result.stdout.find(item.value) == -1
   when:
+    - "'ubuntu-xfce' in ansible_role_names"
     - ansible_distribution == "Ubuntu" and ansible_distribution_version != "16.04"
   tags: [home-laptop]
 
@@ -44,6 +45,7 @@
   register: result
   changed_when: result.stdout.find(item.value) == -1
   when:
+    - "'ubuntu-xfce' in ansible_role_names"
     - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
   tags: [home-laptop]
 
