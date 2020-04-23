@@ -41,12 +41,11 @@
     key: "/org/blueman/plugins/powermanager/auto-power-on"
     value: "false"
 
-# https://forums.lenovo.com/t5/Linux-Discussion/T430u-Linux-doesn-t-boot-without-acpi-off/m-p/4237857/highlight/true#M11839
-# https://web.archive.org/web/20180919160303/https://evilazrael.de/content/getting-linux-boot-lenovo-thinkpad-e485e585
-- name: Work around APIC errors
+# https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
+- name: Work around boot errors
   replace:
     path: /etc/default/grub
     regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=.*'
-    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash noapic"'
+    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intremap=off"'
   become: yes
   notify: Update grub
