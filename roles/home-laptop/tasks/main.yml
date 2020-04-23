@@ -1,4 +1,10 @@
 ---
+- name: Make sure driver for Broadcom BCM43228 is installed
+  apt:
+    name: bcmwl-kernel-source
+    state: present
+  become: yes
+
 - name: Disable daily mlocate update
   file:
     dest: /etc/cron.daily/mlocate
