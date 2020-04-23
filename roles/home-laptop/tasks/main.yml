@@ -4,18 +4,21 @@
     name: bcmwl-kernel-source
     state: present
   become: yes
+  tags: [home-laptop]
 
 - name: Disable daily mlocate update
   file:
     dest: /etc/cron.daily/mlocate
     mode: "a-x"
   become: yes
+  tags: [home-laptop]
 
 - name: Set permissions for hddtemp
   file:
     dest: /usr/sbin/hddtemp
     mode: "u+s"
   become: yes
+  tags: [home-laptop]
 
 - name: Handle brightness keys with Xfce Power Manager
   shell: >
@@ -28,6 +31,7 @@
   changed_when: result.stdout.find(item.value) == -1
   when:
     - ansible_distribution == "Ubuntu" and ansible_distribution_version != "16.04"
+  tags: [home-laptop]
 
 # For some reason the brightness increments when using Xfce Power Manager are way too big
 - name: Don't handle brightness keys with Xfce Power Manager
@@ -41,11 +45,13 @@
   changed_when: result.stdout.find(item.value) == -1
   when:
     - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
+  tags: [home-laptop]
 
 - name: Disable bluetooth auto power on
   dconf:
     key: "/org/blueman/plugins/powermanager/auto-power-on"
     value: "false"
+  tags: [home-laptop]
 
 # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
 - name: Work around boot errors
@@ -55,3 +61,4 @@
     replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intremap=off"'
   become: yes
   notify: Update grub
+  tags: [home-laptop]
