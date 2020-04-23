@@ -7,8 +7,7 @@ dependencies:
   - firefox
   - git
   - libreoffice
-  - redshift
   - spotify
   - terminator
-  - ubuntu-xfce
+  - ubuntu-gnome
   - vscode
