@@ -1,0 +1,4 @@
+---
+# Get the latest URL from here: https://www.dropbox.com/install-linux
+dropbox_deb_url: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2018.11.28_amd64.deb
+
