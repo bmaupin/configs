@@ -16,7 +16,7 @@
 
 - name: Install Dropbox
   apt:
-    deb: https://www.dropbox.com/download?dl=packages/ubuntu/dropbox_2018.11.28_amd64.deb
+    deb: "{{ dropbox_deb_url }}"
   become: yes
   when: result.rc is defined and result.rc != 0
   tags: [dropbox]
