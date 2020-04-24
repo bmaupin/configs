@@ -1,12 +1,15 @@
 ---
 - name: Include workaround tasks
   import_tasks: workarounds.yml
+  tags: [ubuntu-common]
 
 - name: Do encrypted tasks
   include: vault.yml
+  tags: [ubuntu-common]
 
 - name: Configure firewall
   include: ufw.yml
+  tags: [ubuntu-common]
 
 - name: Remove undesired packages
   apt:
@@ -17,6 +20,7 @@
     state: absent
     purge: yes
   become: yes
+  tags: [ubuntu-common]
 
 - name: Install desired packages
   apt:
@@ -26,6 +30,7 @@
       - vim
     state: present
   become: yes
+  tags: [ubuntu-common]
 
 - name: Disable annoying System program problem detected popup
   replace:
@@ -33,17 +38,20 @@
     regexp: '^enabled=.*'
     replace: 'enabled=0'
   become: yes
+  tags: [ubuntu-common]
 
 - name: Copy .vimrc
   copy:
     src: .vimrc
     dest: ~/.vimrc
     backup: yes
+  tags: [ubuntu-common]
 
 - name: Default to Python 3 for future-proofing
   lineinfile:
     path: ~/.bashrc
     line: 'alias python=python3'
+  tags: [ubuntu-common]
 
 - name: Remove grub recovery menu entry
   replace:
@@ -53,6 +61,7 @@
     backup: yes
   become: yes
   notify: Update grub
+  tags: [ubuntu-common]
 
 - name: Remove grub memory test menu entry
   file:
@@ -60,6 +69,7 @@
     mode: "a-x"
   become: yes
   notify: Update grub
+  tags: [ubuntu-common]
 
 - name: Apt autoremove
   apt:
@@ -67,9 +77,11 @@
   become: yes
   register: result
   changed_when: result.stdout.find(' 0 to remove') == -1
+  tags: [ubuntu-common]
 
 - name: Copy .eslintrc
   copy:
     src: .eslintrc
     dest: ~/.eslintrc
     backup: yes
+  tags: [ubuntu-common]
