@@ -27,6 +27,13 @@
     state: present
   become: yes
 
+- name: Disable annoying System program problem detected popup
+  replace:
+    path: /etc/default/apport
+    regexp: '^enabled=.*'
+    replace: 'enabled=0'
+  become: yes
+
 - name: Copy .vimrc
   copy:
     src: .vimrc
