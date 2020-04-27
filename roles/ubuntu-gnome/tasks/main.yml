@@ -173,7 +173,7 @@
     value: "{{ item.value }}"
   loop:
     - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic, value: "false" }
-    - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-to, value: 6.4999999999999982 }
+    - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-to, value: 6.5 }
     - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-from, value: 19.0 }
     - { key: /org/gnome/settings-daemon/plugins/color/night-light-enabled, value: "true" }
   tags: [ubuntu-gnome]
