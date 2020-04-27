@@ -1,0 +1,19 @@
+---
+- name: Check if pop-wallpapers is installed
+  shell: dpkg -l pop-wallpapers
+  changed_when: no
+  check_mode: no
+  failed_when: no
+  register: result
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
+
+- name: Install pop-wallpapers manually
+  apt:
+    deb: https://launchpad.net/~system76/+archive/ubuntu/pop/+files/pop-wallpapers_1.0.4~1509125993~20.04~1bd0bf4_all.deb
+  become: yes
+  when:
+    - result.rc is defined and result.rc != 0
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
