@@ -1,9 +1,16 @@
 ---
+- name: Include workaround tasks
+  import_tasks: workarounds.yml
+  tags: [ubuntu-gnome]
+
 - name: Install Pop!_OS repository
   apt_repository:
     repo: ppa:system76/pop
     update_cache: yes
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Remove undesired apps from autostart
