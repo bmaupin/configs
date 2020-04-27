@@ -138,6 +138,21 @@
   dconf:
     key: /org/gnome/nautilus/desktop/trash-icon-visible
     value: "false"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Hide home and trash icons on desktop
+  dconf:
+    key: "{{ item }}"
+    value: "false"
+  loop:
+    - /org/gnome/shell/extensions/desktop-icons/show-home
+    - /org/gnome/shell/extensions/desktop-icons/show-trash
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Set file manager icon zoom level
