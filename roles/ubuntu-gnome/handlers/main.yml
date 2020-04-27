@@ -1,3 +1,4 @@
 ---
+# https://askubuntu.com/a/100228/18665
 - name: Restart Gnome Shell
-  shell: gnome-shell --replace &
+  shell: killall -3 gnome-shell
