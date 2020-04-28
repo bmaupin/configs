@@ -8,6 +8,7 @@ dependencies:
   - git
   - libreoffice
   - spotify
+  - teams
   - terminator
   - ubuntu-gnome
   - vscode
