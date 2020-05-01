@@ -59,8 +59,8 @@
 - name: Work around boot errors
   replace:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=.*'
-    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intremap=off"'
+    regexp: '^GRUB_CMDLINE_LINUX=.*'
+    replace: 'GRUB_CMDLINE_LINUX="intremap=off"'
   become: yes
   notify: Update grub
   tags: [home-laptop]
