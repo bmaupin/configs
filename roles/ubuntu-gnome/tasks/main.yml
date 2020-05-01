@@ -242,6 +242,17 @@
     - { key: /org/gnome/shell/extensions/dash-to-dock/transparency-mode, value: "'FIXED'" }
   tags: [ubuntu-gnome]
 
+- name: Auto-hide dock
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value }}"
+  loop:
+    # This is the default value but we'll set it explicitly just to be safe
+    - { key: /org/gnome/shell/extensions/dash-to-dock/autohide, value: "true" }
+    - { key: /org/gnome/shell/extensions/dash-to-dock/dock-fixed, value: "false" }
+    - { key: /org/gnome/shell/extensions/dash-to-dock/intellihide, value: "false" }
+  tags: [ubuntu-gnome]
+
 - name: Isolate windows to each workspace
   dconf:
     key: /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces
