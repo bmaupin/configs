@@ -64,3 +64,12 @@
   become: yes
   notify: Update grub
   tags: [home-laptop]
+
+- name: Disable Gnome Tracker indexing
+  dconf:
+    key: "{{ item.key }}"
+    value: "{{ item.value | string }}"
+  loop:
+    - { key: /org/freedesktop/Tracker/Miner/Files/crawling-interval, value: "-2" }
+    - { key: /org/freedesktop/Tracker/Miner/Files/enable-monitors, value: "false" }
+  tags: [home-laptop]
