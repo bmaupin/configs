@@ -15,13 +15,6 @@
   become: yes
   tags: [home-laptop]
 
-- name: Set permissions for hddtemp
-  file:
-    dest: /usr/sbin/hddtemp
-    mode: "u+s"
-  become: yes
-  tags: [home-laptop]
-
 - name: Handle brightness keys with Xfce Power Manager
   shell: >
     xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
