@@ -105,6 +105,15 @@
     - ansible_distribution_version is version('18.04', '=')
   tags: [ubuntu-gnome]
 
+- name: Set gtk-theme
+  dconf:
+    key: /org/gnome/desktop/interface/gtk-theme
+    value: "'Yaru-dark'"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
+  tags: [ubuntu-gnome]
+
 - name: Install desired packages
   apt:
     name:
