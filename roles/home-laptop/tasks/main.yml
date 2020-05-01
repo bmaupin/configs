@@ -49,10 +49,18 @@
     - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
   tags: [home-laptop]
 
-- name: Disable bluetooth auto power on
-  dconf:
+- name: Disable bluetooth auto power on (Gnome)
+  lineinfile:
+    path: ~/.profile
+    line: "rfkill block bluetooth"
+  when: "'ubuntu-gnome' in ansible_role_names"
+  tags: [home-laptop]
+
+- name: Disable bluetooth auto power on (Xfce)
+  lineinfile:
     key: "/org/blueman/plugins/powermanager/auto-power-on"
     value: "false"
+  when: "'ubuntu-xfce' in ansible_role_names"
   tags: [home-laptop]
 
 # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
