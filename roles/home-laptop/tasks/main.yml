@@ -6,10 +6,12 @@
   become: yes
   tags: [home-laptop]
 
-- name: Disable daily mlocate update
-  file:
-    dest: /etc/cron.daily/mlocate
-    mode: "a-x"
+- name: Remove undesired packages
+  apt:
+    name:
+      - mlocate
+    state: absent
+    purge: yes
   become: yes
   tags: [home-laptop]
 
