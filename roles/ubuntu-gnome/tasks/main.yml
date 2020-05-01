@@ -1,18 +1,4 @@
 ---
-- name: Include workaround tasks
-  import_tasks: workarounds.yml
-  tags: [ubuntu-gnome]
-
-- name: Install Pop!_OS repository
-  apt_repository:
-    repo: ppa:system76/pop
-    update_cache: yes
-  become: yes
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '<=')
-  tags: [ubuntu-gnome]
-
 - name: Remove undesired apps from autostart
   file:
     path: ~/.config/autostart/{{ item }}
@@ -73,12 +59,30 @@
       - gnome-control-center
       - gnome-screenshot
       - gnome-shell-extension-appindicator
-      - gnome-shell-extension-do-not-disturb
-      - gnome-shell-extension-pop-battery-icon-fix
-      - gnome-shell-extension-pop-suspend-button
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
       - nautilus
+    state: present
+  become: yes
+  notify: Restart Gnome Shell
+  tags: [ubuntu-gnome]
+
+- name: Install Pop!_OS repository
+  apt_repository:
+    repo: ppa:system76/pop
+    update_cache: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Install desired packages
+  apt:
+    name:
+      - gnome-shell-extension-do-not-disturb
+      - gnome-shell-extension-pop-battery-icon-fix
+      - gnome-shell-extension-pop-suspend-button
       - pop-session
       - pop-theme
       - pop-wallpapers
@@ -87,6 +91,31 @@
     state: present
   become: yes
   notify: Restart Gnome Shell
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Set gtk-theme
+  dconf:
+    key: /org/gnome/desktop/interface/gtk-theme
+    value: "'Pop-dark'"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Install desired packages
+  apt:
+    name:
+      # This is a prerequisite for the ansible dconf module
+      - python3-psutil
+    state: present
+  become: yes
+  notify: Restart Gnome Shell
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '>=')
   tags: [ubuntu-gnome]
 
 - name: Set compose key
