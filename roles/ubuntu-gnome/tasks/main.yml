@@ -74,7 +74,7 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '<=')
+    - ansible_distribution_version is version('18.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Install desired packages
@@ -93,7 +93,7 @@
   notify: Restart Gnome Shell
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '<=')
+    - ansible_distribution_version is version('18.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Set gtk-theme
@@ -102,7 +102,7 @@
     value: "'Pop-dark'"
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '<=')
+    - ansible_distribution_version is version('18.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Install desired packages
@@ -220,6 +220,12 @@
     - { key: /org/gnome/settings-daemon/plugins/color/night-light-enabled, value: "true" }
   tags: [ubuntu-gnome]
 
+- name: Enable user extensions
+  dconf:
+    key: /org/gnome/shell/disable-user-extensions
+    value: "false"
+  tags: [ubuntu-gnome]
+
 - name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
@@ -231,6 +237,23 @@
         'ubuntu-appindicators@ubuntu.com',
         'ubuntu-dock@ubuntu.com'\
       ]"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Set enabled extensions
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: "[\
+        'desktop-icons@csoriano',
+        'system-monitor@paradoxxx.zero.gmail.com',
+        'ubuntu-appindicators@ubuntu.com',
+        'ubuntu-dock@ubuntu.com'\
+      ]"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Make dock non-transparent
