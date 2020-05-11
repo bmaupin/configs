@@ -24,6 +24,7 @@
   when: result.rc is defined and result.rc != 0
   tags: [dropbox]
 
+# If this task keeps getting run, open the Dropbox UI and uncheck *Start Dropbox on system startup*
 - name: Disable default autostart
   shell: dropbox autostart n
   args:
