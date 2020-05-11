@@ -74,6 +74,7 @@
 - name: Apt autoremove
   apt:
     autoremove: yes
+    purge: yes
   become: yes
   register: result
   changed_when: result.stdout.find(' 0 to remove') == -1
