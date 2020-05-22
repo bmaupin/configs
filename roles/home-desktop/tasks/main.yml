@@ -6,3 +6,12 @@
     line: options snd-hda-intel dmic_detect=0
   become: yes
   tags: [home-desktop]
+
+# We'll boot to Windows through the system EFI menu, if at all
+- name: Remove Windows from GRUB boot menu
+  lineinfile:
+    path: /etc/default/grub
+    line: GRUB_DISABLE_OS_PROBER=true
+  become: yes
+  notify: Update grub
+  tags: [home-desktop]
