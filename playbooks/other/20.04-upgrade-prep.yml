@@ -1,0 +1,83 @@
+# Instructions:
+# 1. Run the appropriate playbook in the parent directory
+#     e.g. ansible-playbook playbooks/home-desktop.yml
+# 1. Run this playbook
+# 1. Upgrade Ubuntu
+#     sudo do-release-upgrade -d -f DistUpgradeViewGtk3
+---
+- hosts: 127.0.0.1
+
+  tasks:
+    - name: Install ppa-purge
+      apt:
+        name:
+          - ppa-purge
+        state: present
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Purge Pop PPA
+      shell: ppa-purge ppa:system76/pop
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Remove Pop!_OS repository
+      apt_repository:
+        repo: ppa:system76/pop
+        state: absent
+        update_cache: yes
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Remove custom packages for 18.04
+      apt:
+        name:
+          - gnome-shell-extension-do-not-disturb
+          - gnome-shell-extension-pop-battery-icon-fix
+          - gnome-shell-extension-pop-suspend-button
+          - pop-session
+          - pop-theme
+          - pop-upgrade
+          - pop-wallpapers
+        state: absent
+        purge: yes
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Install desired packages
+      apt:
+        name:
+          - gnome-control-center
+          - ubuntu-desktop
+        state: present
+        # This is important, otherwise ubuntu-desktop will install a bunch of unwanted packages 😬
+        install_recommends: no
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Apt autoremove
+      apt:
+        autoremove: yes
+        purge: yes
+      become: yes
+      register: result
+      changed_when: result.stdout.find(' 0 to remove') == -1
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
+
+    - name: Reset dconf settings
+      shell: dconf reset -f /
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('18.04', '=')
