@@ -1,6 +1,6 @@
 ---
 - name: Check if Dropbox is installed
-  shell: dpkg -l dropbox
+  shell: dpkg -l dropbox | grep ^i
   changed_when: no
   check_mode: no
   failed_when: no
