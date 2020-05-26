@@ -4,6 +4,7 @@
     "editor.formatOnSave": true,
     // Detected links get underlined which is quite distracting
     "editor.links": false,
+    "editor.minimap.enabled": false,
     "editor.quickSuggestions": {
         "other": true,
         "comments": false,
