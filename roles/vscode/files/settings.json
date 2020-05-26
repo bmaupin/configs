@@ -19,12 +19,10 @@
         "*.conf.j2": "properties",
         ".env*": "properties",
         "*.json.j2": "json",
-        "*.jsx": "javascript",
         "*.properties.j2": "properties",
         "*.service": "properties",
         "*.service.j2": "properties",
         "*.sh.j2": "shellscript",
-        "*.tsx": "typescript",
         "*.xml.j2": "xml"
     },
     "prettier.requireConfig": true,
