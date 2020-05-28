@@ -1,0 +1,75 @@
+---
+- name: Install Pop!_OS repository
+  apt_repository:
+    repo: ppa:system76/pop
+    update_cache: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Install desired packages
+  apt:
+    name:
+      - gnome-shell-extension-do-not-disturb
+      - gnome-shell-extension-pop-battery-icon-fix
+      - gnome-shell-extension-pop-suspend-button
+      - pop-session
+      - pop-theme
+      - pop-wallpapers
+      # This is a prerequisite for the ansible dconf module
+      - python-psutil
+    state: present
+  become: yes
+  notify: Restart Gnome Shell
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Set gtk-theme
+  dconf:
+    key: /org/gnome/desktop/interface/gtk-theme
+    value: "'Pop-dark'"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Hide trash icon on desktop
+  dconf:
+    key: /org/gnome/nautilus/desktop/trash-icon-visible
+    value: "false"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Set enabled extensions
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: "[\
+        'batteryiconfix@kylecorry31.github.io',
+        'donotdisturb@kylecorry31.github.io',
+        'pop-suspend-button@system76.com',
+        'system-monitor@paradoxxx.zero.gmail.com',
+        'ubuntu-appindicators@ubuntu.com',
+        'ubuntu-dock@ubuntu.com'\
+      ]"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+# https://askubuntu.com/q/1032624/18665
+- name: Fix lock screen bug
+  lineinfile:
+    path: /etc/sysctl.conf
+    regexp: '^fs.inotify.max_user_watches=.*'
+    line: fs.inotify.max_user_watches=1048576
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
