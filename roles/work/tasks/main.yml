@@ -61,13 +61,17 @@
   register: power_manager_plugin_id
   changed_when: no
   check_mode: no
+  when:
+    - "'ubuntu-xfce' in ansible_role_names"
 
 - name: Remove the power manager plugin
   # This removes the plugin from xfconf, but not the list of active plugins
   shell: "xfconf-query -c xfce4-panel -p {{ power_manager_plugin_id.stdout }} -r"
   # Restarting the panel will also remove the plugin from the list of active plugins
   notify: Restart Xfce panel
-  when: power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
+  when:
+    - "'ubuntu-xfce' in ansible_role_names"
+    - power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
 
 # https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to report polkitd memory usage
