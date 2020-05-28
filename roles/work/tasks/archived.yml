@@ -22,3 +22,15 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '=')
   tags: [work]
+
+# https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
+- name: Configure cron job to report polkitd memory usage
+  cron:
+    name: Report polkitd memory usage
+    special_time: daily
+    job: /bin/bash -c 'if [ $(ps aux | grep -v grep | grep polkitd | awk "{print \$6}") -gt 100000 ]; then ps aux | grep -v grep | grep polkitd > ~/Desktop/polkitd-$(date +\%Y\%m\%d).txt; fi'
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('14.04', '>=')
+    - ansible_distribution_version is version('16.04', '<=')
+  tags: [work]
