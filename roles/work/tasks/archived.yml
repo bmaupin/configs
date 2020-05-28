@@ -4,6 +4,10 @@
     path: /etc/pulse/default.pa
     line: set-sink-port 0 analog-output-headphones
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('14.04', '=')
+  tags: [work]
 
 # This is to work around this bug: https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to kill polkitd
@@ -14,3 +18,7 @@
     job: /bin/bash -c 'if ! /bin/ps -ef | /bin/grep -q [x]fce; then /usr/bin/killall /usr/lib/policykit-1/polkitd; fi'
     cron_file: kill-polkitd
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('14.04', '=')
+  tags: [work]

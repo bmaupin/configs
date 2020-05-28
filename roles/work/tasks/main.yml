@@ -1,12 +1,6 @@
 ---
 - import_tasks: clamav.yml
 
-- name: Run tasks for Ubuntu 14.04
-  import_tasks: workarounds.yml
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version == "14.04"
-
 - name: Install desired packages
   apt:
     name:
