@@ -11,6 +11,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '<=')
+  tags: [ubuntu-common]
 
 - name: Remove old kernels
   command: purge-old-kernels -y
@@ -20,3 +21,4 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '<=')
+  tags: [ubuntu-common]

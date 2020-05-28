@@ -1,8 +1,4 @@
 ---
-- name: Include workaround tasks
-  import_tasks: workarounds.yml
-  tags: [ubuntu-common]
-
 - name: Do encrypted tasks
   include: vault.yml
   tags: [ubuntu-common]
