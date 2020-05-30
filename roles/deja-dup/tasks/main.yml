@@ -7,13 +7,65 @@
   become: yes
   tags: [deja-dup]
 
-# Ansible has a dconf module but it doesn't work in Ubuntu 14.04 because python-psutil is < 4.0
+- name: Set backup location to network server
+  dconf:
+    key: /org/gnome/deja-dup/backend
+    value: "'remote'"
+  tags: [deja-dup]
+
+- name: Keep backups for a maximum of 2 years
+  dconf:
+    key: /org/gnome/deja-dup/delete-after
+    value: "730"
+  tags: [deja-dup]
+
+- name: Configure folders to ignore
+  dconf:
+    key: /org/gnome/deja-dup/exclude-list
+    value: "[\
+        '$TRASH',
+        '$DOWNLOAD',
+        '/home/{{ ansible_user_id }}/Desktop/Pile',
+        '/home/{{ ansible_user_id }}/Dropbox'\
+      ]"
+  tags: [deja-dup]
+
 - name: Configure frequency of full backups
-  shell: >
-    dconf read /org/gnome/deja-dup/full-backup-period | grep 180 ||
-    dconf write /org/gnome/deja-dup/full-backup-period 180
-  register: result
-  changed_when: result.stdout.find('180') == -1
+  dconf:
+    key: /org/gnome/deja-dup/full-backup-period
+    value: "180"
+  tags: [deja-dup]
+
+- name: Configure folders to backup
+  dconf:
+    key: /org/gnome/deja-dup/include-list
+    value: "[\
+        '/home/{{ ansible_user_id }}/.config/dconf',
+        '/home/{{ ansible_user_id }}/.ssh',
+        '/home/{{ ansible_user_id }}/Desktop'
+        '/home/{{ ansible_user_id }}/Documents',
+        '/home/{{ ansible_user_id }}/Music',
+        '/home/{{ ansible_user_id }}/Pictures',
+        '/home/{{ ansible_user_id }}/Videos'\
+      ]"
+  tags: [deja-dup]
+
+- name: Enable automatic backups
+  dconf:
+    key: /org/gnome/deja-dup/periodic
+    value: "true"
+  tags: [deja-dup]
+
+- name: Set network server folder
+  dconf:
+    key: /org/gnome/deja-dup/remote/folder
+    value: "''"
+  tags: [deja-dup]
+
+- name: Set network server URI
+  dconf:
+    key: /org/gnome/deja-dup/remote/uri
+    value: "'smb:{{ deja_dup_remote_location }}'"
   tags: [deja-dup]
 
 # Deja Dup's /org/gnome/deja-dup/delete-after setting only deletes old backups when the drive runs out of space
