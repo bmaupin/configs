@@ -25,7 +25,6 @@
     value: "[\
         '$TRASH',
         '$DOWNLOAD',
-        '/home/{{ ansible_user_id }}/Desktop/Pile',
         '/home/{{ ansible_user_id }}/Dropbox'\
       ]"
   tags: [deja-dup]
@@ -42,7 +41,6 @@
     value: "[\
         '/home/{{ ansible_user_id }}/.config/dconf',
         '/home/{{ ansible_user_id }}/.ssh',
-        '/home/{{ ansible_user_id }}/Desktop'
         '/home/{{ ansible_user_id }}/Documents',
         '/home/{{ ansible_user_id }}/Music',
         '/home/{{ ansible_user_id }}/Pictures',
