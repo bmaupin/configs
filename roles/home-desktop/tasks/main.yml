@@ -1,4 +1,12 @@
 ---
+- name: Install desired packages
+  apt:
+    name:
+      - simple-scan
+    state: present
+  become: yes
+  tags: [home-desktop]
+
 # https://bugs.launchpad.net/ubuntu/+source/linux-oem-osp1/+bug/1864061
 - name: Fix audio
   lineinfile:
