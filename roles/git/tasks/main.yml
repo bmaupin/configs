@@ -17,7 +17,6 @@
   file:
     path: ~/workspace/personal
     state: directory
-    recurse: yes
   tags: [git]
 
 - name: Copy personal .gitconfig
@@ -31,7 +30,6 @@
   file:
     path: ~/workspace/work
     state: directory
-    recurse: yes
   tags: [git]
 
 - name: Copy work .gitconfig
