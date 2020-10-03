@@ -82,19 +82,6 @@
     - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Install desired packages
-  apt:
-    name:
-      # This is a prerequisite for the ansible dconf module
-      - python3-psutil
-    state: present
-  become: yes
-  notify: Restart Gnome Shell
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '>=')
-  tags: [ubuntu-gnome]
-
 - name: Set compose key
   dconf:
     key: /org/gnome/desktop/input-sources/xkb-options
