@@ -3,7 +3,7 @@
 #     e.g. ansible-playbook playbooks/home-desktop.yml
 # 1. Run this playbook
 # 1. Upgrade Ubuntu
-#     sudo do-release-upgrade -d -f DistUpgradeViewGtk3
+#     sudo do-release-upgrade -f DistUpgradeViewGtk3
 ---
 - hosts: 127.0.0.1
 

@@ -12,10 +12,10 @@
     name: python-gpg
     state: present
   become: yes
-  tags: [dropbox]
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('18.04', '<=')
+  tags: [dropbox]
 
 - name: Install Dropbox
   apt:
@@ -47,6 +47,7 @@
     src: /usr/share/applications/dropbox.desktop
     dest: ~/.config/autostart/dropbox-custom.desktop
     force: no
+  ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
   # Dropbox hijacks io when it's first starting up, even with renice. So wait a bit before starting it
@@ -55,6 +56,7 @@
     path: ~/.config/autostart/dropbox-custom.desktop
     regexp: '^Exec=.*'
     replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 10 && renice +19 $(pgrep dropbox)'"
+  ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
 # TODO: is this still needed?
