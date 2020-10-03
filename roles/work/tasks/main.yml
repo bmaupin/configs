@@ -72,4 +72,3 @@
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
-

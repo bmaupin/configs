@@ -11,7 +11,7 @@ dependencies:
   - spotify
   - teams
   - terminator
-  - ubuntu-xfce
+  - ubuntu-gnome
   - vagrant
   - virtualbox
   - vscode
