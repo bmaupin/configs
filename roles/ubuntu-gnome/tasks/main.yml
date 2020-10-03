@@ -107,7 +107,7 @@
 - name: Set screen inactivity timeout
   dconf:
     key: /org/gnome/desktop/session/idle-delay
-    value: "uint32 900"
+    value: "uint32 300"
   tags: [ubuntu-gnome]
 
 - name: Allow volume above 100%
