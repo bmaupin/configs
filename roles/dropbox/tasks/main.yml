@@ -79,3 +79,20 @@
 #   import_tasks: upgrade.yml
 #   when: response.url | basename != 'dropbox-lnx.x86_64-' ~ dropbox_installed_version ~ '.tar.gz'
 #   tags: [dropbox]
+
+# We can't use the ansible find module because it can only filter on the basename portion of the path
+- name: Find node_modules directories
+  # Ignore nested node_modules directories
+  shell: find ~/Dropbox -type d -name node_modules | egrep -v "node_modules/.*/node_modules"
+  changed_when: no
+  register: dropbox_node_modules_directories
+  tags: [dropbox]
+
+# Unfortunately ignoring files and directories has to be done on each Dropbox client
+- name: Ignore node_modules directories
+  xattr:
+    path: "{{ item }}"
+    key: com.dropbox.ignored
+    value: '1'
+  loop: "{{ dropbox_node_modules_directories.stdout_lines }}"
+  tags: [dropbox]
