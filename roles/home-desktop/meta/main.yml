@@ -3,6 +3,7 @@ dependencies:
   - chrome
   - docker
   - dropbox
+  - firefox
   - git
   - libreoffice
   - spotify
