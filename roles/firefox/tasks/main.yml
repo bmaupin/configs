@@ -3,8 +3,6 @@
   apt:
     name:
       - firefox
-      - firefox-locale-fr
-      - language-pack-fr
     state: present
   become: yes
   tags: [firefox]
@@ -16,6 +14,7 @@
     force: no
   tags: [firefox]
 
+# The language must be first installed from within the browser preferences in order for this to work
 - name: Set Firefox language
   replace:
     path: ~/.local/share/applications/firefox.desktop
