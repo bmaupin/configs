@@ -50,7 +50,7 @@
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
-  # Dropbox hijacks io when it's first starting up, even with renice. So wait a bit before starting it
+# Dropbox hijacks io when it's first starting up, even with renice. So wait a bit before starting it
 - name: Wait a bit before automatically starting Dropbox
   replace:
     path: ~/.config/autostart/dropbox-custom.desktop
@@ -85,6 +85,7 @@
   # Ignore nested node_modules directories
   shell: find ~/Dropbox -type d -name node_modules | egrep -v "node_modules/.*/node_modules"
   changed_when: no
+  check_mode: no
   register: dropbox_node_modules_directories
   tags: [dropbox]
 
