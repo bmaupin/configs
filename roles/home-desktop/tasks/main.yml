@@ -8,11 +8,29 @@
   tags: [home-desktop]
 
 # https://bugs.launchpad.net/ubuntu/+source/linux-oem-osp1/+bug/1864061
+# In 18.04 I'm not sure if the audio worked at all
+# In 20.04 it works but it doesn't properly detect the headset microphone so we can't set the volume
 - name: Fix audio
   lineinfile:
     path: /etc/modprobe.d/alsa-base.conf
     line: options snd-hda-intel dmic_detect=0
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '>=')
+    - ansible_distribution_version is version('20.04', '<=')
+  tags: [home-desktop]
+
+# https://askubuntu.com/a/1233446/18665
+# This allows the headset microphone to be manually set as an input device, although it still isn't automatically set when plugged in
+- name: Fix headset microphone detection
+  lineinfile:
+    path: /etc/modprobe.d/alsa-base.conf
+    line: options snd-hda-intel model=alc233-eapd
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
   tags: [home-desktop]
 
 # We'll boot to Windows through the system EFI menu, if at all
