@@ -59,27 +59,6 @@
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
-# TODO: is this still needed?
-# - name: Get installed version of Dropbox
-#   set_fact:
-#     dropbox_installed_version: "{{ lookup('file', '~/.dropbox-dist/VERSION') }}"
-#   tags: [dropbox]
-
-# - name: Get latest version of Dropbox
-#   uri:
-#     url: https://www.dropbox.com/download?plat=lnx.x86_64
-#     # Don't download the file just yet
-#     method: HEAD
-#   register: response
-#   tags: [dropbox]
-
-# # Dropbox doesn't seem to always be able to upgrade itself
-# # https://www.dropboxforum.com/t5/Installs-integrations/Stuck-on-quot-upgrading-dropbox-quot/td-p/284217
-# - name: Upgrade Dropbox
-#   import_tasks: upgrade.yml
-#   when: response.url | basename != 'dropbox-lnx.x86_64-' ~ dropbox_installed_version ~ '.tar.gz'
-#   tags: [dropbox]
-
 # We can't use the ansible find module because it can only filter on the basename portion of the path
 - name: Find node_modules directories
   # Ignore nested node_modules directories
