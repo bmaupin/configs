@@ -1,5 +1,6 @@
 {
     "editor.copyWithSyntaxHighlighting": false,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
     "editor.fontSize": 15,
     "editor.formatOnSave": true,
     // Detected links get underlined which is quite distracting
