@@ -91,49 +91,73 @@
 - name: Disable animations
   dconf:
     key: /org/gnome/desktop/interface/enable-animations
-    value: "false"
+    value: 'false'
   tags: [ubuntu-gnome]
 
 - name: Set clock format
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
   loop:
     - { key: /org/gnome/desktop/interface/clock-format, value: "'24h'" }
-    - { key: /org/gnome/desktop/interface/clock-show-date, value: "false" }
+    - { key: /org/gnome/desktop/interface/clock-show-date, value: 'false' }
     - { key: /org/gtk/Settings/FileChooser/clock-format, value: "'24h'" }
   tags: [ubuntu-gnome]
 
 - name: Set screen inactivity timeout
   dconf:
     key: /org/gnome/desktop/session/idle-delay
-    value: "uint32 300"
+    value: 'uint32 300'
   tags: [ubuntu-gnome]
 
 - name: Allow volume above 100%
   dconf:
     key: /org/gnome/desktop/sound/allow-volume-above-100-percent
-    value: "true"
+    value: 'true'
   tags: [ubuntu-gnome]
 
 - name: Set keybindings
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value | string }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value | string }}'
   loop:
-    - { key: /org/gnome/desktop/wm/keybindings/move-to-workspace-down, value: "['<Control><Shift><Alt>Down', '<Shift><Super>Down']" }
-    - { key: /org/gnome/desktop/wm/keybindings/move-to-workspace-left, value: "['<Control><Shift><Alt>Left', '<Shift><Super>Left']" }
-    - { key: /org/gnome/desktop/wm/keybindings/move-to-workspace-right, value: "['<Control><Shift><Alt>Right', '<Shift><Super>Right']" }
-    - { key: /org/gnome/desktop/wm/keybindings/move-to-workspace-up, value: "['<Control><Shift><Alt>Up', '<Shift><Super>Up']" }
-    - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-down, value: "['<Control><Alt>Down', '<Super>Down']" }
-    - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-left, value: "['<Control><Alt>Left', '<Super>Left']" }
-    - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-right, value: "['<Control><Alt>Right', '<Super>Right']" }
-    - { key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up, value: "['<Control><Alt>Up', '<Super>Up']" }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-down,
+        value: "['<Control><Shift><Alt>Down', '<Shift><Super>Down']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-left,
+        value: "['<Control><Shift><Alt>Left', '<Shift><Super>Left']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-right,
+        value: "['<Control><Shift><Alt>Right', '<Shift><Super>Right']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-up,
+        value: "['<Control><Shift><Alt>Up', '<Shift><Super>Up']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-down,
+        value: "['<Control><Alt>Down', '<Super>Down']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-left,
+        value: "['<Control><Alt>Left', '<Super>Left']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-right,
+        value: "['<Control><Alt>Right', '<Super>Right']",
+      }
+    - {
+        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up,
+        value: "['<Control><Alt>Up', '<Super>Up']",
+      }
   tags: [ubuntu-gnome]
 
 - name: Reset screen lock keybindings
   dconf:
-    key: "{{ item }}"
+    key: '{{ item }}'
     state: absent
   loop:
     - /org/gnome/settings-daemon/plugins/media-keys/logout
@@ -148,8 +172,8 @@
 
 - name: Hide home and trash icons on desktop
   dconf:
-    key: "{{ item }}"
-    value: "false"
+    key: '{{ item }}'
+    value: 'false'
   loop:
     - /org/gnome/shell/extensions/desktop-icons/show-home
     - /org/gnome/shell/extensions/desktop-icons/show-trash
@@ -167,34 +191,46 @@
 - name: Enable delete in file manager
   dconf:
     key: /org/gnome/nautilus/preferences/show-delete-permanently
-    value: "true"
+    value: 'true'
   tags: [ubuntu-gnome]
 
 - name: Configure night light
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
   loop:
-    - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic, value: "false" }
-    - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-to, value: 6.5 }
-    - { key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-from, value: 19.0 }
-    - { key: /org/gnome/settings-daemon/plugins/color/night-light-enabled, value: "true" }
+    - {
+        key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-automatic,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-to,
+        value: 6.5,
+      }
+    - {
+        key: /org/gnome/settings-daemon/plugins/color/night-light-schedule-from,
+        value: 19.0,
+      }
+    - {
+        key: /org/gnome/settings-daemon/plugins/color/night-light-enabled,
+        value: 'true',
+      }
   tags: [ubuntu-gnome]
 
 - name: Enable user extensions
   dconf:
     key: /org/gnome/shell/disable-user-extensions
-    value: "false"
+    value: 'false'
   tags: [ubuntu-gnome]
 
 - name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: "[\
-        'desktop-icons@csoriano',
-        'system-monitor@paradoxxx.zero.gmail.com',
-        'ubuntu-appindicators@ubuntu.com',
-        'ubuntu-dock@ubuntu.com'\
+      'desktop-icons@csoriano',
+      'system-monitor@paradoxxx.zero.gmail.com',
+      'ubuntu-appindicators@ubuntu.com',
+      'ubuntu-dock@ubuntu.com'\
       ]"
   when:
     - ansible_distribution == "Ubuntu"
@@ -203,46 +239,97 @@
 
 - name: Make dock non-transparent
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
   loop:
-    - { key: /org/gnome/shell/extensions/dash-to-dock/background-opacity, value: "1.0" }
-    - { key: /org/gnome/shell/extensions/dash-to-dock/transparency-mode, value: "'FIXED'" }
+    - {
+        key: /org/gnome/shell/extensions/dash-to-dock/background-opacity,
+        value: '1.0',
+      }
+    - {
+        key: /org/gnome/shell/extensions/dash-to-dock/transparency-mode,
+        value: "'FIXED'",
+      }
   tags: [ubuntu-gnome]
 
 - name: Auto-hide dock
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
   loop:
     # This is the default value but we'll set it explicitly just to be safe
-    - { key: /org/gnome/shell/extensions/dash-to-dock/autohide, value: "true" }
-    - { key: /org/gnome/shell/extensions/dash-to-dock/dock-fixed, value: "false" }
-    - { key: /org/gnome/shell/extensions/dash-to-dock/intellihide, value: "false" }
+    - { key: /org/gnome/shell/extensions/dash-to-dock/autohide, value: 'true' }
+    - {
+        key: /org/gnome/shell/extensions/dash-to-dock/dock-fixed,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/dash-to-dock/intellihide,
+        value: 'false',
+      }
   tags: [ubuntu-gnome]
 
 - name: Isolate windows to each workspace
   dconf:
     key: /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces
-    value: "true"
+    value: 'true'
   tags: [ubuntu-gnome]
 
 - name: Configure Gnome Shell system monitor extension
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
   loop:
-    - { key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/cpu-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-display, value: "true" }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/disk-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/icon-display, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/memory-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/memory-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/net-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/net-show-text, value: "false" }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-display, value: "true" }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-graph-width, value: 50 }
-    - { key: /org/gnome/shell/extensions/system-monitor/swap-show-text, value: "false" }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/cpu-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/disk-display,
+        value: 'true',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/disk-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/disk-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/icon-display,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/memory-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/memory-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/net-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/net-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/swap-display,
+        value: 'true',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/swap-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/swap-show-text,
+        value: 'false',
+      }
   tags: [ubuntu-gnome]
