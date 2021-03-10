@@ -82,3 +82,13 @@
     dest: ~/.eslintrc
     backup: yes
   tags: [ubuntu-common]
+
+# Defaults to 4 GB or 10% of disk space
+# https://www.freedesktop.org/software/systemd/man/journald.conf.html#SystemMaxUse=
+- name: Limit size of systemd journal
+  replace:
+    path: /etc/systemd/journald.conf
+    regexp: '^(#)?SystemMaxUse=.*'
+    replace: 'SystemMaxUse=1G'
+  become: yes
+  tags: [ubuntu-common]
