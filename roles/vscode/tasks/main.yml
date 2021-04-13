@@ -2,7 +2,7 @@
 - block:
     - name: Install VS Code repository
       apt_repository:
-        repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
+        repo: '{{ vscode_repo }}'
         state: present
         filename: vscode
         update_cache: yes
@@ -19,7 +19,7 @@
 
     - name: Install VS Code repository
       apt_repository:
-        repo: deb [arch=amd64] {{ vscode_repository_url }} stable main
+        repo: '{{ vscode_repo }}'
         state: present
         filename: vscode
         update_cache: yes
