@@ -20,8 +20,16 @@
     xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
     xfconf-query -c xfce4-power-manager -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
   with_items:
-    - { property: "/xfce4-power-manager/brightness-switch", type: int, value: "0" }
-    - { property: "/xfce4-power-manager/handle-brightness-keys", type: bool, value: "true" }
+    - {
+        property: '/xfce4-power-manager/brightness-switch',
+        type: int,
+        value: '0',
+      }
+    - {
+        property: '/xfce4-power-manager/handle-brightness-keys',
+        type: bool,
+        value: 'true',
+      }
   register: result
   changed_when: result.stdout.find(item.value) == -1
   when:
@@ -35,8 +43,16 @@
     xfconf-query -c xfce4-power-manager -p '{{ item.property }}' | grep '{{ item.value }}' ||
     xfconf-query -c xfce4-power-manager -p '{{ item.property }}' -t '{{ item.type }}' -n -s '{{ item.value }}'
   with_items:
-    - { property: "/xfce4-power-manager/brightness-switch", type: int, value: "1" }
-    - { property: "/xfce4-power-manager/handle-brightness-keys", type: bool, value: "false" }
+    - {
+        property: '/xfce4-power-manager/brightness-switch',
+        type: int,
+        value: '1',
+      }
+    - {
+        property: '/xfce4-power-manager/handle-brightness-keys',
+        type: bool,
+        value: 'false',
+      }
   register: result
   changed_when: result.stdout.find(item.value) == -1
   when:
@@ -47,24 +63,30 @@
 - name: Disable bluetooth auto power on (Gnome)
   lineinfile:
     path: ~/.profile
-    line: "rfkill block bluetooth"
+    line: 'rfkill block bluetooth'
   when: "'ubuntu-gnome' in ansible_role_names"
   tags: [home-laptop]
 
 - name: Disable bluetooth auto power on (Xfce)
   lineinfile:
-    key: "/org/blueman/plugins/powermanager/auto-power-on"
-    value: "false"
+    key: '/org/blueman/plugins/powermanager/auto-power-on'
+    value: 'false'
   when: "'ubuntu-xfce' in ansible_role_names"
   tags: [home-laptop]
 
 - name: Disable Gnome Tracker indexing
   dconf:
-    key: "{{ item.key }}"
-    value: "{{ item.value | string }}"
+    key: '{{ item.key }}'
+    value: '{{ item.value | string }}'
   loop:
-    - { key: /org/freedesktop/Tracker/Miner/Files/crawling-interval, value: "-2" }
-    - { key: /org/freedesktop/Tracker/Miner/Files/enable-monitors, value: "false" }
+    - {
+        key: /org/freedesktop/Tracker/Miner/Files/crawling-interval,
+        value: '-2',
+      }
+    - {
+        key: /org/freedesktop/Tracker/Miner/Files/enable-monitors,
+        value: 'false',
+      }
   tags: [home-laptop]
 
 # TODO: This may have been fixed starting with kernel 5.7;
