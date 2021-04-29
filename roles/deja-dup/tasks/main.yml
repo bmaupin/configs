@@ -25,6 +25,7 @@
     value: "[\
       '$TRASH',
       '$DOWNLOAD',
+      '/home/{{ ansible_user_id }}/Documents/My Digital Editions',
       '/home/{{ ansible_user_id }}/Dropbox'\
       ]"
   tags: [deja-dup]
