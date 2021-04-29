@@ -16,42 +16,42 @@
 - name: Keep backups for a maximum of 2 years
   dconf:
     key: /org/gnome/deja-dup/delete-after
-    value: "730"
+    value: '730'
   tags: [deja-dup]
 
 - name: Configure folders to ignore
   dconf:
     key: /org/gnome/deja-dup/exclude-list
     value: "[\
-        '$TRASH',
-        '$DOWNLOAD',
-        '/home/{{ ansible_user_id }}/Dropbox'\
+      '$TRASH',
+      '$DOWNLOAD',
+      '/home/{{ ansible_user_id }}/Dropbox'\
       ]"
   tags: [deja-dup]
 
 - name: Configure frequency of full backups
   dconf:
     key: /org/gnome/deja-dup/full-backup-period
-    value: "180"
+    value: '180'
   tags: [deja-dup]
 
 - name: Configure folders to backup
   dconf:
     key: /org/gnome/deja-dup/include-list
     value: "[\
-        '/home/{{ ansible_user_id }}/.config/dconf',
-        '/home/{{ ansible_user_id }}/.ssh',
-        '/home/{{ ansible_user_id }}/Documents',
-        '/home/{{ ansible_user_id }}/Music',
-        '/home/{{ ansible_user_id }}/Pictures',
-        '/home/{{ ansible_user_id }}/Videos'\
+      '/home/{{ ansible_user_id }}/.config/dconf',
+      '/home/{{ ansible_user_id }}/.ssh',
+      '/home/{{ ansible_user_id }}/Documents',
+      '/home/{{ ansible_user_id }}/Music',
+      '/home/{{ ansible_user_id }}/Pictures',
+      '/home/{{ ansible_user_id }}/Videos'\
       ]"
   tags: [deja-dup]
 
 - name: Enable automatic backups
   dconf:
     key: /org/gnome/deja-dup/periodic
-    value: "true"
+    value: 'true'
   tags: [deja-dup]
 
 - name: Set network server folder
