@@ -11,3 +11,4 @@ dependencies:
   - terminator
   - ubuntu-gnome
   - vscode
+  - wine
