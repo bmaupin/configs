@@ -19,8 +19,14 @@
 # https://askubuntu.com/a/400430/18665
 - name: Prevent Wine from creating new MIME associations
   lineinfile:
-    path: /opt/wine-stable/share/wine/wine.inf
+    path: '{{ item }}'
     regexp: '^HKLM,%CurrentVersion%\\RunServices,"winemenubuilder"'
     line: 'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
+  loop:
+    # Wine from Wine PPA
+    - /opt/wine-stable/share/wine/wine.inf
+    # Wine from ubuntu
+    - /usr/share/wine/wine/wine.inf
+  failed_when: no
   become: yes
   tags: [wine]
