@@ -1,0 +1,21 @@
+---
+# https://wiki.winehq.org/FAQ#How_do_I_clean_the_Open_With_List.3F
+- name: Remove Wine MIME associations
+  file: path={{ item }}
+    state=absent
+  with_fileglob:
+    - ~/.local/share/mime/packages/x-wine*
+    - ~/.local/share/applications/wine-extension*
+    # TODO: this isn't actually matched; seems to work fine without it but we could alternatively use find
+    - ~/.local/share/icons/hicolor/*/*/application-x-wine-extension*
+    - ~/.local/share/mime/application/x-wine-extension*
+  tags: [wine]
+
+# https://askubuntu.com/a/400430/18665
+- name: Prevent Wine from creating new MIME associations
+  lineinfile:
+    path: /opt/wine-stable/share/wine/wine.inf
+    regexp: '^HKLM,%CurrentVersion%\\RunServices,"winemenubuilder"'
+    line: 'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
+  become: yes
+  tags: [wine]
