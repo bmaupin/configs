@@ -6,8 +6,13 @@
   with_fileglob:
     - ~/.local/share/mime/packages/x-wine*
     - ~/.local/share/applications/wine-extension*
-    # TODO: this isn't actually matched; seems to work fine without it but we could alternatively use find
-    - ~/.local/share/icons/hicolor/*/*/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/16x16/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/24x24/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/32x32/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/48x48/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/64x64/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/128x128/apps/application-x-wine-extension*
+    - ~/.local/share/icons/hicolor/256x256/apps/application-x-wine-extension*
     - ~/.local/share/mime/application/x-wine-extension*
   tags: [wine]
 
