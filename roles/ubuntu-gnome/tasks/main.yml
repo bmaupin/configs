@@ -68,18 +68,28 @@
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
       - nautilus
+      - yaru-theme-gnome-shell
+      - yaru-theme-gtk
+      - yaru-theme-icon
+      - yaru-theme-sound
     state: present
   become: yes
   notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
-- name: Set gtk-theme
+- name: Set theme
   dconf:
-    key: /org/gnome/desktop/interface/gtk-theme
-    value: "'Yaru-dark'"
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - { key: /org/gnome/desktop/sound/theme-name, value: "'Yaru'" }
+    - { key: /org/gnome/desktop/interface/cursor-theme, value: "'Yaru'" }
+    - { key: /org/gnome/desktop/interface/gtk-theme, value: "'Yaru-dark'" }
+    - { key: /org/gnome/desktop/interface/icon-theme, value: "'Yaru'" }
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('20.04', '=')
+  notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
 - name: Set compose key
