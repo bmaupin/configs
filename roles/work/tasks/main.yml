@@ -1,5 +1,6 @@
 ---
 - import_tasks: clamav.yml
+  tags: [work]
 
 - name: Install desired packages
   apt:
@@ -9,6 +10,7 @@
       - ldap-utils
     state: present
   become: yes
+  tags: [work]
 
 - name: Configure fail2ban
   copy:
@@ -17,6 +19,7 @@
     mode: 0444
   become: yes
   notify: Restart fail2ban
+  tags: [work]
 
 - name: Configure cups server
   lineinfile:
@@ -24,30 +27,34 @@
     line: BrowsePoll {{ cups_server }}
   become: yes
   notify: Restart cups-browsed
+  tags: [work]
 
 - name: Configure cups user
   lineinfile:
     path: ~/.profile
     line: export CUPS_USER={{ cups_user }}
+  tags: [work]
 
 - name: Add firewall rules
   ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port }}"
-    proto: "{{ item.proto }}"
-    src: "{{ item.src }}"
-  loop: "{{ firewall_add }}"
+    rule: '{{ item.rule }}'
+    port: '{{ item.port }}'
+    proto: '{{ item.proto }}'
+    src: '{{ item.src }}'
+  loop: '{{ firewall_add }}'
   become: yes
+  tags: [work]
 
 - name: Delete firewall rules
   ufw:
-    rule: "{{ item.rule }}"
-    port: "{{ item.port }}"
-    proto: "{{ item.proto }}"
-    src: "{{ item.src }}"
+    rule: '{{ item.rule }}'
+    port: '{{ item.port }}'
+    proto: '{{ item.proto }}'
+    src: '{{ item.src }}'
     delete: yes
-  loop: "{{ firewall_delete }}"
+  loop: '{{ firewall_delete }}'
   become: yes
+  tags: [work]
 
 - name: Set default audio output device
   lineinfile:
@@ -55,6 +62,7 @@
     line: set-default-sink 0
   become: yes
   notify: Remove ~/.config/pulse
+  tags: [work]
 
 - name: Get the power manager plugin ID
   shell: xfconf-query -lv -c xfce4-panel | grep power-manager-plugin | awk '{print $1}'
@@ -63,12 +71,14 @@
   check_mode: no
   when:
     - "'ubuntu-xfce' in ansible_role_names"
+  tags: [work]
 
 - name: Remove the power manager plugin
   # This removes the plugin from xfconf, but not the list of active plugins
-  shell: "xfconf-query -c xfce4-panel -p {{ power_manager_plugin_id.stdout }} -r"
+  shell: 'xfconf-query -c xfce4-panel -p {{ power_manager_plugin_id.stdout }} -r'
   # Restarting the panel will also remove the plugin from the list of active plugins
   notify: Restart Xfce panel
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
+  tags: [work]
