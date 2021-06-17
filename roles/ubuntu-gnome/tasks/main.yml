@@ -73,18 +73,6 @@
   notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
-- name: Explicitly reset some settings to their default values
-  dconf:
-    key: '{{ item }}'
-    state: absent
-  loop:
-    # Reset screen lock keybindings
-    - /org/gnome/settings-daemon/plugins/media-keys/logout
-    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
-    # Reset preferred monitor for the dock
-    - /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
-  tags: [ubuntu-gnome]
-
 - name: Set gtk-theme
   dconf:
     key: /org/gnome/desktop/interface/gtk-theme
@@ -165,6 +153,15 @@
         key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up,
         value: "['<Control><Alt>Up', '<Super>Up']",
       }
+  tags: [ubuntu-gnome]
+
+- name: Reset screen lock keybindings
+  dconf:
+    key: '{{ item }}'
+    state: absent
+  loop:
+    - /org/gnome/settings-daemon/plugins/media-keys/logout
+    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
   tags: [ubuntu-gnome]
 
 - name: Show minimize button
@@ -270,6 +267,13 @@
         key: /org/gnome/shell/extensions/dash-to-dock/intellihide,
         value: 'false',
       }
+  tags: [ubuntu-gnome]
+
+# The default value (-1) is supposed to be the "primary monitor" but seems to be buggy, at least in 20.04
+- name: Force dock to be on first monitor
+  dconf:
+    key: /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
+    value: 0
   tags: [ubuntu-gnome]
 
 - name: Isolate windows to each workspace
