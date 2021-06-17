@@ -155,13 +155,16 @@
       }
   tags: [ubuntu-gnome]
 
-- name: Reset screen lock keybindings
+- name: Explicitly reset some settings to their default values
   dconf:
     key: '{{ item }}'
     state: absent
   loop:
+    # Reset screen lock keybindings
     - /org/gnome/settings-daemon/plugins/media-keys/logout
     - /org/gnome/settings-daemon/plugins/media-keys/screensaver
+    # Reset preferred monitor for the dock
+    - /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
   tags: [ubuntu-gnome]
 
 - name: Show minimize button
