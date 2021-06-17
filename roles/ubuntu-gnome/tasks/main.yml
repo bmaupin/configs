@@ -1,9 +1,4 @@
 ---
-# TODO: Remove this once we've upgraded all workstations to 20.04
-- name: Include archived tasks
-  import_tasks: archived.yml
-  tags: [ubuntu-gnome]
-
 - name: Remove undesired apps from autostart
   file:
     path: ~/.config/autostart/{{ item }}
@@ -69,7 +64,7 @@
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
       - nautilus
-      # Contains default settings for Gnome; keybindings, etc
+      # Contains default settings for Gnome on Ubuntu; keybindings, etc
       - ubuntu-settings
       - yaru-theme-gnome-shell
       - yaru-theme-gtk
