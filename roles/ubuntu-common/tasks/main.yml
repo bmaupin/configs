@@ -43,6 +43,13 @@
     backup: yes
   tags: [ubuntu-common]
 
+# https://unix.stackexchange.com/a/19320/14436
+- name: Enable colour support in less by default
+  lineinfile:
+    path: ~/.bashrc
+    line: 'alias less="less -R"'
+  tags: [ubuntu-common]
+
 - name: Default to Python 3 for future-proofing
   lineinfile:
     path: ~/.bashrc
@@ -62,7 +69,7 @@
 - name: Remove grub memory test menu entry
   file:
     path: /etc/grub.d/20_memtest86+
-    mode: "a-x"
+    mode: 'a-x'
   become: yes
   notify: Update grub
   tags: [ubuntu-common]
