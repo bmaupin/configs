@@ -65,9 +65,12 @@
       - gnome-control-center
       - gnome-screenshot
       - gnome-shell-extension-appindicator
+      - gnome-shell-extension-desktop-icons
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
       - nautilus
+      # Contains default settings for Gnome; keybindings, etc
+      - ubuntu-settings
       - yaru-theme-gnome-shell
       - yaru-theme-gtk
       - yaru-theme-icon
