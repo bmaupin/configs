@@ -73,6 +73,18 @@
   notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
+- name: Explicitly reset some settings to their default values
+  dconf:
+    key: '{{ item }}'
+    state: absent
+  loop:
+    # Reset screen lock keybindings
+    - /org/gnome/settings-daemon/plugins/media-keys/logout
+    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
+    # Reset preferred monitor for the dock
+    - /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
+  tags: [ubuntu-gnome]
+
 - name: Set gtk-theme
   dconf:
     key: /org/gnome/desktop/interface/gtk-theme
@@ -153,18 +165,6 @@
         key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up,
         value: "['<Control><Alt>Up', '<Super>Up']",
       }
-  tags: [ubuntu-gnome]
-
-- name: Explicitly reset some settings to their default values
-  dconf:
-    key: '{{ item }}'
-    state: absent
-  loop:
-    # Reset screen lock keybindings
-    - /org/gnome/settings-daemon/plugins/media-keys/logout
-    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
-    # Reset preferred monitor for the dock
-    - /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
   tags: [ubuntu-gnome]
 
 - name: Show minimize button
