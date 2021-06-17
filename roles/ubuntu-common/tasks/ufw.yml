@@ -4,3 +4,12 @@
     state: enabled
     policy: deny
   become: yes
+
+# TODO: Remove this once it's been run everywhere
+- name: Remove firewall rule for pidgin-sipe file transfers
+  ufw:
+    rule: allow
+    port: 6891:6901
+    proto: tcp
+    delete: yes
+  become: yes
