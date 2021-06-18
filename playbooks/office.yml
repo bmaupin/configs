@@ -1,6 +1,6 @@
 ---
 - hosts: 127.0.0.1
   roles:
-    - work
+    - office
   environment:
     DISPLAY: :0

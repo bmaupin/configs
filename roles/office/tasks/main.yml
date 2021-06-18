@@ -1,6 +1,6 @@
 ---
 - import_tasks: clamav.yml
-  tags: [work]
+  tags: [office]
 
 - name: Install desired packages
   apt:
@@ -10,7 +10,7 @@
       - ldap-utils
     state: present
   become: yes
-  tags: [work]
+  tags: [office]
 
 - name: Configure fail2ban
   copy:
@@ -19,7 +19,7 @@
     mode: 0444
   become: yes
   notify: Restart fail2ban
-  tags: [work]
+  tags: [office]
 
 - name: Configure cups server
   lineinfile:
@@ -27,13 +27,13 @@
     line: BrowsePoll {{ cups_server }}
   become: yes
   notify: Restart cups-browsed
-  tags: [work]
+  tags: [office]
 
 - name: Configure cups user
   lineinfile:
     path: ~/.profile
     line: export CUPS_USER={{ cups_user }}
-  tags: [work]
+  tags: [office]
 
 - name: Add firewall rules
   ufw:
@@ -43,7 +43,7 @@
     src: '{{ item.src }}'
   loop: '{{ firewall_add }}'
   become: yes
-  tags: [work]
+  tags: [office]
 
 - name: Delete firewall rules
   ufw:
@@ -54,7 +54,7 @@
     delete: yes
   loop: '{{ firewall_delete }}'
   become: yes
-  tags: [work]
+  tags: [office]
 
 - name: Set default audio output device
   lineinfile:
@@ -62,7 +62,7 @@
     line: set-default-sink 0
   become: yes
   notify: Remove ~/.config/pulse
-  tags: [work]
+  tags: [office]
 
 - name: Get the power manager plugin ID
   shell: xfconf-query -lv -c xfce4-panel | grep power-manager-plugin | awk '{print $1}'
@@ -71,7 +71,7 @@
   check_mode: no
   when:
     - "'ubuntu-xfce' in ansible_role_names"
-  tags: [work]
+  tags: [office]
 
 - name: Remove the power manager plugin
   # This removes the plugin from xfconf, but not the list of active plugins
@@ -81,4 +81,4 @@
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
-  tags: [work]
+  tags: [office]
