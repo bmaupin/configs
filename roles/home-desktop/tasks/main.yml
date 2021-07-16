@@ -1,12 +1,4 @@
 ---
-- name: Install desired packages
-  apt:
-    name:
-      - simple-scan
-    state: present
-  become: yes
-  tags: [home-desktop]
-
 # https://bugs.launchpad.net/ubuntu/+source/linux-oem-osp1/+bug/1864061
 # In 18.04 I'm not sure if the audio worked at all
 # In 20.04 it works but it doesn't properly detect the headset microphone so we can't set the volume
