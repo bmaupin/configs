@@ -6,7 +6,6 @@ dependencies:
   - firefox
   - git
   - libreoffice
-  - simple-scan
   - spotify
   - teams
   - terminator
