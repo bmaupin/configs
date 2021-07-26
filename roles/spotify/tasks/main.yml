@@ -13,6 +13,14 @@
   become: yes
   tags: [spotify]
 
+# For some reason uninstalling spotify-client didn't remove this file...
+- name: Remove spotify-client menu entry
+  file:
+    path: /usr/share/applications/spotify.desktop
+    state: absent
+  become: yes
+  tags: [spotify]
+
 # https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
 # To see which domains are being blocked:
 # 1. Make a note of when Spotify was opened (in case it's doing DNS caching, it might only do DNS request once)
@@ -26,7 +34,7 @@
   lineinfile:
     path: /etc/hosts
     regexp: '^#?{{ item | regex_escape() }}'
-    line: "#{{ item }}"
+    line: '#{{ item }}'
   loop:
     - 0.0.0.0 pagead.l.doubleclick.net
     - 0.0.0.0 spclient.wg.spotify.com
