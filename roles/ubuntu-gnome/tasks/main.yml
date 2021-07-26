@@ -163,6 +163,12 @@
       }
   tags: [ubuntu-gnome]
 
+- name: Allow workspaces on all displays
+  dconf:
+    key: /org/gnome/mutter/workspaces-only-on-primary
+    value: 'false'
+  tags: [ubuntu-gnome]
+
 - name: Reset screen lock keybindings
   dconf:
     key: '{{ item }}'
