@@ -64,6 +64,14 @@
   notify: Remove ~/.config/pulse
   tags: [office]
 
+- name: Automatically start Teams on login
+  copy:
+    src: /usr/share/applications/teams.desktop
+    dest: ~/.config/autostart/teams.desktop
+  when:
+    - "'teams' in ansible_role_names"
+  tags: [office]
+
 - name: Get the power manager plugin ID
   shell: xfconf-query -lv -c xfce4-panel | grep power-manager-plugin | awk '{print $1}'
   register: power_manager_plugin_id
