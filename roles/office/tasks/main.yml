@@ -5,7 +5,6 @@
 - name: Install desired packages
   apt:
     name:
-      - brasero
       - fail2ban
       - ldap-utils
     state: present
