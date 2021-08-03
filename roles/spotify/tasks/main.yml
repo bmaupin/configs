@@ -22,6 +22,8 @@
   tags: [spotify]
 
 # https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
+# To set up debugging of DNS logs (prerequisite for below): https://unix.stackexchange.com/a/432077/14436
+#   To undo DNS debugging: sudo systemctl revert systemd-resolved
 # To see which domains are being blocked:
 # 1. Make a note of when Spotify was opened (in case it's doing DNS caching, it might only do DNS request once)
 # 2. Clear old logs
