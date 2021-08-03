@@ -71,3 +71,12 @@
     state: link
   become: yes
   tags: [vscode]
+
+# https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
+- name: Increase inotify watches
+  lineinfile:
+    path: /etc/sysctl.conf
+    regexp: '^fs.inotify.max_user_watches=.*'
+    line: fs.inotify.max_user_watches=524288
+  become: yes
+  tags: [vscode]
