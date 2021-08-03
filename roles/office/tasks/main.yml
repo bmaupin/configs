@@ -70,6 +70,8 @@
   copy:
     src: /usr/share/applications/teams.desktop
     dest: ~/.config/autostart/teams.desktop
+    # Don't overwrite the file; the one Teams copies via the UI may be different
+    force: no
   when:
     - "'teams' in ansible_role_names"
   tags: [office]
