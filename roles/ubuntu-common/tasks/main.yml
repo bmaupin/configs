@@ -74,6 +74,19 @@
   notify: Update grub
   tags: [ubuntu-common]
 
+# This allows us to run newer kernels on LTS versions of Ubuntu
+# https://wiki.ubuntu.com/Kernel/LTSEnablementStack
+- name: Install the HWE kernel
+  apt:
+    name: linux-generic-hwe-20.04
+    install_recommends: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
+  tags: [ubuntu-common]
+
+# Ideally this should run after all other apt tasks in this role
 - name: Apt autoremove
   apt:
     autoremove: yes
