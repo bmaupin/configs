@@ -50,6 +50,7 @@
   become: yes
   tags: [ubuntu-gnome]
 
+# Many of these packages come from ubuntu-desktop and/or ubuntu-desktop-minimal, but we don't necessarily want all of those packages
 - name: Install desired packages
   apt:
     name:
@@ -64,6 +65,9 @@
       - gnome-shell-extension-system-monitor
       - gnome-shell-extension-ubuntu-dock
       - nautilus
+      # Not only does this show the Ubuntu logo during boot, without it a blank screen with a cursor will be shown
+      # instead of the login page (which can be found by using Ctrl+Alt+F2 then Ctrl+Alt+F1)
+      - plymouth-theme-spinner
       # Contains default settings for Gnome on Ubuntu; keybindings, etc
       - ubuntu-settings
       - yaru-theme-gnome-shell
