@@ -89,14 +89,19 @@
       }
   tags: [home-laptop]
 
-# TODO: This may have been fixed starting with kernel 5.7;
-# #f that's the case we may be able to remove this once the 5.7 kernel comes to Ubuntu 20.04 HWE
 # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
 - name: Work around boot errors
   replace:
     path: /etc/default/grub
-    regexp: '^GRUB_CMDLINE_LINUX=.*'
-    replace: 'GRUB_CMDLINE_LINUX="intremap=off"'
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=.*'
+    # Current workaround
+    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash intremap=off"'
+    # Use this one for testing
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash"'
+    # Previous workaround
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash noapic"'
+    # This is the default setting
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
   become: yes
   notify: Update grub
   tags: [home-laptop]
