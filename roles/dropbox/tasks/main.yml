@@ -19,7 +19,7 @@
 
 - name: Install Dropbox
   apt:
-    deb: "{{ dropbox_deb_url }}"
+    deb: '{{ dropbox_deb_url }}'
   become: yes
   when: result.rc is defined and result.rc != 0
   tags: [dropbox]
@@ -33,7 +33,7 @@
 
 - name: Clean up old custom autostart files
   file:
-    path: "{{ item }}"
+    path: '{{ item }}'
     state: absent
   loop:
     - ~/.config/autostart/dropbox-delayed.desktop
@@ -71,8 +71,8 @@
 # Unfortunately ignoring files and directories has to be done on each Dropbox client
 - name: Ignore node_modules directories
   xattr:
-    path: "{{ item }}"
+    path: '{{ item }}'
     key: com.dropbox.ignored
     value: '1'
-  loop: "{{ dropbox_node_modules_directories.stdout_lines }}"
+  loop: '{{ dropbox_node_modules_directories.stdout_lines }}'
   tags: [dropbox]
