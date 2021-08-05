@@ -12,9 +12,6 @@
     name: python-gpg
     state: present
   become: yes
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('18.04', '<=')
   tags: [dropbox]
 
 - name: Install Dropbox
