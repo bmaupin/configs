@@ -7,11 +7,24 @@
   register: result
   tags: [dropbox]
 
-- name: Install dependencies
+- name: Install dependencies (Ubuntu <= 18.04)
   apt:
     name: python-gpg
     state: present
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '<=')
+  tags: [dropbox]
+
+- name: Install dependencies (Ubuntu >= 20.04)
+  apt:
+    name: python3-gpg
+    state: present
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '>=')
   tags: [dropbox]
 
 - name: Install Dropbox
