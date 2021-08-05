@@ -22,7 +22,6 @@
   apt:
     name:
       - mpv
-      - python3
       - vim
     state: present
   become: yes
