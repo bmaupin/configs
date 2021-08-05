@@ -1,0 +1,6 @@
+---
+- name: Restart cups-browsed
+  service:
+    name: cups-browsed
+    state: restarted
+  become: yes

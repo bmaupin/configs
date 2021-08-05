@@ -8,6 +8,7 @@ dependencies:
   - firefox
   - git
   - libreoffice
+  - office
   - spotify
   - teams
   - terminator
