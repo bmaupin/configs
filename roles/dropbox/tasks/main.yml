@@ -72,7 +72,7 @@
 # We can't use the ansible find module because it can only filter on the basename portion of the path
 - name: Find node_modules directories
   # Ignore nested node_modules directories
-  shell: find ~/Dropbox -type d -name node_modules | egrep -v "node_modules/.*/node_modules"
+  shell: find ~/Dropbox -type d -name node_modules | egrep -v "node_modules/.*/node_modules" || true
   changed_when: no
   check_mode: no
   register: dropbox_node_modules_directories
