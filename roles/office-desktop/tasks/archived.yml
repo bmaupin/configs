@@ -7,7 +7,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '=')
-  tags: [office]
+  tags: [office-desktop]
 
 # This is to work around this bug: https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to kill polkitd
@@ -21,7 +21,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '=')
-  tags: [office]
+  tags: [office-desktop]
 
 # https://bugs.launchpad.net/ubuntu/+source/policykit-1/+bug/1470235
 - name: Configure cron job to report polkitd memory usage
@@ -33,4 +33,4 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '>=')
     - ansible_distribution_version is version('16.04', '<=')
-  tags: [office]
+  tags: [office-desktop]
