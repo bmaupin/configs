@@ -1,0 +1,16 @@
+---
+dependencies:
+  - chrome
+  - role: docker
+    vars:
+      docker_enable_service: yes
+  - dropbox
+  - firefox
+  - git
+  - office
+  - spotify
+  - teams
+  - terminator
+  - ubuntu-gnome
+  - vscode
+  - wine
