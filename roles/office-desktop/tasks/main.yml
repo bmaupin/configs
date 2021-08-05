@@ -1,6 +1,6 @@
 ---
 - import_tasks: clamav.yml
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Install desired packages
   apt:
@@ -9,7 +9,7 @@
       - ldap-utils
     state: present
   become: yes
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Configure fail2ban
   copy:
@@ -18,7 +18,7 @@
     mode: 0444
   become: yes
   notify: Restart fail2ban
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Configure cups server
   lineinfile:
@@ -26,13 +26,13 @@
     line: BrowsePoll {{ cups_server }}
   become: yes
   notify: Restart cups-browsed
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Configure cups user
   lineinfile:
     path: ~/.profile
     line: export CUPS_USER={{ cups_user }}
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Add firewall rules
   ufw:
@@ -42,7 +42,7 @@
     src: '{{ item.src }}'
   loop: '{{ firewall_add }}'
   become: yes
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Delete firewall rules
   ufw:
@@ -53,7 +53,7 @@
     delete: yes
   loop: '{{ firewall_delete }}'
   become: yes
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Set default audio output device
   lineinfile:
@@ -61,7 +61,7 @@
     line: set-default-sink 0
   become: yes
   notify: Remove ~/.config/pulse
-  tags: [office]
+  tags: [office-desktop]
 
 # This actually needs to be set from within the application (3 dots menu > Settings > Auto-start application) but we'll
 # leave it here as a reminder
@@ -73,7 +73,7 @@
     force: no
   when:
     - "'teams' in ansible_role_names"
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Get the power manager plugin ID
   shell: xfconf-query -lv -c xfce4-panel | grep power-manager-plugin | awk '{print $1}'
@@ -82,7 +82,7 @@
   check_mode: no
   when:
     - "'ubuntu-xfce' in ansible_role_names"
-  tags: [office]
+  tags: [office-desktop]
 
 - name: Remove the power manager plugin
   # This removes the plugin from xfconf, but not the list of active plugins
@@ -92,4 +92,4 @@
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - power_manager_plugin_id.stdout is defined and power_manager_plugin_id.stdout != ""
-  tags: [office]
+  tags: [office-desktop]
