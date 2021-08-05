@@ -7,10 +7,13 @@ dependencies:
   - dropbox
   - firefox
   - git
+  # - libreoffice
   - spotify
   - teams
   - terminator
   - ubuntu-gnome
+  # - vagrant
+  # - virtualbox
   - vscode
   - wine
   # This needs to come after teams
