@@ -1,10 +1,4 @@
 ---
-- name: Restart cups-browsed
-  service:
-    name: cups-browsed
-    state: restarted
-  become: yes
-
 - name: Restart fail2ban
   service:
     name: fail2ban
