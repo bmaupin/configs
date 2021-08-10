@@ -3,7 +3,9 @@
   apt:
     name:
       - ansible
-      # Prerequisite for ansible apt module
+      # Prerequisite for the ansible xattr module
+      - attr
+      # Prerequisite for the ansible apt module
       - python3-apt
       # Prerequisite for the ansible dconf module
       - python3-psutil
