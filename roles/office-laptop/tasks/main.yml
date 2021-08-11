@@ -6,3 +6,30 @@
     line: 'rfkill block bluetooth'
   when: "'ubuntu-gnome' in ansible_role_names"
   tags: [office-laptop]
+
+- name: Install smbios-utils
+  apt:
+    name: smbios-utils
+  become: yes
+  tags: [office-laptop]
+
+- name: Get battery charging configuration
+  shell: smbios-battery-ctl --get-charging-cfg
+  changed_when: no
+  check_mode: no
+  register: result
+  become: yes
+  tags: [office-laptop]
+
+- name: Set charging mode to custom
+  shell: smbios-battery-ctl --set-charging-mode=custom
+  when: "result.stdout_lines[0] != 'Charging mode: custom'"
+  become: yes
+  tags: [office-laptop]
+
+# Upper bound must be at least 56 as per https://github.com/dell/libsmbios/issues/101
+- name: Set custom charge interval
+  shell: smbios-battery-ctl --set-custom-charge-interval=51 56
+  when: "result.stdout_lines[1] != 'Charging interval: (51, 56)'"
+  become: yes
+  tags: [office-laptop]
