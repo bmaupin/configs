@@ -65,7 +65,7 @@
   replace:
     path: ~/.config/autostart/dropbox-custom.desktop
     regexp: '^Exec=.*'
-    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 15 && renice +19 $(pgrep dropbox)'"
+    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 10 && renice +19 $(pgrep dropbox)'"
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
