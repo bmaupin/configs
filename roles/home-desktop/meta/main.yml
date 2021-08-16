@@ -1,7 +1,6 @@
 ---
 dependencies:
   - chrome
-  - docker
   - dropbox
   - firefox
   - git
