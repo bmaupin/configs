@@ -2,10 +2,10 @@
 	ui = auto
 [core]
 	autocrlf = input
-[includeIf "gitdir:~/Dropbox/Projects/"]
+[includeIf "gitdir:~/Dropbox/workspace/personal/"]
     path = ~/workspace/personal/.gitconfig
-[includeIf "gitdir:~/go/src/"]
-    path = ~/workspace/personal/.gitconfig
+[includeIf "gitdir:~/Dropbox/workspace/work/"]
+    path = ~/workspace/work/.gitconfig
 [includeIf "gitdir:~/workspace/personal/"]
     path = ~/workspace/personal/.gitconfig
 [includeIf "gitdir:~/workspace/work/"]
