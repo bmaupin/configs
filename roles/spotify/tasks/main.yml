@@ -1,4 +1,12 @@
 ---
+# snap is slow, clutters the mounts, and clutters the home folder
+- name: Uninstall Spotify snap
+  snap:
+    name: spotify
+    state: absent
+  become: yes
+  tags: [spotify]
+
 - block:
     - name: Install Spotify repository
       apt_repository:
@@ -13,17 +21,17 @@
     # TODO: This doesn't actually seem to do anything...
     - name: Clean up old Spotify GPG keys
       apt_key:
-        id: "{{ item }}"
+        id: '{{ item }}'
         state: absent
       with_items:
         - 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+        - 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
       become: yes
       tags: [spotify]
 
     - name: Install Spotify GPG key
       apt_key:
-        keyserver: hkp://keyserver.ubuntu.com:80
-        id: 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+        url: https://download.spotify.com/debian/pubkey_0D811D58.gpg
         state: present
       become: yes
       tags: [spotify]
@@ -37,19 +45,10 @@
       become: yes
       tags: [spotify]
 
-# TODO: install Spotify using snap once snap support is added to ansible (https://www.spotify.com/us/download/linux/)
 - name: Install Spotify
   apt:
     name: spotify-client
     state: latest
-  become: yes
-  tags: [spotify]
-
-# For some reason uninstalling spotify-client didn't remove this file...
-- name: Remove spotify-client menu entry
-  file:
-    path: /usr/share/applications/spotify.desktop
-    state: absent
   become: yes
   tags: [spotify]
 
