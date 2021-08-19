@@ -1,7 +1,7 @@
 [color]
-	ui = auto
+    ui = auto
 [core]
-	autocrlf = input
+    autocrlf = input
 [includeIf "gitdir:~/Dropbox/workspace/personal/"]
     path = ~/workspace/personal/.gitconfig
 [includeIf "gitdir:~/Dropbox/workspace/work/"]
@@ -10,3 +10,5 @@
     path = ~/workspace/personal/.gitconfig
 [includeIf "gitdir:~/workspace/work/"]
     path = ~/workspace/work/.gitconfig
+[init]
+    defaultBranch = main
