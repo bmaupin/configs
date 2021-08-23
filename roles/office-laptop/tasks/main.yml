@@ -33,3 +33,23 @@
   when: "result.stdout_lines[1] != 'Charging interval: (51, 56)'"
   become: yes
   tags: [office-laptop]
+
+- name: Install missing Intel firmware
+  get_url:
+    url: 'https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/{{ item }}'
+    dest: '/lib/firmware/{{ item }}'
+  loop:
+    # This list was generated using output from sudo update-initramfs -u
+    - i915/bxt_guc_49.0.1.bin
+    - i915/cml_guc_49.0.1.bin
+    - i915/dg1_dmc_ver2_02.bin
+    - i915/ehl_guc_49.0.1.bin
+    - i915/glk_guc_49.0.1.bin
+    - i915/icl_guc_49.0.1.bin
+    - i915/kbl_guc_49.0.1.bin
+    - i915/skl_guc_49.0.1.bin
+    - i915/tgl_guc_49.0.1.bin
+    - i915/tgl_huc_7.5.0.bin
+  become: yes
+  notify: Update initramfs
+  tags: [office-laptop]
