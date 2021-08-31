@@ -6,6 +6,10 @@
       - apt-transport-https
       - ca-certificates
       - curl
+      # This allows docker to use the "secretservice" credential store, which (I think) is an interface for Gnome
+      # keyring. This is used to store credentials when using `docker login`, otherwise they get stored unencrypted in
+      # ~/.docker/config.json
+      - golang-docker-credential-helpers
       - software-properties-common
     state: present
   become: yes
