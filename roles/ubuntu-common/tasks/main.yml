@@ -117,14 +117,6 @@
   blockinfile:
     path: /etc/hosts
     block: |
-      # Spotify images
-      0.0.0.0 dailymix-images.scdn.co
-      0.0.0.0 i.scdn.co
-      0.0.0.0 mosaic.scdn.co
-      0.0.0.0 pl.scdn.co
-      0.0.0.0 seeded-session-images.scdn.co
-      0.0.0.0 thisis-images.scdn.co
-      # Other domains
       0.0.0.0 www.dailymotion.com
   become: yes
   tags: [ubuntu-common]
