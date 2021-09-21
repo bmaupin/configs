@@ -52,6 +52,21 @@
   become: yes
   tags: [spotify]
 
+- name: Block Spotify images
+  blockinfile:
+    path: /etc/hosts
+    # Use a unique marker, otherwise it will conflict with other blockinfile instances for /etc/hosts
+    marker: '# {mark} ANSIBLE MANAGED BLOCK - Block Spotify images'
+    block: |
+      0.0.0.0 dailymix-images.scdn.co
+      0.0.0.0 i.scdn.co
+      0.0.0.0 mosaic.scdn.co
+      0.0.0.0 pl.scdn.co
+      0.0.0.0 seeded-session-images.scdn.co
+      0.0.0.0 thisis-images.scdn.co
+  become: yes
+  tags: [spotify]
+
 # https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
 # To set up debugging of DNS logs (prerequisite for below): https://unix.stackexchange.com/a/432077/14436
 #   To undo DNS debugging: sudo systemctl revert systemd-resolved
