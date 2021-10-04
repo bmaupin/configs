@@ -1,4 +1,7 @@
 ---
+# Force Ansible to use Python 3; it seems to default to /usr/bin/python
+# TODO: We might be able to get rid of this starting with Ansible 2.12 (https://docs.ansible.com/ansible/latest/reference_appendices/interpreter_discovery.html#interpreter-discovery)
+ansible_python_interpreter: /usr/bin/python3
 cups_server: '{{ vault_cups_server }}'
 cups_user: '{{ vault_cups_user }}'
 deja_dup_remote_location: '{{ vault_deja_dup_remote_location }}'
