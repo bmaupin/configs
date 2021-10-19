@@ -27,6 +27,7 @@
         "*.xml.j2": "xml"
     },
     "prettier.requireConfig": true,
+    "redhat.telemetry.enabled": true,
     "trailing-spaces.deleteModifiedLinesOnly": true,
     "trailing-spaces.highlightCurrentLine": false,
     "trailing-spaces.trimOnSave": true,
