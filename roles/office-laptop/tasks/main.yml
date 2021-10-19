@@ -29,8 +29,9 @@
 
 # Upper bound must be at least 56 as per https://github.com/dell/libsmbios/issues/101
 - name: Set custom charge interval
-  shell: smbios-battery-ctl --set-custom-charge-interval=51 56
-  when: "result.stdout_lines[1] != 'Charging interval: (51, 56)'"
+  # TODO: bump this back down to 51 56 if we can figure out how to do S3 sleep...
+  shell: smbios-battery-ctl --set-custom-charge-interval=55 60
+  when: "result.stdout_lines[1] != 'Charging interval: (55, 60)'"
   become: yes
   tags: [office-laptop]
 
