@@ -13,3 +13,14 @@
   become: yes
   when: result.rc is defined and result.rc != 0
   tags: [teams]
+
+# This actually needs to be set from within the application (3 dots menu > Settings > Auto-start application) but we'll
+# leave it here as a reminder
+- name: Automatically start Teams on login
+  copy:
+    src: /usr/share/applications/teams.desktop
+    dest: ~/.config/autostart/teams.desktop
+    # Don't overwrite the file; the one Teams copies via the UI may be different
+    force: no
+  when: teams_autostart
+  tags: [teams]
