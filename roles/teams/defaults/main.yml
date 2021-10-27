@@ -1,0 +1,3 @@
+---
+# Whether or not to autostart Teams on login
+teams_autostart: no

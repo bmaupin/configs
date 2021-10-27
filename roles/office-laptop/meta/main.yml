@@ -9,7 +9,9 @@ dependencies:
   - git
   # - libreoffice
   - spotify
-  - teams
+  - role: teams
+    vars:
+      teams_autostart: yes
   - terminator
   - ubuntu-gnome
   # - vagrant
