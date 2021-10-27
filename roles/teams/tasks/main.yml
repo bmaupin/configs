@@ -14,13 +14,47 @@
   when: result.rc is defined and result.rc != 0
   tags: [teams]
 
-# This actually needs to be set from within the application (3 dots menu > Settings > Auto-start application) but we'll
-# leave it here as a reminder
-- name: Automatically start Teams on login
+- name: Copy custom desktop file
   copy:
     src: /usr/share/applications/teams.desktop
-    dest: ~/.config/autostart/teams.desktop
-    # Don't overwrite the file; the one Teams copies via the UI may be different
+    dest: ~/.local/share/applications/teams.desktop
+    # Don't overwrite the file since we'll modify it in the next step
     force: no
+  tags: [teams]
+
+# Work around this bug: https://microsoftteams.uservoice.com/forums/555103-public/suggestions/39956326-media-keys-affecting-teams-web-app
+- name: Disable hardware media key handling when manually opening Teams
+  replace:
+    path: ~/.local/share/applications/teams.desktop
+    regexp: '^Exec=teams %U'
+    replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
+  tags: [teams]
+
+# This actually needs to be set from within the application (3 dots menu > Settings > Auto-start application) but we'll
+# leave it here as a reminder to disable the default Teams autostart, which we need to do because even if we want
+# autostart, we need to use a custom autostart file (see below)
+- name: Disable default autostart
+  file:
+    path: ~/.config/autostart/teams.desktop
+    state: absent
+  tags: [teams]
+
+# We have to use a custom desktop file because the default one (teams.desktop) is managed by the Teams app and will be
+# overwritten
+- name: Copy custom autostart file
+  copy:
+    src: /usr/share/applications/teams.desktop
+    dest: ~/.config/autostart/teams-custom.desktop
+    # Don't overwrite the file since we'll modify it in the next step
+    force: no
+  when: teams_autostart
+  tags: [teams]
+
+# Work around this bug: https://microsoftteams.uservoice.com/forums/555103-public/suggestions/39956326-media-keys-affecting-teams-web-app
+- name: Disable hardware media key handling when Teams is automatically started
+  replace:
+    path: ~/.config/autostart/teams-custom.desktop
+    regexp: '^Exec=teams %U'
+    replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
   when: teams_autostart
   tags: [teams]
