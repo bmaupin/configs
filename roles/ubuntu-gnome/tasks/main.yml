@@ -369,3 +369,8 @@
   # Hack to show a warning instead of an error (https://stackoverflow.com/a/63557091/399105)
   ignore_errors: True
   tags: [ubuntu-gnome]
+
+# This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
+- name: Flush handlers
+  meta: flush_handlers
+  tags: [ubuntu-gnome]
