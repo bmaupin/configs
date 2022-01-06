@@ -122,12 +122,6 @@
     value: 'uint32 900'
   tags: [ubuntu-gnome]
 
-- name: Allow volume above 100%
-  dconf:
-    key: /org/gnome/desktop/sound/allow-volume-above-100-percent
-    value: 'true'
-  tags: [ubuntu-gnome]
-
 - name: Set keybindings
   dconf:
     key: '{{ item.key }}'
