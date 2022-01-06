@@ -89,6 +89,12 @@
       }
   tags: [home-laptop]
 
+- name: Allow volume above 100%
+  dconf:
+    key: /org/gnome/desktop/sound/allow-volume-above-100-percent
+    value: 'true'
+  tags: [home-laptop]
+
 # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
 - name: Work around boot errors
   replace:
