@@ -4,11 +4,17 @@
     name:
       - language-pack-fr
       - libreoffice-calc
-      - libreoffice-impress
       - libreoffice-writer
     state: present
   become: yes
-  tags: [libreoffice]
+  tags: libreoffice
+
+- name: Uninstall impress
+  apt:
+    name: libreoffice-impress
+    state: absent
+  become: yes
+  tags: libreoffice
 
 - name: Install LibreOffice French support
   apt:
@@ -19,4 +25,4 @@
       - mythes-fr
     state: present
   become: yes
-  tags: [libreoffice]
+  tags: libreoffice
