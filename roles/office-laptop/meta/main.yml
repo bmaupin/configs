@@ -8,6 +8,7 @@ dependencies:
   - firefox
   - git
   - libreoffice
+  - office
   - spotify
   - role: teams
     vars:
@@ -18,5 +19,3 @@ dependencies:
   # - virtualbox
   - vscode
   - wine
-  # This needs to come after teams
-  - office

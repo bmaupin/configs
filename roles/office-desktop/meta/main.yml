@@ -8,6 +8,7 @@ dependencies:
   - firefox
   - git
   - libreoffice
+  - office
   - spotify
   - teams
   - terminator
@@ -16,5 +17,3 @@ dependencies:
   - virtualbox
   - vscode
   - wine
-  # This needs to come after teams
-  - office
