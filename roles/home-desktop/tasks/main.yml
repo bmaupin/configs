@@ -41,3 +41,18 @@
   become: yes
   notify: Update grub
   tags: [home-desktop]
+
+# This allows us to boot to an older kernel if the rtl8812bu kernel module isn't working
+- name: Enable grub menu with 5 second timeout
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop:
+    # Default value is hidden
+    - { regexp: '^GRUB_TIMEOUT_STYLE', line: 'GRUB_TIMEOUT_STYLE=menu' }
+    # Default value is 0
+    - { regexp: '^GRUB_TIMEOUT', line: 'GRUB_TIMEOUT=5' }
+  become: yes
+  notify: Update grub
+  tags: [home-desktop]
