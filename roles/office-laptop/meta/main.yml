@@ -12,7 +12,8 @@ dependencies:
   - spotify
   - role: teams
     vars:
-      teams_autostart: yes
+      # When Teams is autostarted it seems to have problems recognizing the microphone
+      teams_autostart: no
   - terminator
   - ubuntu-gnome
   # - vagrant
