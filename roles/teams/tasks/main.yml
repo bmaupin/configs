@@ -58,3 +58,10 @@
     replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
   when: teams_autostart
   tags: [teams]
+
+- name: Remove custom autostart file
+  file:
+    path: ~/.config/autostart/teams-custom.desktop
+    state: absent
+  when: not teams_autostart
+  tags: [teams]
