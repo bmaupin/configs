@@ -22,7 +22,7 @@
     force: no
   tags: [teams]
 
-# Work around this bug: https://microsoftteams.uservoice.com/forums/555103-public/suggestions/39956326-media-keys-affecting-teams-web-app
+# Work around this bug: https://feedbackportal.microsoft.com/feedback/idea/b0668d5e-272e-ec11-b6e6-00224827bbc2
 - name: Disable hardware media key handling when manually opening Teams
   replace:
     path: ~/.local/share/applications/teams.desktop
@@ -50,7 +50,7 @@
   when: teams_autostart
   tags: [teams]
 
-# Work around this bug: https://microsoftteams.uservoice.com/forums/555103-public/suggestions/39956326-media-keys-affecting-teams-web-app
+# Work around this bug: https://feedbackportal.microsoft.com/feedback/idea/b0668d5e-272e-ec11-b6e6-00224827bbc2
 - name: Disable hardware media key handling when Teams is automatically started
   replace:
     path: ~/.config/autostart/teams-custom.desktop
