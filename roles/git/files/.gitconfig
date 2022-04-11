@@ -11,4 +11,5 @@
 [includeIf "gitdir:~/workspace/work/"]
     path = ~/workspace/work/.gitconfig
 [init]
+    # NOTE: This was added in Git 2.28; until then you can just do `git init && git checkout -b main`
     defaultBranch = main
