@@ -1,8 +1,42 @@
 ---
-- name: Install vagrant
+- name: Get Ubuntu release codename
+  shell: lsb_release -cs
+  changed_when: no
+  check_mode: no
+  register: release
+  tags: [vagrant]
+
+- block:
+    - name: Install Vagrant repository
+      apt_repository:
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com {{ release.stdout }} main
+        state: present
+        filename: vagrant
+        update_cache: yes
+      become: yes
+      tags: [vagrant]
+
+  rescue:
+    - name: Install Vagrant GPG key
+      apt_key:
+        url: https://apt.releases.hashicorp.com/gpg
+        state: present
+      become: yes
+      tags: [vagrant]
+
+    - name: Install Vagrant repository
+      apt_repository:
+        repo: deb [arch=amd64] https://apt.releases.hashicorp.com {{ release.stdout }} main
+        state: present
+        filename: vagrant
+        update_cache: yes
+      become: yes
+      tags: [vagrant]
+
+- name: Install Vagrant
   apt:
     name: vagrant
-    state: present
+    state: latest
   become: yes
   tags: [vagrant]
 
