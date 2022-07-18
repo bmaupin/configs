@@ -31,11 +31,13 @@
   "trailing-spaces.deleteModifiedLinesOnly": true,
   "trailing-spaces.highlightCurrentLine": false,
   "trailing-spaces.trimOnSave": true,
+  "typescript.updateImportsOnFileMove.enabled": "always",
   "window.titleBarStyle": "custom",
   "workbench.colorTheme": "Solarized Dark High Contrast",
   // This will disable the icons in the file explorer sidebar
   "workbench.iconTheme": null,
-  "workbench.statusBar.feedback.visible": false,
+  // The Feedback icon now needs to be disabled manually by clicking on the bottom bar and unchecking Feedback :/
+  // "workbench.statusBar.feedback.visible": false,
   "[css]": {
     "editor.tabSize": 2
   },
