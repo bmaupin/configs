@@ -225,7 +225,7 @@
       }
     - {
         key: /org/gnome/settings-daemon/plugins/color/night-light-enabled,
-        value: 'true',
+        value: 'false',
       }
   tags: [ubuntu-gnome]
 
