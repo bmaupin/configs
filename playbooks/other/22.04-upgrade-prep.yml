@@ -1,0 +1,75 @@
+# Instructions:
+# 1. Run the appropriate playbook in the parent directory
+#     e.g. ansible-playbook playbooks/home-desktop.yml
+# 1. Run this playbook
+# 1. Upgrade Ubuntu
+#     sudo do-release-upgrade -f DistUpgradeViewGtk3
+---
+- hosts: 127.0.0.1
+
+  tasks:
+    - name: Remove custom packages for 20.04
+      apt:
+        name:
+          - gnome-shell-extension-system-monitor
+        state: absent
+        purge: yes
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Apt autoremove
+      apt:
+        autoremove: yes
+        purge: yes
+      become: yes
+      register: result
+      changed_when: result.stdout.find(' 0 to remove') == -1
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Back up dconf settings with gsettings
+      shell: gsettings list-recursively | sort > ~/Desktop/gsettings-backup-20.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Back up dconf settings with dconf
+      shell: dconf dump / > ~/Desktop/dconf-backup-20.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Back up list of apt packages
+      shell: dpkg -l > ~/Desktop/dpkg-l-20.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Back up list of snap packages
+      shell: snap list > ~/Desktop/snap-list-20.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Back up network settings
+      shell: ifconfig > ~/Desktop/ifconfig-20.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Reset dconf settings
+      shell: dconf reset -f /
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
+
+    - name: Set screen inactivity timeout
+      dconf:
+        key: /org/gnome/desktop/session/idle-delay
+        value: 'uint32 900'
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('20.04', '=')
