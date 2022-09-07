@@ -50,35 +50,6 @@
   become: yes
   tags: [ubuntu-gnome]
 
-# Many of these packages come from ubuntu-desktop and/or ubuntu-desktop-minimal, but we don't necessarily want all of those packages
-- name: Install desired packages
-  apt:
-    name:
-      - fonts-noto-color-emoji
-      - gdm3
-      - gnome-calculator
-      - gnome-characters
-      - gnome-control-center
-      - gnome-screenshot
-      - gnome-shell-extension-appindicator
-      - gnome-shell-extension-desktop-icons
-      - gnome-shell-extension-system-monitor
-      - gnome-shell-extension-ubuntu-dock
-      - nautilus
-      # Not only does this show the Ubuntu logo during boot, without it a blank screen with a cursor will be shown
-      # instead of the login page (which can be found by using Ctrl+Alt+F2 then Ctrl+Alt+F1)
-      - plymouth-theme-spinner
-      # Contains default settings for Gnome on Ubuntu; keybindings, etc
-      - ubuntu-settings
-      - yaru-theme-gnome-shell
-      - yaru-theme-gtk
-      - yaru-theme-icon
-      - yaru-theme-sound
-    state: present
-  become: yes
-  notify: Restart Gnome Shell
-  tags: [ubuntu-gnome]
-
 - name: Set theme
   dconf:
     key: '{{ item.key }}'
