@@ -1,3 +1,4 @@
 ---
 # Whether or not to autostart Teams on login
 teams_autostart: no
+teams_repo: deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main

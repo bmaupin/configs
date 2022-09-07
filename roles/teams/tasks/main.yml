@@ -1,17 +1,36 @@
 ---
-- name: Check if Teams is installed
-  shell: dpkg -l teams
-  changed_when: no
-  check_mode: no
-  failed_when: no
-  register: result
-  tags: [teams]
+- block:
+    - name: Install Teams repository
+      apt_repository:
+        repo: '{{ teams_repo }}'
+        state: present
+        filename: teams
+        update_cache: yes
+      become: yes
+      tags: [teams]
+
+  rescue:
+    - name: Install Microsoft GPG key
+      apt_key:
+        url: https://packages.microsoft.com/keys/microsoft.asc
+        state: present
+      become: yes
+      tags: [teams]
+
+    - name: Install Teams repository
+      apt_repository:
+        repo: '{{ teams_repo }}'
+        state: present
+        filename: teams
+        update_cache: yes
+      become: yes
+      tags: [teams]
 
 - name: Install Teams
   apt:
-    deb: https://teams.microsoft.com/downloads/desktopurl?env=production&plat=linux&arch=x64&download=true&linuxArchiveType=deb
+    name: teams
+    state: latest
   become: yes
-  when: result.rc is defined and result.rc != 0
   tags: [teams]
 
 - name: Copy custom desktop file
