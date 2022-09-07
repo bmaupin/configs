@@ -4,6 +4,8 @@
 # 1. Run this playbook
 # 1. Upgrade Ubuntu
 #     sudo do-release-upgrade -f DistUpgradeViewGtk3
+# 1. Restore favourite (pinned) apps in the dock
+#     gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/gsettings-backup-20.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
 ---
 - hosts: 127.0.0.1
 
