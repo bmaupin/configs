@@ -50,7 +50,7 @@
   become: yes
   tags: [ubuntu-gnome]
 
-- name: Set theme
+- name: Set theme (Ubuntu 20.04)
   dconf:
     key: '{{ item.key }}'
     value: '{{ item.value }}'
@@ -62,6 +62,20 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('20.04', '=')
+  notify: Restart Gnome Shell
+  tags: [ubuntu-gnome]
+
+- name: Set theme (Ubuntu 22.04)
+  dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - { key: /org/gnome/desktop/interface/color-scheme, value: "'prefer-dark'" }
+    - { key: /org/gnome/desktop/interface/gtk-theme, value: "'Yaru-dark'" }
+    - { key: /org/gnome/gedit/preferences/editor/scheme, value: "'Yaru-dark'" }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
   notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
