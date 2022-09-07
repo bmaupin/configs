@@ -180,6 +180,9 @@
   dconf:
     key: /org/gnome/desktop/wm/preferences/button-layout
     value: "'appmenu:minimize,close'"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Hide home and trash icons on desktop
@@ -198,6 +201,9 @@
   dconf:
     key: /org/gnome/nautilus/icon-view/default-zoom-level
     value: "'small'"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Enable delete in file manager
@@ -233,6 +239,9 @@
   dconf:
     key: /org/gnome/shell/disable-user-extensions
     value: 'false'
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Set enabled extensions
@@ -286,6 +295,9 @@
   dconf:
     key: /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
     value: '0'
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Isolate windows to each workspace
