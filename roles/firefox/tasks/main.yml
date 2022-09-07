@@ -10,6 +10,20 @@
     - ansible_distribution_version is version('22.04', '=')
   tags: [firefox]
 
+# Installing a repo via a PPA (as below) will automatically install the key, but will
+# cause a deprecation warning because it gets installed in /etc/apt/trusted.gpg instead of
+# /etc/apt/trusted.gpg.d/
+- name: Install Mozilla team PPA GPG key
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 0AB215679C571D1C8325275B9BDB3D89CE49EC21
+    keyring: /etc/apt/trusted.gpg.d/mozillateam.gpg
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [firefox]
+
 - name: Install Mozilla team PPA
   apt_repository:
     repo: ppa:mozillateam/ppa

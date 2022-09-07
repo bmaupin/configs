@@ -22,32 +22,22 @@
   register: release
   tags: [docker]
 
-- block:
-    - name: Install Docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
-        state: present
-        filename: docker
-        update_cache: yes
-      become: yes
-      tags: [docker]
+- name: Install Docker GPG key
+  apt_key:
+    url: https://download.docker.com/linux/ubuntu/gpg
+    keyring: /etc/apt/trusted.gpg.d/docker.gpg
+    state: present
+  become: yes
+  tags: [docker]
 
-  rescue:
-    - name: Install Docker GPG key
-      apt_key:
-        url: https://download.docker.com/linux/ubuntu/gpg
-        state: present
-      become: yes
-      tags: [docker]
-
-    - name: Install Docker repository
-      apt_repository:
-        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
-        state: present
-        filename: docker
-        update_cache: yes
-      become: yes
-      tags: [docker]
+- name: Install Docker repository
+  apt_repository:
+    repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu {{ release.stdout }} stable
+    state: present
+    filename: docker
+    update_cache: yes
+  become: yes
+  tags: [docker]
 
 - name: Install Docker CE
   apt:

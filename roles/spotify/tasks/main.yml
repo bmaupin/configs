@@ -7,44 +7,33 @@
   become: yes
   tags: [spotify]
 
-- block:
-    - name: Install Spotify repository
-      apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        state: present
-        filename: spotify
-        update_cache: yes
-      become: yes
-      tags: [spotify]
+# TODO: This doesn't actually seem to do anything...
+- name: Clean up old Spotify GPG keys
+  apt_key:
+    id: '{{ item }}'
+    state: absent
+  with_items:
+    - 0DF731E45CE24F27EEEB1450EFDC8610341D9410
+    - 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
+    - 8FD3D9A8D3800305A9FFF259D1742AD60D811D58
+  become: yes
+  tags: [spotify]
 
-  rescue:
-    # TODO: This doesn't actually seem to do anything...
-    - name: Clean up old Spotify GPG keys
-      apt_key:
-        id: '{{ item }}'
-        state: absent
-      with_items:
-        - 0DF731E45CE24F27EEEB1450EFDC8610341D9410
-        - 931FF8E79F0876134EDDBDCCA87FF9DF48BF1C90
-        - 8FD3D9A8D3800305A9FFF259D1742AD60D811D58
-      become: yes
-      tags: [spotify]
+- name: Install Spotify GPG key
+  apt_key:
+    url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
+    keyring: /etc/apt/trusted.gpg.d/spotify.gpg
+  become: yes
+  tags: [spotify]
 
-    - name: Install Spotify GPG key
-      apt_key:
-        url: https://download.spotify.com/debian/pubkey_5E3C45D7B312C643.gpg
-        state: present
-      become: yes
-      tags: [spotify]
-
-    - name: Install Spotify repository
-      apt_repository:
-        repo: deb http://repository.spotify.com stable non-free
-        state: present
-        filename: spotify
-        update_cache: yes
-      become: yes
-      tags: [spotify]
+- name: Install Spotify repository
+  apt_repository:
+    repo: deb http://repository.spotify.com stable non-free
+    state: present
+    filename: spotify
+    update_cache: yes
+  become: yes
+  tags: [spotify]
 
 - name: Install Spotify
   apt:
