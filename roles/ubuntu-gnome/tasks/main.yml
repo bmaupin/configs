@@ -22,13 +22,30 @@
     - zeitgeist-datahub.desktop
   tags: [ubuntu-gnome]
 
-- name: Remove undesired snap packages
+- name: Remove undesired snap packages (Ubuntu >= 20.04)
   snap:
     name:
+      - gnome-3-28-1804
+      - gnome-3-34-1804
       - gnome-calculator
       - gnome-characters
     state: absent
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '>=')
+  tags: [ubuntu-gnome]
+
+# If this task fails, do: sudo snap refresh snap-store --channel=latest/stable/ubuntu-22.04
+- name: Remove undesired snap packages (Ubuntu >= 22.04)
+  snap:
+    name:
+      - core18
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>=')
   tags: [ubuntu-gnome]
 
 - name: Remove undesired packages
