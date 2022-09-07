@@ -6,49 +6,25 @@
   register: release
   tags: [virtualbox]
 
-- block:
-    - name: Install VirtualBox repository
-      apt_repository:
-        repo: "deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib"
-        state: present
-        filename: virtualbox
-        update_cache: yes
-      become: yes
-      tags: [virtualbox]
+- name: Install VirtualBox GPG key
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    keyring: /etc/apt/trusted.gpg.d/virtualbox.gpg
+  become: yes
+  tags: [virtualbox]
 
-  rescue:
-    - name: Install VirtualBox GPG key
-      apt_key:
-        url: https://www.virtualbox.org/download/oracle_vbox.asc
-        state: present
-      become: yes
-      when:
-        - ansible_distribution == "Ubuntu"
-        - ansible_distribution_version is version('14.04', '<=')
-      tags: [virtualbox]
-
-    - name: Install VirtualBox GPG key
-      apt_key:
-        url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
-        state: present
-      become: yes
-      when:
-        - ansible_distribution == "Ubuntu"
-        - ansible_distribution_version is version('16.04', '>=')
-      tags: [virtualbox]
-
-    - name: Install VirtualBox repository
-      apt_repository:
-        repo: "deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib"
-        state: present
-        filename: virtualbox
-        update_cache: yes
-      become: yes
-      tags: [virtualbox]
+- name: Install VirtualBox repository
+  apt_repository:
+    repo: 'deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib'
+    state: present
+    filename: virtualbox
+    update_cache: yes
+  become: yes
+  tags: [virtualbox]
 
 - name: Install VirtualBox
   apt:
-    name: "virtualbox-{{ virtualbox_version }}"
+    name: 'virtualbox-{{ virtualbox_version }}'
     state: latest
   become: yes
   ignore_errors: '{{ ansible_check_mode }}'
