@@ -144,6 +144,9 @@
         key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up,
         value: "['<Control><Alt>Up', '<Super>Up']",
       }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Allow workspaces on all displays
@@ -179,7 +182,7 @@
     - /org/gnome/shell/extensions/desktop-icons/show-trash
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '=')
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Configure Desktop Icons NG extension
@@ -304,8 +307,11 @@
 
 - name: Isolate windows to each workspace
   dconf:
-    key: /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces
+    key: '{{ item }}'
     value: 'true'
+  loop:
+    - /org/gnome/shell/app-switcher/current-workspace-only
+    - /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces
   tags: [ubuntu-gnome]
 
 - name: Configure Gnome Shell system monitor extension
