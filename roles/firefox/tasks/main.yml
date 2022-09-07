@@ -1,4 +1,45 @@
 ---
+# https://askubuntu.com/a/1404401/18665
+- name: Remove Firefox snap
+  snap:
+    name: firefox
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [firefox]
+
+- name: Install Mozilla team PPA
+  apt_repository:
+    repo: ppa:mozillateam/ppa
+    update_cache: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [firefox]
+
+- name: Prioritize installation of the apt version of Firefox
+  copy:
+    src: mozilla-firefox
+    dest: /etc/apt/preferences.d/mozilla-firefox
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [firefox]
+
+- name: Configure unattended upgrades to use the apt version of Firefox
+  copy:
+    content: 'Unattended-Upgrade::Allowed-Origins:: "LP-PPA-mozillateam:${distro_codename}";'
+    dest: /etc/apt/apt.conf.d/51unattended-upgrades-firefox
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [firefox]
+
 - name: Install necessary packages
   apt:
     name:
