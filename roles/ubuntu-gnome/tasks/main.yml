@@ -182,6 +182,23 @@
     - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
+- name: Configure Desktop Icons NG extension
+  dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    # Don't show home icon on desktop
+    - { key: /org/gnome/shell/extensions/ding/show-home, value: false }
+    # Put new icons in top left (default is bottom right)
+    - {
+        key: /org/gnome/shell/extensions/ding/start-corner,
+        value: "'top-left'",
+      }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [ubuntu-gnome]
+
 - name: Set file manager icon zoom level
   dconf:
     key: /org/gnome/nautilus/icon-view/default-zoom-level
