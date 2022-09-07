@@ -12,9 +12,7 @@
     // This enables autocomplete similar to default Sublime Text behaviour
     "strings": true
   },
-  "editor.rulers": [
-    90
-  ],
+  "editor.rulers": [90],
   "extensions.ignoreRecommendations": true,
   "files.associations": {
     "*.conf.j2": "properties",
