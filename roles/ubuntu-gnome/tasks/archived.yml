@@ -1,4 +1,6 @@
 ---
+# ******************** Ubuntu 18.04 tasks ********************
+
 - name: Install Pop!_OS repository
   apt_repository:
     repo: ppa:system76/pop
@@ -40,7 +42,7 @@
 - name: Hide trash icon on desktop
   dconf:
     key: /org/gnome/nautilus/desktop/trash-icon-visible
-    value: "false"
+    value: 'false'
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('18.04', '<=')
@@ -50,12 +52,12 @@
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: "[\
-        'batteryiconfix@kylecorry31.github.io',
-        'donotdisturb@kylecorry31.github.io',
-        'pop-suspend-button@system76.com',
-        'system-monitor@paradoxxx.zero.gmail.com',
-        'ubuntu-appindicators@ubuntu.com',
-        'ubuntu-dock@ubuntu.com'\
+      'batteryiconfix@kylecorry31.github.io',
+      'donotdisturb@kylecorry31.github.io',
+      'pop-suspend-button@system76.com',
+      'system-monitor@paradoxxx.zero.gmail.com',
+      'ubuntu-appindicators@ubuntu.com',
+      'ubuntu-dock@ubuntu.com'\
       ]"
   when:
     - ansible_distribution == "Ubuntu"
@@ -72,4 +74,86 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('18.04', '=')
+  tags: [ubuntu-gnome]
+
+# ******************** Xubuntu to Ubuntu migration tasks ********************
+
+- name: Remove undesired apps from autostart
+  file:
+    path: ~/.config/autostart/{{ item }}
+    state: absent
+  loop:
+    - blueman.desktop
+    - evolution-alarm-notify.desktop
+    - google-chrome.desktop
+    - indicator-multiload.desktop
+    - indicator-sensors.desktop
+    - light-locker.desktop
+    - redshift-gtk.desktop
+    - screensaver-settings.desktop
+    - tracker-extract.desktop
+    - tracker-miner-apps.desktop
+    - tracker-miner-fs.desktop
+    - tracker-miner-user-guides.desktop
+    - tracker-store.desktop
+    - xfce4-power-manager.desktop
+    - xscreensaver.desktop
+    - zeitgeist-datahub.desktop
+  tags: [ubuntu-gnome]
+
+# Many of these packages come from ubuntu-desktop and/or ubuntu-desktop-minimal, but we don't necessarily want all of those packages
+- name: Install desired packages
+  apt:
+    name:
+      - fonts-noto-color-emoji
+      - gdm3
+      - gnome-calculator
+      - gnome-characters
+      - gnome-control-center
+      - gnome-screenshot
+      - gnome-shell-extension-appindicator
+      - gnome-shell-extension-desktop-icons
+      - gnome-shell-extension-system-monitor
+      - gnome-shell-extension-ubuntu-dock
+      - nautilus
+      # Not only does this show the Ubuntu logo during boot, without it a blank screen with a cursor will be shown
+      # instead of the login page (which can be found by using Ctrl+Alt+F2 then Ctrl+Alt+F1)
+      - plymouth-theme-spinner
+      # Contains default settings for Gnome on Ubuntu; keybindings, etc
+      - ubuntu-settings
+      - yaru-theme-gnome-shell
+      - yaru-theme-gtk
+      - yaru-theme-icon
+      - yaru-theme-sound
+    state: present
+  become: yes
+  notify: Restart Gnome Shell
+  tags: [ubuntu-gnome]
+
+- name: Remove undesired packages
+  apt:
+    name:
+      - doc-base
+      - indicator*
+      - lightdm*
+      - pavucontrol
+      - pinentry-gtk2
+      - plymouth-theme-xubuntu*
+      - redshift
+      - xfce4*
+      - xfdesktop4*
+      - xterm
+      - xubuntu*
+    state: absent
+    purge: yes
+  become: yes
+  tags: [ubuntu-gnome]
+
+- name: Reset screen lock keybindings
+  dconf:
+    key: '{{ item }}'
+    state: absent
+  loop:
+    - /org/gnome/settings-daemon/plugins/media-keys/logout
+    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
   tags: [ubuntu-gnome]
