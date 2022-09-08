@@ -1,27 +1,4 @@
 ---
-- name: Remove undesired apps from autostart
-  file:
-    path: ~/.config/autostart/{{ item }}
-    state: absent
-  loop:
-    - blueman.desktop
-    - evolution-alarm-notify.desktop
-    - google-chrome.desktop
-    - indicator-multiload.desktop
-    - indicator-sensors.desktop
-    - light-locker.desktop
-    - redshift-gtk.desktop
-    - screensaver-settings.desktop
-    - tracker-extract.desktop
-    - tracker-miner-apps.desktop
-    - tracker-miner-fs.desktop
-    - tracker-miner-user-guides.desktop
-    - tracker-store.desktop
-    - xfce4-power-manager.desktop
-    - xscreensaver.desktop
-    - zeitgeist-datahub.desktop
-  tags: [ubuntu-gnome]
-
 - name: Remove undesired snap packages (Ubuntu >= 20.04)
   snap:
     name:
@@ -46,25 +23,6 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
-  tags: [ubuntu-gnome]
-
-- name: Remove undesired packages
-  apt:
-    name:
-      - doc-base
-      - indicator*
-      - lightdm*
-      - pavucontrol
-      - pinentry-gtk2
-      - plymouth-theme-xubuntu*
-      - redshift
-      - xfce4*
-      - xfdesktop4*
-      - xterm
-      - xubuntu*
-    state: absent
-    purge: yes
-  become: yes
   tags: [ubuntu-gnome]
 
 - name: Set theme (Ubuntu 20.04)
@@ -172,15 +130,6 @@
     value: 'false'
   tags: [ubuntu-gnome]
 
-- name: Reset screen lock keybindings
-  dconf:
-    key: '{{ item }}'
-    state: absent
-  loop:
-    - /org/gnome/settings-daemon/plugins/media-keys/logout
-    - /org/gnome/settings-daemon/plugins/media-keys/screensaver
-  tags: [ubuntu-gnome]
-
 - name: Show minimize button
   dconf:
     key: /org/gnome/desktop/wm/preferences/button-layout
@@ -266,7 +215,7 @@
     - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
-- name: Set enabled extensions
+- name: Set enabled extensions (Ubuntu 20.04)
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: "[\
@@ -280,7 +229,7 @@
     - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Set enabled extensions
+- name: Set enabled extensions (Ubuntu 22.04)
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: "[\
@@ -346,6 +295,9 @@
         key: /org/gnome/shell/extensions/dash-to-dock/show-trash,
         value: 'false',
       }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Isolate windows to each workspace
@@ -361,6 +313,9 @@
   apt:
     name: gir1.2-gtop-2.0
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Install Gnome Shell system monitor extension
@@ -368,6 +323,9 @@
   args:
     creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor@paradoxxx.zero.gmail.com/"
   notify: Restart Gnome Shell
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
 - name: Configure Gnome Shell system monitor extension
