@@ -1,6 +1,6 @@
 ---
 - name: Check if Chrome is installed
-  shell: dpkg -l google-chrome-stable
+  shell: dpkg -l google-chrome-stable | grep ^ii
   changed_when: no
   check_mode: no
   failed_when: no
