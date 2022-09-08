@@ -280,6 +280,17 @@
     - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
+- name: Set enabled extensions
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: "[\
+      'system-monitor@paradoxxx.zero.gmail.com'\
+      ]"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [ubuntu-gnome]
+
 - name: Make dock non-transparent
   dconf:
     key: '{{ item.key }}'
@@ -344,6 +355,19 @@
   loop:
     - /org/gnome/shell/app-switcher/current-workspace-only
     - /org/gnome/shell/extensions/dash-to-dock/isolate-workspaces
+  tags: [ubuntu-gnome]
+
+- name: Install prerequisites for Gnome Shell system monitor extension
+  apt:
+    name: gir1.2-gtop-2.0
+  become: yes
+  tags: [ubuntu-gnome]
+
+- name: Install Gnome Shell system monitor extension
+  script: install-gnome-shell-extension-system-monitor.sh
+  args:
+    creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor@paradoxxx.zero.gmail.com/"
+  notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
 - name: Configure Gnome Shell system monitor extension
