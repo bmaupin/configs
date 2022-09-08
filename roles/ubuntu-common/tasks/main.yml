@@ -147,6 +147,23 @@
   become: yes
   tags: [ubuntu-common]
 
+# We could also just do this in one shell command, e.g. apt -y purge $(dpkg -l | grep ^r | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" | tr '\n' ' ')
+# But by having separate commands we can see exactly what's uninstalled
+- name: Get the list of uninstalled kernel packages that can be purged
+  shell: dpkg -l | grep ^r | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" || true
+  register: kernel_packages_to_purge
+  changed_when: no
+  tags: [ubuntu-common]
+
+- name: Purge uninstalled kernel packages
+  apt:
+    name: '{{ item }}'
+    state: absent
+    purge: yes
+  loop: '{{ kernel_packages_to_purge.stdout_lines }}'
+  become: yes
+  tags: [ubuntu-common]
+
 # Ideally this should run after all other apt tasks in this role
 - name: Apt autoremove
   apt:
