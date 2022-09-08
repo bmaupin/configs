@@ -1,4 +1,10 @@
 ---
 # https://askubuntu.com/a/100228/18665
 - name: Restart Gnome Shell
-  shell: killall -3 gnome-shell
+  # Restart Teams as well if it was running since restarting Gnome Shell will kill it
+  shell: >
+    teams_running=$(ps -ef | grep [/]usr/share/teams/teams);
+    echo "teams_running=$teams_running" > ~/Desktop/tmp-handler.txt;
+    if [ -n "$teams_running" ]; then
+      teams --disable-features=HardwareMediaKeyHandling
+    fi;
