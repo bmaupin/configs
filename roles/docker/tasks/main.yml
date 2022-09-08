@@ -26,7 +26,6 @@
   apt_key:
     url: https://download.docker.com/linux/ubuntu/gpg
     keyring: /etc/apt/trusted.gpg.d/docker.gpg
-    state: present
   become: yes
   tags: [docker]
 
@@ -50,7 +49,7 @@
 # Run su - $USER to make it take effect immediately (https://superuser.com/a/354475/93066)
 - name: Add user to docker group
   user:
-    name: "{{ ansible_user_id }}"
+    name: '{{ ansible_user_id }}'
     groups: docker
     append: yes
   become: yes
@@ -64,47 +63,62 @@
   notify: Restart docker
   tags: [docker]
 
+- name: Uninstall docker-compose package
+  apt:
+    name: docker-compose
+    state: absent
+  become: yes
+  tags: [docker]
+
+# TODO: remove this once it's cleaned up everywhere
+- name: Remove /usr/local/bin/docker-compose
+  file:
+    path: /usr/local/bin/docker-compose
+    state: absent
+  become: yes
+  tags: [docker]
+
 - name: Install Docker Compose
   get_url:
-    url: https://github.com/docker/compose/releases/download/{{ docker_compose_version }}/docker-compose-Linux-x86_64
-    dest: /usr/local/bin/docker-compose
+    url: https://github.com/docker/compose/releases/latest/download/docker-compose-linux-x86_64
+    dest: ~/bin/docker-compose
     mode: 0755
-  become: yes
   tags: [docker]
 
 - name: Create cron job to disable auto restart of containers
   cron:
     name: Disable auto restart of docker containers
-    minute: "0"
-    hour: "17"
-    job: "for container_id in $(docker container ls -aq); do docker update --restart=no $container_id; done"
+    minute: '0'
+    hour: '17'
+    job: 'for container_id in $(docker container ls -aq); do docker update --restart=no $container_id; done'
   tags: [docker]
 
 - name: Create cron job to stop running containers
   cron:
     name: Stop running docker containers
-    minute: "5"
-    hour: "17"
-    job: "for container_id in $(docker container ls -aq); do docker container stop $container_id; done"
+    minute: '5'
+    hour: '17'
+    job: 'for container_id in $(docker container ls -aq); do docker container stop $container_id; done'
+    state: absent
   tags: [docker]
 
 - name: Configure containerd service
   service:
     name: containerd.service
-    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+    enabled: '{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}'
   become: yes
   tags: [docker]
 
 - name: Configure docker service
   service:
     name: docker.service
-    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+    enabled: '{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}'
   become: yes
   tags: [docker]
 
 - name: Configure docker socket
   service:
     name: docker.socket
-    enabled: "{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}"
+    enabled: '{{ (docker_enable_service is defined) and (docker_enable_service | bool == true) }}'
   become: yes
   tags: [docker]
