@@ -74,6 +74,11 @@
     - { key: /org/gnome/desktop/interface/clock-format, value: "'24h'" }
     - { key: /org/gnome/desktop/interface/clock-show-date, value: 'false' }
     - { key: /org/gtk/Settings/FileChooser/clock-format, value: "'24h'" }
+    # TODO: uncomment this if we decide to apply this task to 22.04; needs testing on 20.04
+    # - { key: /org/gtk/gtk4/Settings/FileChooser/clock-format, value: "'24h'" }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Set screen inactivity timeout
