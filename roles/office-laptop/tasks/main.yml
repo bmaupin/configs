@@ -49,12 +49,15 @@
 # - If this is changed, reinstall yaru-theme-icon to restore the original icons (sudo apt install --reinstall yaru-theme-icon)
 #   - We could also just add that command as a notify action of the previous task ...
 # - The change will take effect the next time Gnome is restarted
-# - Icons are available at every power of 10, so if we set max charge to 56, then maybe this should be set to 60?
 - name: Override battery icon when fully charged
   copy:
-    src: /usr/share/icons/Yaru/scalable/status/battery-level-80-symbolic.svg
-    dest: /usr/share/icons/Yaru/scalable/status/battery-level-80-charging-symbolic.svg
+    src: /usr/share/icons/Yaru/scalable/status/battery-level-{{ item }}-symbolic.svg
+    dest: /usr/share/icons/Yaru/scalable/status/battery-level-{{ item }}-charging-symbolic.svg
     force: yes
+  loop:
+    # Icons are available at every power of 10, so we need to modify the icon for the min and max charging intervals, rounding down
+    - 70
+    - 80
   become: yes
   tags: [office-laptop]
 
