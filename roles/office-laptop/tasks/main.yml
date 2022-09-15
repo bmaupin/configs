@@ -42,6 +42,22 @@
   become: yes
   tags: [office-laptop]
 
+# This overrides the Gnome battery icon to match the custom charge interval so that when
+# the maximum charge is reached, Gnome won't show that the battery is still charging
+#
+# NOTE:
+# - If this is changed, reinstall yaru-theme-icon to restore the original icons (sudo apt install --reinstall yaru-theme-icon)
+#   - We could also just add that command as a notify action of the previous task ...
+# - The change will take effect the next time Gnome is restarted
+# - Icons are available at every power of 10, so if we set max charge to 56, then maybe this should be set to 60?
+- name: Override battery icon when fully charged
+  copy:
+    src: /usr/share/icons/Yaru/scalable/status/battery-level-80-symbolic.svg
+    dest: /usr/share/icons/Yaru/scalable/status/battery-level-80-charging-symbolic.svg
+    force: yes
+  become: yes
+  tags: [office-laptop]
+
 - name: Install missing Intel firmware
   get_url:
     url: 'https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/plain/{{ item }}'
