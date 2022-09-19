@@ -48,7 +48,6 @@
 # NOTE:
 # - If this is changed, reinstall yaru-theme-icon to restore the original icons (sudo apt install --reinstall yaru-theme-icon)
 #   - We could also just add that command as a notify action of the previous task ...
-# - The change will take effect the next time Gnome is restarted
 - name: Override battery icon when fully charged
   copy:
     src: /usr/share/icons/Yaru/scalable/status/battery-level-{{ item }}-symbolic.svg
@@ -59,6 +58,7 @@
     - 70
     - 80
   become: yes
+  notify: Restart Gnome Shell
   tags: [office-laptop]
 
 - name: Install missing Intel firmware
