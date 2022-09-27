@@ -36,6 +36,7 @@
   become: yes
   tags: [dropbox]
 
+# The Dropbox package hasn't changed in a couple years, but the app itself is self-updating and does get updated regularly
 - name: Install Dropbox
   apt:
     name: dropbox
@@ -73,7 +74,7 @@
   replace:
     path: ~/.config/autostart/dropbox-custom.desktop
     regexp: '^Exec=.*'
-    replace: "Exec=sh -c 'sleep 300; dropbox start -i && sleep 10 && renice +19 $(pgrep dropbox)'"
+    replace: "Exec=sh -c 'sleep 60; dropbox start -i && sleep 10 && renice +19 $(pgrep dropbox)'"
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
