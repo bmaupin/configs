@@ -132,6 +132,19 @@
   become: yes
   tags: [ubuntu-common]
 
+# I don't even use snap-store, so it's all the more annoying when I start my computer and
+# I'm greeted with this popup, caused by a pending update of snap-store, which is set to
+# automatically start at boot:
+#
+# > Pending update of "snap-store" snap
+# >
+# > Close the app to avoid disruptions
+- name: Disable snap-store autostart
+  copy:
+    src: ubuntu-software-service.desktop
+    dest: ~/.config/autostart/ubuntu-software-service.desktop
+  tags: [ubuntu-common]
+
 - name: Get the list of kernel headers that can be uninstalled
   shell: dpkg -l | grep linux-header | egrep -v "linux-headers-generic" | egrep -v $(dpkg -l | grep linux-image | grep ^i | awk '{print $2}' | cut -d - -f 3,4 | egrep -v generic | sort -u | head -c -1 | tr '\n' '|') | awk '{ print $2 }'
   register: kernel_headers_to_uninstall
