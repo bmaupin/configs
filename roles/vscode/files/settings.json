@@ -30,6 +30,11 @@
   "trailing-spaces.highlightCurrentLine": false,
   "trailing-spaces.trimOnSave": true,
   "typescript.updateImportsOnFileMove.enabled": "always",
+  // Without this setting, if vscode isn't open and it's used to open a specific file or
+  // directory (e.g. `code .`), it will open a new window and lose the previously opened
+  // windows and their state (including unsaved files). This setting will always restore
+  // previously opened windows.
+  "window.restoreWindows": "preserve",
   "window.titleBarStyle": "custom",
   "workbench.colorTheme": "Solarized Dark High Contrast",
   // This will disable the icons in the file explorer sidebar
