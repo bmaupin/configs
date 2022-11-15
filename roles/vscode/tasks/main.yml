@@ -45,6 +45,9 @@
     dest: ~/.config/Code/User/settings.json
   tags: [vscode]
 
+# NOTE: Only use this when `"window.restoreWindows": "preserve",` is also set in
+#       settings.json, otherwise previously opened windows and any unsaved content may be
+#       lost.
 - name: Set VS Code as default editor
   lineinfile:
     path: ~/.bashrc
