@@ -1,6 +1,0 @@
-[Desktop Entry]
-Name=Ubuntu Software
-Exec=snap-store.ubuntu-software --gapplication-service %U
-OnlyShowIn=GNOME;Unity;
-# Disable autostart
-Hidden=true

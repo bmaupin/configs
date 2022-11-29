@@ -139,10 +139,20 @@
 # > Pending update of "snap-store" snap
 # >
 # > Close the app to avoid disruptions
+#
+# The cause seems to be this file: ~/snap/snap-store/current/.config/autostart/ubuntu-software-service.desktop
 - name: Disable snap-store autostart
   copy:
-    src: ubuntu-software-service.desktop
-    dest: ~/.config/autostart/ubuntu-software-service.desktop
+    src: stop-snap-store.desktop
+    dest: /etc/xdg/autostart/stop-snap-store.desktop
+  become: yes
+  tags: [ubuntu-common]
+
+# TODO: Delete this task once it's been run everywhere
+- name: Delete old snap-store desktop file
+  file:
+    path: ~/.config/autostart/ubuntu-software-service.desktop
+    state: absent
   tags: [ubuntu-common]
 
 - name: Get the list of kernel headers that can be uninstalled
