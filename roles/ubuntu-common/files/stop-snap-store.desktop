@@ -1,0 +1,7 @@
+[Desktop Entry]
+Type=Application
+Name=Stop Ubuntu Software
+Exec=snap-store --quit
+X-GNOME-Autostart-Delay=30
+OnlyShowIn=GNOME;Unity;
+NoDisplay=True
