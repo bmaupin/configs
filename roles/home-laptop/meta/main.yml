@@ -2,7 +2,6 @@
 dependencies:
   - chrome
   - deja-dup
-  - docker
   - dropbox
   - firefox
   - git
