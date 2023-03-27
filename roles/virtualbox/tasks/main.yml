@@ -13,9 +13,18 @@
   become: yes
   tags: [virtualbox]
 
-- name: Install VirtualBox repository
+# This is needed to remove the http:// entry, otherwise a duplicate entry is added
+- name: Remove old VirtualBox repository
   apt_repository:
     repo: 'deb http://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib'
+    state: absent
+    filename: virtualbox
+  become: yes
+  tags: [virtualbox]
+
+- name: Install VirtualBox repository
+  apt_repository:
+    repo: 'deb [arch=amd64] https://download.virtualbox.org/virtualbox/debian {{ release.stdout }} contrib'
     state: present
     filename: virtualbox
     update_cache: yes
