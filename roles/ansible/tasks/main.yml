@@ -1,8 +1,12 @@
 ---
+# TODO: Install Ansible via pip? https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#pip-install
+#       For now, we'll leave the actual installation of Ansible out of this playbook to
+#       allow for different methods of installing it, since it will need to be installed
+#       before running this role anyway. So this is more for managing dependencies.
+
 - name: Install desired packages
   apt:
     name:
-      - ansible
       # Prerequisite for the ansible xattr module
       - attr
       # Prerequisite for the ansible apt module
