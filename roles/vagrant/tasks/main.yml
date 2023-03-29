@@ -9,7 +9,7 @@
 - name: Install Vagrant GPG key
   apt_key:
     url: https://apt.releases.hashicorp.com/gpg
-    keyring: /etc/apt/trusted.gpg.d/docker.gpg
+    keyring: /etc/apt/trusted.gpg.d/hashicorp.gpg
   become: yes
   tags: [vagrant]
 
