@@ -31,10 +31,9 @@
 
 # This happens any time there are crash report files in /var/crash (https://askubuntu.com/a/1161174/18665)
 - name: Disable annoying System program problem detected popup
-  replace:
-    path: /etc/default/apport
-    regexp: '^enabled=.*'
-    replace: 'enabled=0'
+  service:
+    name: apport.service
+    enabled: no
   become: yes
   tags: [ubuntu-common]
 
