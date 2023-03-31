@@ -16,7 +16,6 @@ dependencies:
       teams_autostart: no
   - terminator
   - ubuntu-gnome
-  # - vagrant
-  # - virtualbox
+  - vagrant
   - vscode
   - wine
