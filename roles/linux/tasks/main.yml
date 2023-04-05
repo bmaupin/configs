@@ -1,0 +1,16 @@
+---
+- name: Get machine type
+  shell: hostnamectl status | grep Chassis | cut -f2 -d ":" | tr -d ' '
+  register: result
+  changed_when: false
+  tags: [linux]
+
+# From hostnamectl man page:
+#    Currently, the following chassis types are
+#    defined: "desktop", "laptop", "convertible", "server",
+#    "tablet", "handset", "watch", "embedded", as well as the
+#    special chassis types "vm" and "container"
+- name: Set linux_machine_type
+  set_fact:
+    linux_machine_type: '{{ result.stdout }}'
+  tags: [linux]

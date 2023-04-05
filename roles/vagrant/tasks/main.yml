@@ -32,9 +32,11 @@
 - name: Create cron job to stop running VMs
   cron:
     name: Stop running vagrant VMs
-    minute: "15"
-    hour: "17"
+    minute: '15'
+    hour: '17'
     # The SSH_AUTH_SOCK stuff is necessary because running vagrant commands requires SSH to connect to the machine,
     # which in turn requires access to the SSH agent. The rest is from https://askubuntu.com/a/746334/18665
     job: "vagrant global-status | awk '/running/{print $1}' | SSH_AUTH_SOCK=/run/user/$(id -u)/keyring/ssh xargs vagrant halt"
+    # This is only added if the machine is a desktop 🤓
+    state: "{{ 'present' if linux_machine_type == 'desktop' else 'absent' }}"
   tags: [vagrant]
