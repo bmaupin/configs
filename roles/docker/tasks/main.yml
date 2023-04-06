@@ -89,7 +89,7 @@
   cron:
     name: Disable auto restart of docker containers
     minute: '0'
-    hour: '17'
+    hour: '12'
     job: 'for container_id in $(docker container ls -aq); do docker update --restart=no $container_id; done'
   tags: [docker]
 
@@ -99,7 +99,8 @@
     minute: '5'
     hour: '17'
     job: 'for container_id in $(docker container ls -aq); do docker container stop $container_id; done'
-    state: absent
+    # This is only added if the machine is a desktop 🤓
+    state: "{{ 'present' if linux_machine_type == 'desktop' else 'absent' }}"
   tags: [docker]
 
 - name: Configure containerd service
