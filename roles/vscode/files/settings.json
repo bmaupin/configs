@@ -58,5 +58,8 @@
   },
   "[typescript]": {
     "editor.tabSize": 2
+  },
+  "[xml]": {
+    "editor.defaultFormatter": "redhat.vscode-xml"
   }
 }
