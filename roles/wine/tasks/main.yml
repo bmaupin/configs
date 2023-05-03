@@ -1,4 +1,6 @@
 ---
+# TODO: add steps to install Wine (install prerequisites, install GPG key, install repo, install package(s))
+
 # https://wiki.winehq.org/FAQ#How_do_I_clean_the_Open_With_List.3F
 - name: Remove Wine MIME associations
   file: path={{ item }}
@@ -16,17 +18,30 @@
     - ~/.local/share/mime/application/x-wine-extension*
   tags: [wine]
 
+- name: Find all wine.inf files
+  find:
+    paths:
+      - ~/.local/share/lutris/runners/wine/
+      # Proton GE
+      - ~/.local/share/Steam/compatibilitytools.d/
+      # Proton
+      - ~/.local/share/Steam/steamapps/common/
+      # Wine from Wine PPA
+      - /opt/wine-stable/share/wine/
+      # Wine from ubuntu
+      - /usr/share/wine/
+    patterns: wine.inf
+    recurse: true
+  register: result
+  tags: [wine]
+
 # https://askubuntu.com/a/400430/18665
 - name: Prevent Wine from creating new MIME associations
-  lineinfile:
-    path: '{{ item }}'
-    regexp: '^HKLM,%CurrentVersion%\\RunServices,"winemenubuilder"'
-    line: 'HKLM,%CurrentVersion%\RunServices,"winemenubuilder",2,"%11%\winemenubuilder.exe -r"'
-  loop:
-    # Wine from Wine PPA
-    - /opt/wine-stable/share/wine/wine.inf
-    # Wine from ubuntu
-    - /usr/share/wine/wine/wine.inf
-  failed_when: no
-  become: yes
+  replace:
+    path: '{{ item.path }}'
+    regexp: '^HKLM,%CurrentVersion%\\RunServices,"winemenubuilder".*'
+    replace: 'HKLM,%CurrentVersion%\\RunServices,"winemenubuilder",2,"%11%\\winemenubuilder.exe -r"'
+  loop: '{{ result.files }}'
+  failed_when: false
+  become: true
   tags: [wine]
