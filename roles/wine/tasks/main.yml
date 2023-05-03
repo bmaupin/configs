@@ -22,10 +22,11 @@
   find:
     paths:
       - ~/.local/share/lutris/runners/wine/
+      # These are commented because Proton doesn't seem to create MIME associations
       # Proton GE
-      - ~/.local/share/Steam/compatibilitytools.d/
+      # - ~/.local/share/Steam/compatibilitytools.d/
       # Proton
-      - ~/.local/share/Steam/steamapps/common/
+      # - ~/.local/share/Steam/steamapps/common/
       # Wine from Wine PPA
       - /opt/wine-stable/share/wine/
       # Wine from ubuntu
