@@ -186,6 +186,14 @@
   become: yes
   tags: [ubuntu-common]
 
+# https://askubuntu.com/a/1434762/18665
+- name: Disable Ubuntu Pro message when using apt
+  copy:
+    content: ''
+    dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
+  become: true
+  tags: [ubuntu-common]
+
 # Ideally this should run after all other apt tasks in this role
 - name: Apt autoremove
   apt:
