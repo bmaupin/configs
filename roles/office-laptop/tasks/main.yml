@@ -29,14 +29,6 @@
 
 # Upper bound must be at least 56 as per https://github.com/dell/libsmbios/issues/101
 - name: Set custom charge interval
-  # TODO: bump this back down to 51 56 if we can figure out how to do S3 sleep...
-  # https://01.org/linuxgraphics/gfx-docs/drm/admin-guide/pm/sleep-states.html
-  # cat /var/log/kern.log* | grep ACPI | grep support
-  # cat /sys/power/state
-  # cat /sys/power/mem_sleep
-  # https://www.reddit.com/r/Dell/comments/onaavu/dell_latitude_5420_suspend_deep_sleep_problem_in/
-  # https://www.reddit.com/r/Dell/comments/hla8yk/how_to_enable_s3_deep_sleep_on_xps_17_9700_in/
-  # https://www.dell.com/support/kbdoc/en-in/000129781/steps-for-fixing-windows-computers-that-do-not-wake-up-or-resume-from-suspend-or-hibernate-mode-but-will-power-on
   shell: smbios-battery-ctl --set-custom-charge-interval=75 80
   when: "result.stdout_lines[1] is not defined or result.stdout_lines[1] != 'Charging interval: (75, 80)'"
   become: yes
