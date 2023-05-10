@@ -6,6 +6,16 @@
   become: yes
   tags: [home-laptop]
 
+# unattended-upgrades runs daily and may upgrade the kernel but won't upgrade
+# bcmwl-kernel-source which could leave the wireless adapter in a broken state
+- name: Make sure bcmwl-kernel-source stays updated
+  copy:
+    src: update-bcmwl-kernel-source
+    dest: /etc/cron.daily/update-bcmwl-kernel-source
+    mode: 0755
+  become: true
+  tags: [home-laptop]
+
 - name: Remove undesired packages
   apt:
     name:
