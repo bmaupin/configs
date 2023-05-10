@@ -4,6 +4,7 @@ dependencies:
   - dropbox
   - firefox
   - git
+  - home
   - libreoffice
   - spotify
   - teams

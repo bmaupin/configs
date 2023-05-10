@@ -1,0 +1,8 @@
+---
+# Disable these altogether as they can be annoying; we'll still do manual updates and 
+# let unattended-upgrades install security-related updates automatically
+- name: Prevent Software Updater popups
+  dconf:
+    key: /apps/update-notifier/auto_launch
+    value: 'false'
+  tags: [home]
