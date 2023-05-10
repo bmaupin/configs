@@ -1,8 +1,23 @@
 ---
-# Disable these altogether as they can be annoying; we'll still do manual updates and 
+# Disable these altogether as they can be annoying; we'll still do manual updates and
 # let unattended-upgrades install security-related updates automatically
 - name: Prevent Software Updater popups
   dconf:
     key: /apps/update-notifier/auto_launch
     value: 'false'
+  tags: [home]
+
+# Automatic kernel updates can break things, in particular the wireless adapter. We'll
+# keep the kernel updated manually
+- name: Disable automatic kernel updates
+  blockinfile:
+    path: /etc/apt/apt.conf.d/50unattended-upgrades
+    marker: '// {mark} ANSIBLE MANAGED BLOCK'
+    insertafter: 'Unattended-Upgrade::Package-Blacklist {'
+    # Preserve newlines, ignore first 2 characters of indentation and keep the remaining 4 characters
+    block: |2
+          "linux-generic";
+          "linux-image-generic";
+          "linux-headers-generic";
+  become: true
   tags: [home]
