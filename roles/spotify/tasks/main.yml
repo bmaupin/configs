@@ -16,7 +16,6 @@
     - 0D811D58
     - 341D9410
     - 48BF1C90
-    - AFD4A51F
     - B312C643
   become: yes
   tags: [spotify]
