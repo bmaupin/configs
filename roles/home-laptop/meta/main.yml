@@ -1,0 +1,14 @@
+---
+dependencies:
+  - chrome
+  # - deja-dup
+  - dropbox
+  - firefox
+  - git
+  - home
+  - libreoffice
+  - spotify
+  - terminator
+  - ubuntu-gnome
+  - vscode
+  - wine
