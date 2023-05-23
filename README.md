@@ -2,7 +2,7 @@ To apply:
 
 1. Install Ansible
 
-   https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-ansible-on-ubuntu
+   https://docs.ansible.com/ansible/latest/installation_guide/intro_installation.html#installing-and-upgrading-ansible
 
 2. Pick a playbook from playbooks/ and run Ansible, e.g.
 
