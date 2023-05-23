@@ -112,14 +112,6 @@
   become: yes
   tags: [ubuntu-common]
 
-- name: Block domains
-  blockinfile:
-    path: /etc/hosts
-    block: |
-      0.0.0.0 www.dailymotion.com
-  become: yes
-  tags: [ubuntu-common]
-
 # Among other things, screen sharing on Teams is still broken on Wayland. There's no
 # urgency to switch just yet
 # https://technoracle.com/how-to-fix-zoom-screen-sharing-on-ubuntu-22-04-quickly/
