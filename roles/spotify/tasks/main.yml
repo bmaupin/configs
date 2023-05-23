@@ -44,23 +44,6 @@
   become: yes
   tags: [spotify]
 
-- name: Block Spotify images
-  blockinfile:
-    path: /etc/hosts
-    # Use a unique marker, otherwise it will conflict with other blockinfile instances for /etc/hosts
-    marker: '# {mark} ANSIBLE MANAGED BLOCK - Block Spotify images'
-    block: |
-      0.0.0.0 dailymix-images.scdn.co
-      0.0.0.0 i.scdn.co
-      0.0.0.0 mosaic.scdn.co
-      0.0.0.0 pl.scdn.co
-      0.0.0.0 seed-mix-image.spotifycdn.com
-      0.0.0.0 seeded-session-images.scdn.co
-      0.0.0.0 t.scdn.co
-      0.0.0.0 thisis-images.scdn.co
-  become: yes
-  tags: [spotify]
-
 # NOTE: If we run into an issue again where Spotify freezes where there probably should've been an ad, use mitmproxy to debug
 # https://www.theverge.com/2019/2/7/18215845/spotify-ad-blockers-terms-of-service
 # To set up debugging of DNS logs (prerequisite for below): https://unix.stackexchange.com/a/432077/14436
