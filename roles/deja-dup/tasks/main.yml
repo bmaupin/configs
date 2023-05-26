@@ -7,6 +7,16 @@
   become: yes
   tags: [deja-dup]
 
+- name: Delete old cleanup cron job
+  cron:
+    name: Delete old Deja Dup backups
+    special_time: monthly
+    user: root
+    cron_file: delete-old-deja-dup-backups
+    state: absent
+  become: yes
+  tags: [deja-dup]
+
 - name: Set up backups for user 1
   import_tasks: user-1-backups.yml
   tags: [deja-dup]

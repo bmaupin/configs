@@ -3,11 +3,15 @@
   dconf:
     key: /org/gnome/deja-dup/backend
     value: "'remote'"
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Keep backups for a maximum of 2 years
   dconf:
     key: /org/gnome/deja-dup/delete-after
     value: '730'
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Configure folders to ignore
   dconf:
@@ -18,11 +22,15 @@
       '/home/{{ ansible_user_id }}/Documents/My Digital Editions',
       '/home/{{ ansible_user_id }}/Dropbox'\
       ]"
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Configure frequency of full backups
   dconf:
     key: /org/gnome/deja-dup/full-backup-period
     value: '180'
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Configure folders to backup
   dconf:
@@ -35,37 +43,45 @@
       '/home/{{ ansible_user_id }}/Pictures',
       '/home/{{ ansible_user_id }}/Videos'\
       ]"
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Enable automatic backups
   dconf:
     key: /org/gnome/deja-dup/periodic
     value: 'true'
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Set network server folder
   dconf:
     key: /org/gnome/deja-dup/remote/folder
     value: "''"
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 - name: Set network server URI
   dconf:
     key: /org/gnome/deja-dup/remote/uri
-    value: "'smb:{{ deja_dup_remote_location }}'"
+    value: "'smb:{{ deja_dup_remote_location_1 }}'"
+  become: true
+  become_user: '{{ home_user_1 }}'
 
 # Deja Dup's /org/gnome/deja-dup/delete-after setting only deletes old backups when the drive runs out of space
 - name: Configure cron job to delete old backups
   cron:
-    name: Delete old Deja Dup backups
+    name: Delete old Deja Dup backups for user 1
     special_time: monthly
     user: root
     job: >
       /bin/mkdir -p /mnt/backup &&
       /bin/mount -t cifs
-      -o username={{ deja_dup_remote_user }},password={{ deja_dup_remote_password }},uid=$(id -u {{ ansible_user_id }}),gid=$(id -g {{ ansible_user_id }})
-      {{ deja_dup_remote_location }}
+      -o username={{ deja_dup_remote_user_1 }},password={{ deja_dup_remote_password_1 }},uid=$(id -u {{ home_user_1 }}),gid=$(id -g {{ home_user_1 }})
+      {{ deja_dup_remote_location_1 }}
       /mnt/backup/ &&
-      /usr/bin/sudo -i -u {{ ansible_user_id }} /usr/bin/duplicity remove-older-than 18M --force file:///mnt/backup/;
+      /usr/bin/sudo -i -u {{ home_user_1 }} /usr/bin/duplicity remove-older-than 18M --force file:///mnt/backup/;
       /bin/sleep 5;
       /bin/umount /mnt/backup &&
       /bin/rmdir /mnt/backup
-    cron_file: delete-old-deja-dup-backups
+    cron_file: delete-old-deja-dup-backups-user-1
   become: yes
