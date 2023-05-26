@@ -19,4 +19,11 @@
 
 - name: Set up backups for user 1
   import_tasks: user-1-backups.yml
+  # TODO: Update this as needed
+  when: "'home-thinkpad-t430u' in ansible_role_names"
+  tags: [deja-dup]
+
+- name: Set up backups for user 2
+  import_tasks: user-2-backups.yml
+  when: "'home-laptop' in ansible_role_names"
   tags: [deja-dup]

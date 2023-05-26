@@ -4,14 +4,14 @@
     key: /org/gnome/deja-dup/backend
     value: "'remote'"
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Keep backups for a maximum of 2 years
   dconf:
     key: /org/gnome/deja-dup/delete-after
     value: '730'
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Configure folders to ignore
   dconf:
@@ -19,69 +19,69 @@
     value: "[\
       '$TRASH',
       '$DOWNLOAD',
-      '/home/{{ home_user_1 }}/Documents/My Digital Editions',
-      '/home/{{ home_user_1 }}/Dropbox'\
+      '/home/{{ home_user_2 }}/Documents/My Digital Editions',
+      '/home/{{ home_user_2 }}/Dropbox'\
       ]"
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Configure frequency of full backups
   dconf:
     key: /org/gnome/deja-dup/full-backup-period
     value: '180'
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Configure folders to backup
   dconf:
     key: /org/gnome/deja-dup/include-list
     value: "[\
-      '/home/{{ home_user_1 }}/.config/dconf',
-      '/home/{{ home_user_1 }}/.ssh',
-      '/home/{{ home_user_1 }}/Documents',
-      '/home/{{ home_user_1 }}/Music',
-      '/home/{{ home_user_1 }}/Pictures',
-      '/home/{{ home_user_1 }}/Videos'\
+      '/home/{{ home_user_2 }}/.config/dconf',
+      '/home/{{ home_user_2 }}/Desktop',
+      '/home/{{ home_user_2 }}/Documents',
+      '/home/{{ home_user_2 }}/Music',
+      '/home/{{ home_user_2 }}/Pictures',
+      '/home/{{ home_user_2 }}/Videos'\
       ]"
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Enable automatic backups
   dconf:
     key: /org/gnome/deja-dup/periodic
     value: 'true'
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Set network server folder
   dconf:
     key: /org/gnome/deja-dup/remote/folder
     value: "''"
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 - name: Set network server URI
   dconf:
     key: /org/gnome/deja-dup/remote/uri
-    value: "'smb:{{ deja_dup_remote_location_1 }}'"
+    value: "'smb:{{ deja_dup_remote_location_2 }}'"
   become: true
-  become_user: '{{ home_user_1 }}'
+  become_user: '{{ home_user_2 }}'
 
 # Deja Dup's /org/gnome/deja-dup/delete-after setting only deletes old backups when the drive runs out of space
 - name: Configure cron job to delete old backups
   cron:
-    name: Delete old Deja Dup backups for user 1
+    name: Delete old Deja Dup backups for user 2
     special_time: monthly
     user: root
     job: >
       /bin/mkdir -p /mnt/backup &&
       /bin/mount -t cifs
-      -o username={{ deja_dup_remote_user_1 }},password={{ deja_dup_remote_password_1 }},uid=$(id -u {{ home_user_1 }}),gid=$(id -g {{ home_user_1 }})
-      {{ deja_dup_remote_location_1 }}
+      -o username={{ deja_dup_remote_user_2 }},password={{ deja_dup_remote_password_2 }},uid=$(id -u {{ home_user_2 }}),gid=$(id -g {{ home_user_2 }})
+      {{ deja_dup_remote_location_2 }}
       /mnt/backup/ &&
-      /usr/bin/sudo -i -u {{ home_user_1 }} /usr/bin/duplicity remove-older-than 18M --force file:///mnt/backup/;
+      /usr/bin/sudo -i -u {{ home_user_2 }} /usr/bin/duplicity remove-older-than 18M --force file:///mnt/backup/;
       /bin/sleep 5;
       /bin/umount /mnt/backup &&
       /bin/rmdir /mnt/backup
-    cron_file: delete-old-deja-dup-backups-user-1
+    cron_file: delete-old-deja-dup-backups-user-2
   become: yes
