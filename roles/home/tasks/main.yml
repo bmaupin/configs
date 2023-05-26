@@ -6,7 +6,7 @@
     key: /apps/update-notifier/auto_launch
     value: 'false'
   become: true
-  become_user: '{{ vault_home_user_2 }}'
+  become_user: '{{ home_user_2 }}'
   tags: [home]
 
 # Automatic kernel updates can break things, in particular the wireless adapter. We'll
