@@ -39,6 +39,14 @@
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [virtualbox]
 
+- name: Add user to vboxusers group
+  user:
+    name: '{{ ansible_user_id }}'
+    groups: vboxusers
+    append: yes
+  become: yes
+  tags: [virtualbox]
+
 # The extension pack requires a paid license for anything other than personal or evaluation use
 - name: Make sure extension pack is uninstalled
   import_tasks: uninstall-extension-pack.yml
