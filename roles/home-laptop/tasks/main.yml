@@ -1,0 +1,12 @@
+---
+# https://gist.github.com/bmaupin/3f194ab3220c95adf7de70fb3ba5d2cc
+- name: Enable S3 sleep
+  replace:
+    path: /etc/default/grub
+    regexp: '^GRUB_CMDLINE_LINUX_DEFAULT=.*'
+    # This is the default setting
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
+    replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash mem_sleep_default=deep"'
+  become: yes
+  notify: Update grub
+  tags: [home-laptop]
