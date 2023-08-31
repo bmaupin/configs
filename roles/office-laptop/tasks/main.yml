@@ -52,3 +52,17 @@
   become: yes
   notify: Restart Gnome Shell
   tags: [office-laptop]
+
+# This isn't needed since the kernel is provided by the HWE package (linux-generic-hwe*)
+# instead, and unfortunately there isn't enough space in /boot for an extra kernel
+# (https://askubuntu.com/q/1484284/18665)
+- name: Uninstall the vanilla kernel
+  apt:
+    name: '{{ item }}'
+    purge: true
+    state: absent
+  loop:
+    - linux-generic
+    - linux-image-generic
+  become: yes
+  tags: [office-laptop]
