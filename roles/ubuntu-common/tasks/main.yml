@@ -161,15 +161,15 @@
   become: yes
   tags: [ubuntu-common]
 
-# We could also just do this in one shell command, e.g. apt -y purge $(dpkg -l | grep ^r | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" | tr '\n' ' ')
-# But by having separate commands we can see exactly what's uninstalled
-- name: Get the list of uninstalled kernel packages that can be purged
-  shell: dpkg -l | grep ^r | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" || true
+# We could also just do this in one shell command, e.g. apt -y purge $(dpkg -l | egrep "^ic|^rc" | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" | tr '\n' ' ')
+# But by having separate commands we can see exactly what's uninstalled/partially installed
+- name: Get the list of kernel packages that can be purged
+  shell: dpkg -l | egrep "^ic|^rc" | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" || true
   register: kernel_packages_to_purge
   changed_when: no
   tags: [ubuntu-common]
 
-- name: Purge uninstalled kernel packages
+- name: Purge uninstalled/partially installed kernel packages
   apt:
     name: '{{ item }}'
     state: absent
