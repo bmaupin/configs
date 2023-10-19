@@ -20,13 +20,16 @@
     block: |
       0.0.0.0 www.dailymotion.com
       # Spotify
+      # 0.0.0.0 daily-mix.scdn.co
       0.0.0.0 dailymix-images.scdn.co
       0.0.0.0 i.scdn.co
       0.0.0.0 mosaic.scdn.co
+      0.0.0.0 newjams-images.scdn.co
       0.0.0.0 pl.scdn.co
       0.0.0.0 seed-mix-image.spotifycdn.com
       0.0.0.0 seeded-session-images.scdn.co
       0.0.0.0 t.scdn.co
       0.0.0.0 thisis-images.scdn.co
+      0.0.0.0 thisis-images.spotifycdn.com
   become: true
   tags: [office]
