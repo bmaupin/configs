@@ -339,6 +339,10 @@
     value: '{{ item.value }}'
   loop:
     - {
+        key: /org/gnome/shell/extensions/system-monitor/cpu-display,
+        value: 'true',
+      }
+    - {
         key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width,
         value: 50,
       }
@@ -348,7 +352,7 @@
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/disk-display,
-        value: 'true',
+        value: 'false',
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/disk-graph-width,
@@ -363,11 +367,19 @@
         value: 'false',
       }
     - {
+        key: /org/gnome/shell/extensions/system-monitor/memory-display,
+        value: 'true',
+      }
+    - {
         key: /org/gnome/shell/extensions/system-monitor/memory-graph-width,
         value: 50,
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/memory-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor/net-display,
         value: 'false',
       }
     - {
@@ -380,7 +392,7 @@
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/swap-display,
-        value: 'true',
+        value: 'false',
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/swap-graph-width,
