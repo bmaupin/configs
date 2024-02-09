@@ -16,6 +16,7 @@ dependencies:
       teams_autostart: no
   - terminator
   - ubuntu-gnome
+  # Vagrant already requires virtualbox as a dependency
   - vagrant
   - vscode
   - wine
