@@ -1,4 +1,19 @@
 ---
+# VirtualBox needs to compile a kernel module, and for this it needs the same version of
+# gcc that was used to compile the kernel
+- name: Get the version of gcc used to compile the kernel
+  shell: cat /proc/version | grep -Po 'gcc-\d+'
+  changed_when: no
+  check_mode: no
+  register: gcc_version
+  tags: [virtualbox]
+
+- name: Install gcc
+  apt:
+    name: '{{ gcc_version.stdout }}'
+  become: yes
+  tags: [virtualbox]
+
 - name: Get Ubuntu release codename
   shell: lsb_release -cs
   changed_when: no
