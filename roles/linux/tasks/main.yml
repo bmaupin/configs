@@ -3,7 +3,12 @@
   shell: hostnamectl status | grep Chassis | cut -f2 -d ":" | tr -d ' '
   register: result
   changed_when: false
-  tags: [linux]
+  # NOTE: All roles that depend on this role should be listed here and in the next task;
+  #       this allows them to be used on their own (e.g. 'ansible-playbook ... --tags=vagrant')
+  tags:
+    - docker
+    - linux
+    - vagrant
 
 # From hostnamectl man page:
 #    Currently, the following chassis types are
@@ -13,4 +18,7 @@
 - name: Set linux_machine_type
   set_fact:
     linux_machine_type: '{{ result.stdout }}'
-  tags: [linux]
+  tags:
+    - docker
+    - linux
+    - vagrant
