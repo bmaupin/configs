@@ -59,6 +59,13 @@
     line: 'alias less="less -R"'
   tags: [ubuntu-common]
 
+# https://superuser.com/questions/36022/getting-colored-results-when-using-a-pipe-from-grep-to-less
+- name: Create an alias for grep with colour support
+  lineinfile:
+    path: ~/.bashrc
+    line: 'alias grepc="grep --color=always"'
+  tags: [ubuntu-common]
+
 - name: Remove grub recovery menu entry
   replace:
     path: /etc/default/grub
