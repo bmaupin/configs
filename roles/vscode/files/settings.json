@@ -24,6 +24,7 @@
     "*.sh.j2": "shellscript",
     "*.xml.j2": "xml"
   },
+  "js/ts.implicitProjectConfig.checkJs": true,
   "prettier.requireConfig": true,
   "redhat.telemetry.enabled": true,
   "trailing-spaces.deleteModifiedLinesOnly": true,
