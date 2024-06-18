@@ -1,12 +1,4 @@
 ---
-# Normally Gnome remembers the last setting; this will disable it by default (https://askubuntu.com/a/1060096/18665)
-- name: Disable bluetooth auto power on
-  lineinfile:
-    path: ~/.profile
-    line: 'rfkill block bluetooth'
-  when: "'ubuntu-gnome' in ansible_role_names"
-  tags: [office-laptop]
-
 - name: Install smbios-utils
   apt:
     name: smbios-utils
