@@ -2,3 +2,9 @@
 - name: Update initramfs
   command: update-initramfs -u -k all
   become: yes
+
+- name: Restart pulseaudio
+  service:
+    name: pulseaudio
+    state: restarted
+    scope: user

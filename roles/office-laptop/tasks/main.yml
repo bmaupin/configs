@@ -66,3 +66,26 @@
     - linux-image-generic
   become: yes
   tags: [office-laptop]
+
+- name: Copy system Pulseaudio configuration to user
+  copy:
+    src: /etc/pulse/default.pa
+    dest: ~/.config/pulse/default.pa
+    # Don't override if it already exists
+    force: false
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [office-laptop]
+
+- name: Set laptop headphone jack as the default sink
+  lineinfile:
+    path: ~/.config/pulse/default.pa
+    line: set-default-sink alsa_output.pci-0000_00_1f.3.analog-stereo
+    create: true
+  notify: Restart pulseaudio
+  # Later versions of Ubuntu switched to pipewire
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [office-laptop]
