@@ -8,22 +8,36 @@
   tags: [spotify]
 
 # NOTE: This seems to have a bug where it often doesn't delete keys
+# TODO: Can we delete this? Now that we're saving the Spotify GPG key to
+#       /etc/apt/trusted.gpg.d/spotify.gpg are old keys still kept? Next time we update
+#       the Spotify key, check if the old key is still kept somewhere, e.g.
+#
+#       ls /etc/apt/trusted.gpg.d/spotify*
+#       apt-key list | grep -A 5 spotify
+#
+#       If not, then we can delete this task. If it is, then we may need to replace this
+#       task with a file removal task as this task already seems to be buggy and
+#       apparently apt-key is deprecated.
 - name: Clean up old Spotify GPG keys
-  apt_key:
+  ansible.builtin.apt_key:
     id: '{{ item }}'
     state: absent
   with_items:
     - 0D811D58
     - 341D9410
     - 48BF1C90
+    - 63CBEEC9
     - B312C643
+    - E27409F5
+    - F9A21197
   become: yes
   tags: [spotify]
 
-# Get the latest key URL from https://www.spotify.com/us/download/linux/
+# TODO: Next time we replace the Spotify key, see the TODO in the previous task
+# NOTE: If this task fails, get the latest key URL from https://www.spotify.com/us/download/linux/
 - name: Install Spotify GPG key
-  apt_key:
-    url: https://download.spotify.com/debian/pubkey_7A3A762FAFD4A51F.gpg
+  ansible.builtin.apt_key:
+    url: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
     keyring: /etc/apt/trusted.gpg.d/spotify.gpg
   become: yes
   tags: [spotify]
