@@ -6,19 +6,27 @@
   register: release
   tags: [vagrant]
 
-- name: Install Vagrant GPG key
+- name: Install Hashicorp GPG key
   apt_key:
     url: https://apt.releases.hashicorp.com/gpg
     keyring: /etc/apt/trusted.gpg.d/hashicorp.gpg
   become: yes
   tags: [vagrant]
 
-- name: Install Vagrant repository
+- name: Install Hashicorp repository
   apt_repository:
     repo: deb [arch=amd64] https://apt.releases.hashicorp.com {{ release.stdout }} main
     state: present
-    filename: vagrant
+    filename: hashicorp
     update_cache: yes
+  become: yes
+  tags: [vagrant]
+
+# TODO: remove this once it's cleaned up everywhere
+- name: Remove /etc/apt/sources.list.d/vagrant.list
+  file:
+    path: /etc/apt/sources.list.d/vagrant.list
+    state: absent
   become: yes
   tags: [vagrant]
 
