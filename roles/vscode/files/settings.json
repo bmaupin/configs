@@ -22,7 +22,9 @@
     "*.service": "properties",
     "*.service.j2": "properties",
     "*.sh.j2": "shellscript",
-    "*.xml.j2": "xml"
+    "*.xml.j2": "xml",
+    "*.yaml.j2": "yaml",
+    "*.yml.j2": "yaml"
   },
   "js/ts.implicitProjectConfig.checkJs": true,
   "prettier.requireConfig": true,
