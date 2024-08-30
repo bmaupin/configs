@@ -3,4 +3,8 @@
   service:
     name: cups-browsed
     state: restarted
-  become: yes
+  become: true
+
+- name: Update CA certificates
+  command: update-ca-certificates
+  become: true
