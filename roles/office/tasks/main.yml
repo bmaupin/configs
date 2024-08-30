@@ -35,3 +35,25 @@
       0.0.0.0 thisis-images.spotifycdn.com
   become: true
   tags: [office]
+
+- name: Install CA certificates
+  ansible.builtin.copy:
+    dest: '/usr/local/share/ca-certificates/{{ item.filename }}'
+    content: '{{ item.content }}'
+    owner: root
+    group: root
+    mode: '0644'
+  loop: '{{ office_ca_certificates }}'
+  become: true
+  notify: Update CA certificates
+  tags: [office]
+
+- name: Create policies.json for Firefox
+  ansible.builtin.template:
+    dest: /usr/lib/firefox/distribution/policies.json
+    src: policies.json.j2
+    owner: root
+    group: root
+    mode: '0644'
+  become: true
+  tags: [office]

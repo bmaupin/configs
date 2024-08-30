@@ -1,0 +1,13 @@
+#jinja2: trim_blocks:False
+{
+  "policies": {
+    "Certificates": {
+      "ImportEnterpriseRoots": true,
+      "Install": [
+        {%- for cert in office_ca_certificates %}
+        "{{ '/usr/local/share/ca-certificates/' + cert.filename }}"{% if not loop.last %},{% endif %}
+        {%- endfor %}
+      ]
+    }
+  }
+}
