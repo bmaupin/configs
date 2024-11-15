@@ -23,6 +23,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [firefox]
 
 # Installing a repo via a PPA (as below) will automatically install the key, but will
@@ -37,6 +38,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [firefox]
 
 - name: Install Mozilla team PPA
@@ -47,6 +49,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [firefox]
 
 - name: Prioritize installation of the apt version of Firefox
@@ -57,6 +60,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [firefox]
 
 - name: Configure unattended upgrades to use the apt version of Firefox
@@ -67,6 +71,7 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [firefox]
 
 - name: Install necessary packages
