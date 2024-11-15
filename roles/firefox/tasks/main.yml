@@ -1,4 +1,19 @@
 ---
+- name: Get installed Firefox version
+  shell: "dpkg-query -W -f='${Version}' firefox"
+  register: firefox_version
+  failed_when: false
+  changed_when: false
+  tags: [firefox]
+
+- name: Uninstall Firefox snap transition package
+  apt:
+    name: firefox
+    state: absent
+  become: yes
+  when: "'snap' in firefox_version.stdout"
+  tags: [firefox]
+
 # https://askubuntu.com/a/1404401/18665
 - name: Remove Firefox snap
   snap:
