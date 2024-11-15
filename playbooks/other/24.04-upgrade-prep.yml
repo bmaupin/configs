@@ -1,0 +1,84 @@
+# Instructions:
+# 1. Run the appropriate playbook in the parent directory
+#     e.g. ansible-playbook playbooks/home-desktop.yml
+# 1. Run this playbook
+#     ansible-playbook playbooks/other/24.04-upgrade-prep.yml
+# 1. Upgrade Ubuntu
+#     sudo do-release-upgrade -f DistUpgradeViewGtk3
+# 1. Restore favourite (pinned) apps in the dock
+#     gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
+---
+- hosts: 127.0.0.1
+
+  tasks:
+    - name: Remove custom packages for 22.04
+      apt:
+        name:
+          - gir1.2-gtop-2.0
+        state: absent
+        purge: yes
+      become: yes
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Apt autoremove
+      apt:
+        autoremove: yes
+        purge: yes
+      become: yes
+      register: result
+      changed_when: result.stdout.find(' 0 to remove') == -1
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Create backup directory
+      file:
+        path: ~/Desktop/tmp-24.04-upgrade
+        state: directory
+        mode: '0755'
+
+    - name: Back up dconf settings with gsettings
+      shell: gsettings list-recursively | sort > ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Back up dconf settings with dconf
+      shell: dconf dump / > ~/Desktop/tmp-24.04-upgrade/dconf-backup-22.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Back up list of apt packages
+      shell: dpkg -l > ~/Desktop/tmp-24.04-upgrade/dpkg-l-22.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Back up list of snap packages
+      shell: snap list > ~/Desktop/tmp-24.04-upgrade/snap-list-22.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Back up network settings
+      shell: ifconfig > ~/Desktop/tmp-24.04-upgrade/ifconfig-22.04.txt
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Reset dconf settings
+      shell: dconf reset -f /
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Set screen inactivity timeout
+      dconf:
+        key: /org/gnome/desktop/session/idle-delay
+        value: 'uint32 900'
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
