@@ -1,10 +1,10 @@
 ---
 - name: Do encrypted tasks
-  include: vault.yml
+  import_tasks: vault.yml
   tags: [ubuntu-common]
 
 - name: Configure firewall
-  include: ufw.yml
+  import_tasks: ufw.yml
   tags: [ubuntu-common]
 
 - name: Remove undesired packages
