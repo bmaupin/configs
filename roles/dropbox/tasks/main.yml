@@ -36,6 +36,8 @@
   become: yes
   tags: [dropbox]
 
+# NOTE: If you don't open Dropbox for a while, it may not auto-update. See here to fix it:
+#       https://superuser.com/a/1861865/93066
 # The Dropbox package hasn't changed in a couple years, but the app itself is self-updating and does get updated regularly
 - name: Install Dropbox
   apt:
