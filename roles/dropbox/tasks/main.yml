@@ -26,14 +26,28 @@
   become: yes
   tags: [dropbox]
 
-- name: Install Dropbox repository
+- name: Install Dropbox repository (Ubuntu <= 22.04)
   apt_repository:
-    # For whatever reason, disco (19.04) is the latest repo (https://linux.dropboxstatic.com/ubuntu/dists/)
     repo: deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu disco main
     state: present
     filename: dropbox
     update_cache: yes
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '<=')
+  tags: [dropbox]
+
+- name: Install Dropbox repository (Ubuntu > 22.04)
+  apt_repository:
+    repo: deb [arch=i386,amd64 signed-by=/etc/apt/keyrings/dropbox.asc] http://linux.dropbox.com/ubuntu noble main
+    state: present
+    filename: dropbox
+    update_cache: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>')
   tags: [dropbox]
 
 # NOTE: If you don't open Dropbox for a while, it may not auto-update. See here to fix it:
