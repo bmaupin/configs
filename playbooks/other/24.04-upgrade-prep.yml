@@ -1,10 +1,22 @@
 # Instructions:
 # 1. Run the appropriate playbook in the parent directory
 #     e.g. ansible-playbook playbooks/home-desktop.yml
+# 1. Check to make sure there's enough disk space available for the upgrade
+#
+#    df -h
+#
+#    1. Use Disk Analyzer to free up disk space as needed. Some common commands:
+#
+#       sudo apt autoremove --purge
+#       sudo apt clean
+#       snap list --all | while read snapname ver rev trk pub notes; do if [[ $notes = *disabled* ]]; then sudo snap remove "$snapname" --revision="$rev"; fi; done
+#
 # 1. Run this playbook
 #     ansible-playbook playbooks/other/24.04-upgrade-prep.yml
 # 1. Upgrade Ubuntu
-#     sudo do-release-upgrade -f DistUpgradeViewGtk3
+#
+#    1. Open Software Updater, and the upgrade prompt should pop up. If not, log out and try again.
+#
 # 1. Restore favourite (pinned) apps in the dock
 #     gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
 ---
