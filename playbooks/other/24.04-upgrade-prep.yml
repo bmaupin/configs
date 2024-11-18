@@ -26,6 +26,7 @@
     - name: Remove custom packages for 22.04
       apt:
         name:
+          - firefox
           - gir1.2-gtop-2.0
         state: absent
         purge: yes
@@ -91,6 +92,14 @@
       dconf:
         key: /org/gnome/desktop/session/idle-delay
         value: 'uint32 900'
+      when:
+        - ansible_distribution == "Ubuntu"
+        - ansible_distribution_version is version('22.04', '=')
+
+    - name: Remove Gnome Shell system monitor extension directory
+      file:
+        path: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor@paradoxxx.zero.gmail.com"
+        state: absent
       when:
         - ansible_distribution == "Ubuntu"
         - ansible_distribution_version is version('22.04', '=')
