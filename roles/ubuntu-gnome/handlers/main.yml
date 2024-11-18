@@ -8,3 +8,11 @@
     if [ -n "$teams_running" ]; then
       teams --disable-features=HardwareMediaKeyHandling
     fi
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '<=')
+
+# TODO: Is it possible to restart Gnome Shell with Gnome 46?
+#       According to https://askubuntu.com/a/1364254/18665 it requires unsafe mode to be
+#       enabled, which might not be possible with Ansible. Also, this may only be possible
+#       with X and not Wayland, so it may be no longer feasible.
