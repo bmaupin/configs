@@ -5,6 +5,8 @@
 #
 #    df -h
 #
+#    ⚠️ Remove as much as possible! Wine, OpenJDK, Chrome, Firefox, anything that can easily be installed later. I freed up 6 GB and it still ran out of space.
+#
 #    1. Use Disk Analyzer to free up disk space as needed. Some common commands:
 #
 #       sudo apt autoremove --purge
@@ -19,6 +21,26 @@
 #
 # 1. Restore favourite (pinned) apps in the dock
 #     gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
+#
+# 1. Go through all Ansible tasks with version restrictions and update as needed
+#
+#    e.g. ansible_distribution_version is version('22.04', '=')
+#
+# 1. Save ubuntu-gnome for last as it typically requires the most customisations, e.g.
+#
+#    ansible-playbook playbooks/... --skip ubuntu-gnome
+#
+# 1. Dump vanilla dconf
+#
+#    dconf dump / > ~/Desktop/tmp-24.04-upgrade/dconf-backup-24.04.txt
+#
+# 1. Change Gnome as desired and diff dconf
+#
+#    diff ~/Desktop/tmp-24.04-upgrade/dconf-backup-24.04.txt <(dconf dump /)
+#
+# 1. Test just the Gnome playbook, e.g.
+#
+#    ansible-playbook playbooks/... --tags ubuntu-gnome
 ---
 - hosts: 127.0.0.1
 
