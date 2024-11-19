@@ -247,15 +247,38 @@
     - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Set enabled extensions (Ubuntu 22.04)
+- name: Get enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
-    value: "[\
-      'system-monitor@paradoxxx.zero.gmail.com'\
-      ]"
+    state: read
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '=')
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
+  register: enabled_extensions
+  tags: [ubuntu-gnome]
+
+- name: Set additional extensions list
+  set_fact:
+    additional_extensions:
+      # - gSnap@micahosborne
+      # - spotify-ad-block@danigm.net
+      - system-monitor@paradoxxx.zero.gmail.com
+      - ubuntu-appindicators@ubuntu.com
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
+  tags: [ubuntu-gnome]
+
+- name: Set enabled extensions (Ubuntu 22.04+)
+  dconf:
+    key: /org/gnome/shell/enabled-extensions
+    value: '{{ (((enabled_extensions.value | replace("@as ", "") | replace("''", ''"'')) | from_json) + additional_extensions) | sort | unique | string }}'
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [ubuntu-gnome]
 
 # Transparent dock is particularly distracting with auto-hide since the dock will show on
