@@ -353,17 +353,6 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
-# Local extensions can get out of date fast and conflict with extensions installed from packages (https://askubuntu.com/a/1346532/18665)
-- name: Warn if there are any Gnome extensions installed locally
-  find:
-    paths: ~/.local/share/gnome-shell/extensions/
-    file_type: directory
-  register: result
-  failed_when: result.files != []
-  # Hack to show a warning instead of an error (https://stackoverflow.com/a/63557091/399105)
-  ignore_errors: True
-  tags: [ubuntu-gnome]
-
 # This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
 - name: Flush handlers
   meta: flush_handlers
