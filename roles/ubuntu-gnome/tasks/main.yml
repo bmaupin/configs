@@ -190,10 +190,11 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '=')
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [ubuntu-gnome]
 
-- name: Install Gnome Shell system monitor extension
+- name: Install Gnome Shell system-monitor extension
   script: install-gnome-shell-extension-system-monitor.sh
   args:
     creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor@paradoxxx.zero.gmail.com/"
@@ -203,25 +204,17 @@
     - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Configure Gnome Shell system monitor extension
+- name: Configure Gnome Shell system-monitor extension
   dconf:
     key: '{{ item.key }}'
     value: '{{ item.value }}'
   loop:
-    - {
-        key: /org/gnome/shell/extensions/system-monitor/cpu-display,
-        value: 'true',
-      }
     - {
         key: /org/gnome/shell/extensions/system-monitor/cpu-graph-width,
         value: 50,
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/cpu-show-text,
-        value: 'false',
-      }
-    - {
-        key: /org/gnome/shell/extensions/system-monitor/disk-display,
         value: 'false',
       }
     - {
@@ -237,19 +230,11 @@
         value: 'false',
       }
     - {
-        key: /org/gnome/shell/extensions/system-monitor/memory-display,
-        value: 'true',
-      }
-    - {
         key: /org/gnome/shell/extensions/system-monitor/memory-graph-width,
         value: 50,
       }
     - {
         key: /org/gnome/shell/extensions/system-monitor/memory-show-text,
-        value: 'false',
-      }
-    - {
-        key: /org/gnome/shell/extensions/system-monitor/net-display,
         value: 'false',
       }
     - {
@@ -261,10 +246,6 @@
         value: 'false',
       }
     - {
-        key: /org/gnome/shell/extensions/system-monitor/swap-display,
-        value: 'false',
-      }
-    - {
         key: /org/gnome/shell/extensions/system-monitor/swap-graph-width,
         value: 50,
       }
@@ -272,46 +253,104 @@
         key: /org/gnome/shell/extensions/system-monitor/swap-show-text,
         value: 'false',
       }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Get enabled extensions
+# This could be done using the dconf module but the dconf item is a list of all installed
+# extensions and dconf can't modify just a single item in that list
+- name: Enable Gnome Shell system-monitor extension
+  shell: >
+    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor@paradoxxx.zero.gmail.com; then
+      echo "System monitor extension already enabled"
+    else
+      gnome-extensions enable system-monitor@paradoxxx.zero.gmail.com
+    fi
+  register: result
+  changed_when: result.stdout.find("System monitor extension already enabled") == -1
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Install Gnome Shell system-monitor-next extension
+  script: install-gnome-shell-extension-system-monitor-next.sh
+  args:
+    creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor-next@paradoxxx.zero.gmail.com/"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [ubuntu-gnome]
+
+- name: Configure Gnome Shell system-monitor-next extension
   dconf:
-    key: /org/gnome/shell/enabled-extensions
-    state: read
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/cpu-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/cpu-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/disk-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/disk-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/icon-display,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/memory-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/memory-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/net-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/net-show-text,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/swap-graph-width,
+        value: 50,
+      }
+    - {
+        key: /org/gnome/shell/extensions/system-monitor-next-applet/swap-show-text,
+        value: 'false',
+      }
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '>=')
-    - ansible_distribution_version is version('24.04', '<=')
-  register: enabled_extensions
+    - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
-- name: Set additional extensions list
-  set_fact:
-    additional_extensions:
-      # - gSnap@micahosborne
-      # - spotify-ad-block@danigm.net
-      - system-monitor@paradoxxx.zero.gmail.com
-      # These are "system extenstions", no need to explicitly enable them
-      # 22.04+
-      # - ding@rastersoft.com
-      # - ubuntu-appindicators@ubuntu.com
-      # - ubuntu-dock@ubuntu.com
-      # 24.04+
-      # - tiling-assistant@ubuntu.com
+# This could be done using the dconf module but the dconf item is a list of all installed
+# extensions and dconf can't modify just a single item in that list
+- name: Enable Gnome Shell system-monitor-next extension
+  shell: >
+    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor-next@paradoxxx.zero.gmail.com; then
+      echo "System monitor extension already enabled"
+    else
+      gnome-extensions enable system-monitor-next@paradoxxx.zero.gmail.com
+    fi
+  register: result
+  changed_when: result.stdout.find("System monitor extension already enabled") == -1
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '>=')
-    - ansible_distribution_version is version('24.04', '<=')
-  tags: [ubuntu-gnome]
-
-- name: Set enabled extensions
-  dconf:
-    key: /org/gnome/shell/enabled-extensions
-    value: '{{ (((enabled_extensions.value | replace("@as ", "") | replace("''", ''"'')) | from_json) + additional_extensions) | sort | unique | string }}'
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '>=')
-    - ansible_distribution_version is version('24.04', '<=')
+    - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
 # Local extensions can get out of date fast and conflict with extensions installed from packages (https://askubuntu.com/a/1346532/18665)
