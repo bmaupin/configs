@@ -128,6 +128,9 @@
     regexp: '^#WaylandEnable=false'
     replace: 'WaylandEnable=false'
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '<=')
   tags: [ubuntu-common]
 
 # I don't even use snap-store, so it's all the more annoying when I start my computer and
