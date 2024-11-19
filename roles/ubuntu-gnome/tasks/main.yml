@@ -54,6 +54,18 @@
   notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
+- name: Set theme (Ubuntu 24.04)
+  dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - { key: /org/gnome/desktop/interface/color-scheme, value: "'prefer-dark'" }
+    - { key: /org/gnome/desktop/interface/gtk-theme, value: "'Yaru-dark'" }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [ubuntu-gnome]
+
 - name: Set compose key
   dconf:
     key: /org/gnome/desktop/input-sources/xkb-options
@@ -170,7 +182,8 @@
       }
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '=')
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Set file manager icon zoom level
@@ -245,6 +258,8 @@
     - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
+# Transparent dock is particularly distracting with auto-hide since the dock will show on
+# top of whatever is on the screen
 - name: Make dock non-transparent
   dconf:
     key: '{{ item.key }}'
@@ -302,7 +317,8 @@
       }
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '=')
+    - ansible_distribution_version is version('22.04', '>=')
+    - ansible_distribution_version is version('24.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Isolate windows to each workspace
