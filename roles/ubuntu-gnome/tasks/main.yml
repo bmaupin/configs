@@ -426,7 +426,13 @@
       # - gSnap@micahosborne
       # - spotify-ad-block@danigm.net
       - system-monitor@paradoxxx.zero.gmail.com
-      - ubuntu-appindicators@ubuntu.com
+      # These are "system extenstions", no need to explicitly enable them
+      # 22.04+
+      # - ding@rastersoft.com
+      # - ubuntu-appindicators@ubuntu.com
+      # - ubuntu-dock@ubuntu.com
+      # 24.04+
+      # - tiling-assistant@ubuntu.com
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
