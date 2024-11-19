@@ -1,5 +1,5 @@
 ---
-- name: Remove undesired snap packages (Ubuntu >= 20.04)
+- name: Remove undesired snap packages
   snap:
     name:
       - gnome-3-28-1804
@@ -14,7 +14,7 @@
   tags: [ubuntu-gnome]
 
 # If this task fails, do: sudo snap refresh snap-store --channel=latest/stable/ubuntu-22.04
-- name: Remove undesired snap packages (Ubuntu >= 22.04)
+- name: Remove undesired snap packages
   snap:
     name:
       - core18
@@ -23,21 +23,6 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
-  tags: [ubuntu-gnome]
-
-- name: Set theme (Ubuntu 20.04)
-  dconf:
-    key: '{{ item.key }}'
-    value: '{{ item.value }}'
-  loop:
-    - { key: /org/gnome/desktop/sound/theme-name, value: "'Yaru'" }
-    - { key: /org/gnome/desktop/interface/cursor-theme, value: "'Yaru'" }
-    - { key: /org/gnome/desktop/interface/gtk-theme, value: "'Yaru-dark'" }
-    - { key: /org/gnome/desktop/interface/icon-theme, value: "'Yaru'" }
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '=')
-  notify: Restart Gnome Shell
   tags: [ubuntu-gnome]
 
 - name: Set theme (Ubuntu 22.04)
@@ -78,94 +63,16 @@
     value: 'false'
   tags: [ubuntu-gnome]
 
-- name: Set clock format
-  dconf:
-    key: '{{ item.key }}'
-    value: '{{ item.value }}'
-  loop:
-    - { key: /org/gnome/desktop/interface/clock-format, value: "'24h'" }
-    - { key: /org/gnome/desktop/interface/clock-show-date, value: 'false' }
-    - { key: /org/gtk/Settings/FileChooser/clock-format, value: "'24h'" }
-    # TODO: uncomment this if we decide to apply this task to 22.04; needs testing on 20.04
-    # - { key: /org/gtk/gtk4/Settings/FileChooser/clock-format, value: "'24h'" }
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
-  tags: [ubuntu-gnome]
-
 - name: Set screen inactivity timeout
   dconf:
     key: /org/gnome/desktop/session/idle-delay
     value: 'uint32 900'
   tags: [ubuntu-gnome]
 
-- name: Set keybindings
-  dconf:
-    key: '{{ item.key }}'
-    value: '{{ item.value | string }}'
-  loop:
-    - {
-        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-down,
-        value: "['<Control><Shift><Alt>Down', '<Shift><Super>Down']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-left,
-        value: "['<Control><Shift><Alt>Left', '<Shift><Super>Left']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-right,
-        value: "['<Control><Shift><Alt>Right', '<Shift><Super>Right']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/move-to-workspace-up,
-        value: "['<Control><Shift><Alt>Up', '<Shift><Super>Up']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-down,
-        value: "['<Control><Alt>Down', '<Super>Down']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-left,
-        value: "['<Control><Alt>Left', '<Super>Left']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-right,
-        value: "['<Control><Alt>Right', '<Super>Right']",
-      }
-    - {
-        key: /org/gnome/desktop/wm/keybindings/switch-to-workspace-up,
-        value: "['<Control><Alt>Up', '<Super>Up']",
-      }
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
-  tags: [ubuntu-gnome]
-
 - name: Allow workspaces on all displays
   dconf:
     key: /org/gnome/mutter/workspaces-only-on-primary
     value: 'false'
-  tags: [ubuntu-gnome]
-
-- name: Show minimize button
-  dconf:
-    key: /org/gnome/desktop/wm/preferences/button-layout
-    value: "'appmenu:minimize,close'"
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
-  tags: [ubuntu-gnome]
-
-- name: Hide home and trash icons on desktop
-  dconf:
-    key: '{{ item }}'
-    value: 'false'
-  loop:
-    - /org/gnome/shell/extensions/desktop-icons/show-home
-    - /org/gnome/shell/extensions/desktop-icons/show-trash
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Configure Desktop Icons NG extension
@@ -184,15 +91,6 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
     - ansible_distribution_version is version('24.04', '<=')
-  tags: [ubuntu-gnome]
-
-- name: Set file manager icon zoom level
-  dconf:
-    key: /org/gnome/nautilus/icon-view/default-zoom-level
-    value: "'small'"
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Enable delete in file manager
@@ -222,29 +120,6 @@
         key: /org/gnome/settings-daemon/plugins/color/night-light-enabled,
         value: 'true',
       }
-  tags: [ubuntu-gnome]
-
-- name: Enable user extensions
-  dconf:
-    key: /org/gnome/shell/disable-user-extensions
-    value: 'false'
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
-  tags: [ubuntu-gnome]
-
-- name: Set enabled extensions (Ubuntu 20.04)
-  dconf:
-    key: /org/gnome/shell/enabled-extensions
-    value: "[\
-      'desktop-icons@csoriano',
-      'system-monitor@paradoxxx.zero.gmail.com',
-      'ubuntu-appindicators@ubuntu.com',
-      'ubuntu-dock@ubuntu.com'\
-      ]"
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '=')
   tags: [ubuntu-gnome]
 
 # Transparent dock is particularly distracting with auto-hide since the dock will show on
@@ -279,16 +154,6 @@
         key: /org/gnome/shell/extensions/dash-to-dock/intellihide,
         value: 'false',
       }
-  tags: [ubuntu-gnome]
-
-# The default value (-1) is supposed to be the "primary monitor" but seems to be buggy, at least in 20.04
-- name: Force dock to be on first monitor
-  dconf:
-    key: /org/gnome/shell/extensions/dash-to-dock/preferred-monitor
-    value: '0'
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('20.04', '<=')
   tags: [ubuntu-gnome]
 
 - name: Hide trash and unmounted volume icons on dock
@@ -439,7 +304,7 @@
     - ansible_distribution_version is version('24.04', '<=')
   tags: [ubuntu-gnome]
 
-- name: Set enabled extensions (Ubuntu 22.04+)
+- name: Set enabled extensions
   dconf:
     key: /org/gnome/shell/enabled-extensions
     value: '{{ (((enabled_extensions.value | replace("@as ", "") | replace("''", ''"'')) | from_json) + additional_extensions) | sort | unique | string }}'
