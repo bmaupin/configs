@@ -1,18 +1,18 @@
 ---
 # https://askubuntu.com/a/100228/18665
 - name: Restart Gnome Shell
-  # Restart Teams as well if it was running since restarting Gnome Shell will kill it
   shell: >
-    teams_running=$(ps -ef | grep [/]usr/share/teams/teams);
-    killall -3 gnome-shell;
-    if [ -n "$teams_running" ]; then
-      teams --disable-features=HardwareMediaKeyHandling
+    GNOME_VERSION=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1)
+
+    # TODO: Is it possible to restart Gnome Shell with Gnome 46?
+    #       According to https://askubuntu.com/a/1364254/18665 it requires unsafe mode to be
+    #       enabled, which might not be possible with Ansible. Also, this may only be possible
+    #       with X and not Wayland, so it may be no longer feasible.
+    if [ "$GNOME_VERSION" -ge 43 ]; then
+      notify-send "Please log out of Gnome to apply changes"
+    else
+      killall -3 gnome-shell
     fi
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '<=')
-
-# TODO: Is it possible to restart Gnome Shell with Gnome 46?
-#       According to https://askubuntu.com/a/1364254/18665 it requires unsafe mode to be
-#       enabled, which might not be possible with Ansible. Also, this may only be possible
-#       with X and not Wayland, so it may be no longer feasible.
+    - ansible_distribution_version is version('22.04', '>=')
