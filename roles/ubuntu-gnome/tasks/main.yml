@@ -204,6 +204,22 @@
     - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
+# This could be done using the dconf module but the dconf item is a list of all installed
+# extensions and dconf can't modify just a single item in that list
+- name: Enable Gnome Shell system-monitor extension
+  shell: >
+    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor@paradoxxx.zero.gmail.com; then
+      echo "System monitor extension already enabled"
+    else
+      gnome-extensions enable system-monitor@paradoxxx.zero.gmail.com
+    fi
+  register: result
+  changed_when: result.stdout.find("System monitor extension already enabled") == -1
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '=')
+  tags: [ubuntu-gnome]
+
 - name: Configure Gnome Shell system-monitor extension
   dconf:
     key: '{{ item.key }}'
@@ -258,26 +274,26 @@
     - ansible_distribution_version is version('22.04', '=')
   tags: [ubuntu-gnome]
 
-# This could be done using the dconf module but the dconf item is a list of all installed
-# extensions and dconf can't modify just a single item in that list
-- name: Enable Gnome Shell system-monitor extension
-  shell: >
-    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor@paradoxxx.zero.gmail.com; then
-      echo "System monitor extension already enabled"
-    else
-      gnome-extensions enable system-monitor@paradoxxx.zero.gmail.com
-    fi
-  register: result
-  changed_when: result.stdout.find("System monitor extension already enabled") == -1
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '=')
-  tags: [ubuntu-gnome]
-
 - name: Install Gnome Shell system-monitor-next extension
   script: install-gnome-shell-extension-system-monitor-next.sh
   args:
     creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/system-monitor-next@paradoxxx.zero.gmail.com/"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [ubuntu-gnome]
+
+# This could be done using the dconf module but the dconf item is a list of all installed
+# extensions and dconf can't modify just a single item in that list
+- name: Enable Gnome Shell system-monitor-next extension
+  shell: >
+    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor-next@paradoxxx.zero.gmail.com; then
+      echo "System monitor extension already enabled"
+    else
+      gnome-extensions enable system-monitor-next@paradoxxx.zero.gmail.com
+    fi
+  register: result
+  changed_when: result.stdout.find("System monitor extension already enabled") == -1
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
@@ -332,22 +348,6 @@
         key: /org/gnome/shell/extensions/system-monitor-next-applet/swap-show-text,
         value: 'false',
       }
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('24.04', '=')
-  tags: [ubuntu-gnome]
-
-# This could be done using the dconf module but the dconf item is a list of all installed
-# extensions and dconf can't modify just a single item in that list
-- name: Enable Gnome Shell system-monitor-next extension
-  shell: >
-    if gsettings get org.gnome.shell enabled-extensions | grep -q system-monitor-next@paradoxxx.zero.gmail.com; then
-      echo "System monitor extension already enabled"
-    else
-      gnome-extensions enable system-monitor-next@paradoxxx.zero.gmail.com
-    fi
-  register: result
-  changed_when: result.stdout.find("System monitor extension already enabled") == -1
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
