@@ -1,13 +1,15 @@
 ---
 # https://askubuntu.com/a/100228/18665
 - name: Restart Gnome Shell
-  shell: >
+  # TODO: Do we even need a handler for Gnome 43+? There aren't any tasks in ubuntu-gnome
+  #       for Ubuntu 24.04 that call this handler. Also, restarting Gnome Shell isn't
+  #       possible any more with Wayland.
+  # TODO: Is it possible to restart Gnome Shell with Gnome 46?
+  #       According to https://askubuntu.com/a/1364254/18665 it requires unsafe mode to be
+  #       enabled, which might not be possible with Ansible. Also, this may only be possible
+  #       with X and not Wayland, so it may be no longer feasible.
+  shell: |
     GNOME_VERSION=$(gnome-shell --version | cut -d' ' -f3 | cut -d'.' -f1)
-
-    # TODO: Is it possible to restart Gnome Shell with Gnome 46?
-    #       According to https://askubuntu.com/a/1364254/18665 it requires unsafe mode to be
-    #       enabled, which might not be possible with Ansible. Also, this may only be possible
-    #       with X and not Wayland, so it may be no longer feasible.
     if [ "$GNOME_VERSION" -ge 43 ]; then
       notify-send "Please log out of Gnome to apply changes"
     else
