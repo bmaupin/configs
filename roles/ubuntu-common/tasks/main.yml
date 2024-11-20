@@ -142,6 +142,53 @@
 # > Close the app to avoid disruptions
 #
 # The cause seems to be this file: ~/snap/snap-store/current/.config/autostart/ubuntu-software-service.desktop
+#
+# To test this:
+#
+# 1. List all available versions of snap-store
+#
+#    ```
+#    snap list --all snap-store
+#    ```
+#
+# 1. Install an older version, e.g.
+#
+#    ```
+#    sudo snap refresh snap-store --revision 582
+#    ```
+#
+# 1. Open snap-store (Ubuntu Software in the app menu)
+# 1. Enable more frequent automatic updates
+#
+#    ```
+#    sudo snap set system refresh.timer=00:00~24:00/96
+#    ```
+#
+#    This will force snap to auto update every 15 minutes. To see the next update:
+#
+#    ```
+#    snap refresh --time
+#    ```
+#
+# 1. Log out and log back in
+# 1. Immediately open up a terminal and type this command
+#
+#    ```
+#    while true; do ps -ef | grep [s]nap-store; sleep 1; done
+#    ```
+#
+# 1. Once snap-store is killed, run this command to watch snap-store for updates
+#
+#    ```
+#    while true; do date; snap list snap-store; sleep 60; done
+#    ```
+#
+# 1. Reset the automatic update timer
+#
+#    ```
+#    sudo snap set system refresh.timer!
+#    ```
+#
 - name: Disable snap-store autostart
   copy:
     src: stop-snap-store.desktop

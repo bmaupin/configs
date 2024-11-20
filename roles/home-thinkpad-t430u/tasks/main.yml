@@ -116,6 +116,12 @@
     # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash"'
     # Previous workaround
     # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash noapic"'
+    # Other workarounds tested
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug ignore_loglevel"'
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash dis_ucode_ldr"'
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash noapic"'
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash spec_store_bypass_disable=off"'
+    # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash apic=debug"'
     # This is the default setting
     # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
   become: yes
