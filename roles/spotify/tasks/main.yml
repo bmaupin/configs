@@ -80,3 +80,47 @@
     - 0.0.0.0 spclient.wg.spotify.com
   become: yes
   tags: [spotify]
+
+- name: Install extension to lower volume of ads
+  shell: |
+    gdbus call --session \
+           --dest org.gnome.Shell.Extensions \
+           --object-path /org/gnome/Shell/Extensions \
+           --method org.gnome.Shell.Extensions.InstallRemoteExtension \
+           "spotify-ad-block@danigm.net"
+  args:
+    creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/spotify-ad-block@danigm.net/"
+  register: extension_install
+  until: extension_install.rc == 0
+  retries: 5
+  delay: 10
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [spotify]
+
+- name: Configure Gnome Shell extension
+  dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - {
+        key: /org/gnome/shell/extensions/spotify-ad-blocker/ad-volume-percentage,
+        value: 60,
+      }
+    - {
+        key: /org/gnome/shell/extensions/spotify-ad-blocker/show-indicator,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/spotify-ad-blocker/unmute-delay,
+        value: 1500,
+      }
+    - {
+        key: /org/gnome/shell/extensions/spotify-ad-blocker/volume-before-ads,
+        value: -1,
+      }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [spotify]
