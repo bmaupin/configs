@@ -345,6 +345,16 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
+# Work around https://github.com/ibus/ibus/issues/2701
+- name: Set ibus emoji picker hotkeys to Ctrl + . and Ctrl + ;
+  dconf:
+    key: /desktop/ibus/panel/emoji/hotkey
+    value: "['<Control>semicolon', '<Control>period']"
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [ubuntu-gnome]
+
 # This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
 - name: Flush handlers
   meta: flush_handlers
