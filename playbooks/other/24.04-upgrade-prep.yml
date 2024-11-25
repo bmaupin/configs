@@ -1,5 +1,9 @@
 # Instructions:
 #
+# 1. Install latest system updates
+#
+#    sudo apt dist-upgrade
+#
 # 1. Run the appropriate playbook in the parent directory
 #
 #     e.g. ansible-playbook playbooks/home-desktop.yml
@@ -22,11 +26,17 @@
 #
 # 1. Upgrade Ubuntu
 #
-#    1. Open Software Updater, and the upgrade prompt should pop up. If not, log out and try again.
+#    1. Open Software Updater, and the upgrade prompt should pop up. If not, install updates, reboot, and try again.
+#
+# 1. Close all applications while upgrade is running
 #
 # 1. Restore favourite (pinned) apps in the dock
 #
 #    gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
+#
+# 1. (Optional) Restore desktop background
+#
+#    gsettings set $(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep picture-uri-dark)
 #
 # 1. Restore deja-dup backup dates
 #
