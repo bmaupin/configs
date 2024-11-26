@@ -51,7 +51,6 @@
     - ansible_distribution_version is version('22.04', '>')
   tags: [dropbox]
 
-# NOTE: This task may fail due to conflicting "signed-by" values; if it fails, run the playbook again
 - name: Remove old repository entries
   apt_repository:
     repo: '{{ item }}'
@@ -59,8 +58,6 @@
     filename: dropbox
   with_items:
     - 'deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu disco main'
-    - 'deb [arch=i386,amd64] http://linux.dropbox.com/ubuntu noble main'
-    - 'deb [arch=i386,amd64 signed-by=/etc/apt/trusted.gpg.d/dropbox.gpg] http://linux.dropbox.com/ubuntu noble main'
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>')
@@ -69,6 +66,8 @@
 
 # Use get_url because apt_key is deprecated
 # Keys should now go in /etc/apt/keyrings as per https://stackoverflow.com/a/71384057/399105
+# The dropbox package will also copy this key file into place, but the key file has to be
+# there before the repository will install, so we need to install it manually.
 - name: Download Dropbox GPG key
   get_url:
     url: https://linux.dropbox.com/fedora/rpm-public-key.asc
