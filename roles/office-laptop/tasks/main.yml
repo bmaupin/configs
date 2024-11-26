@@ -110,8 +110,14 @@
         key: /org/gnome/shell/extensions/tilingshell/enable-snap-assist,
         value: 'false',
       }
-    - { key: /org/gnome/shell/extensions/tilingshell/inner-gaps, value: 0 }
-    - { key: /org/gnome/shell/extensions/tilingshell/outer-gaps, value: 0 }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/inner-gaps,
+        value: 'uint32 0',
+      }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/outer-gaps,
+        value: 'uint32 0',
+      }
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
