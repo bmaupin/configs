@@ -133,6 +133,10 @@
     - ansible_distribution_version is version('22.04', '<=')
   tags: [ubuntu-common]
 
+# Work around this bug: https://bugs.launchpad.net/snap-store-desktop/+bug/1998233
+#
+# See also: https://askubuntu.com/questions/1443069/how-to-prevent-snap-store-from-automatically-starting
+#
 # I don't even use snap-store, so it's all the more annoying when I start my computer and
 # I'm greeted with this popup, caused by a pending update of snap-store, which is set to
 # automatically start at boot:
@@ -194,6 +198,21 @@
     src: stop-snap-store.desktop
     dest: /etc/xdg/autostart/stop-snap-store.desktop
   become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '<=')
+  tags: [ubuntu-common]
+
+# TODO: I have no idea what the status of snap-store autostart is any more
+#       (https://bugs.launchpad.net/snap-store-desktop/+bug/1998233/comments/8)
+- name: Delete snap-store autostart override
+  file:
+    path: /etc/xdg/autostart/stop-snap-store.desktop
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>')
   tags: [ubuntu-common]
 
 # TODO: Delete this task once it's been run everywhere
