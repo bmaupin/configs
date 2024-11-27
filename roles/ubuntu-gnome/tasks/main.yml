@@ -355,6 +355,19 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
+- name: Set ibus emoji picker favourites
+  dconf:
+    key: /desktop/ibus/panel/emoji/favorites
+    value: |
+      [
+        '😅', '😄', '😆', '😁', '😂', '🤣', '🙂', '😝', '😊', '😎', '🥳', '🤠', '🤓', '😉', '😘',
+        '🙃', '🫠', '😔', '😬', '🤔', '😕', '🤯', '🙄', '😣', '😶', '😑', '😖', '☹️', '🤬',
+        '🤷‍♂️', '🤦‍♂️', '👍', '🤞', '👉', '👆', '☝', '🙏',
+        'ⓘ', '⚠️', '💡',
+        '🎉', '🚀', '❤️'
+      ]
+  tags: [ubuntu-gnome]
+
 # This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
 - name: Flush handlers
   meta: flush_handlers
