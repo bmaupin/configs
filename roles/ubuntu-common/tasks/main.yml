@@ -203,8 +203,18 @@
     - ansible_distribution_version is version('22.04', '<=')
   tags: [ubuntu-common]
 
-# TODO: I have no idea what the status of snap-store autostart is any more
-#       (https://bugs.launchpad.net/snap-store-desktop/+bug/1998233/comments/8)
+# TODO: Delete this task once it's been run everywhere
+- name: Delete old snap-store desktop file
+  file:
+    path: ~/.config/autostart/ubuntu-software-service.desktop
+    state: absent
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '<=')
+  tags: [ubuntu-common]
+
+# It seems the old snap-store app has been replaced by App Center
+# (https://github.com/ubuntu/app-center) so the previous workaround is no longer needed
 - name: Delete snap-store autostart override
   file:
     path: /etc/xdg/autostart/stop-snap-store.desktop
@@ -213,13 +223,6 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>')
-  tags: [ubuntu-common]
-
-# TODO: Delete this task once it's been run everywhere
-- name: Delete old snap-store desktop file
-  file:
-    path: ~/.config/autostart/ubuntu-software-service.desktop
-    state: absent
   tags: [ubuntu-common]
 
 - name: Get the list of kernel headers that can be uninstalled
