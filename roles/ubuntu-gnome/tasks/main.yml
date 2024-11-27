@@ -355,6 +355,14 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
+# Only set the emoji picker favourites once, this way it can be added to
+- name: Read ibus emoji picker favourites
+  dconf:
+    key: /desktop/ibus/panel/emoji/favorites
+    state: read
+  register: emoji_picker_favourites
+  tags: [ubuntu-gnome]
+
 - name: Set ibus emoji picker favourites
   dconf:
     key: /desktop/ibus/panel/emoji/favorites
@@ -366,6 +374,7 @@
         'ⓘ', '⚠️', '💡',
         '🎉', '🚀', '❤️'
       ]
+  when: emoji_picker_favourites is not defined or emoji_picker_favourites.value is none
   tags: [ubuntu-gnome]
 
 # This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
