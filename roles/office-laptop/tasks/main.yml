@@ -122,3 +122,14 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
   tags: [office-laptop]
+
+- name: Disable firmware updater service
+  service:
+    name: fwupd
+    enabled: no
+    state: stopped
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [office-laptop]
