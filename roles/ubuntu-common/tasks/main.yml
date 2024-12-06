@@ -133,6 +133,19 @@
     - ansible_distribution_version is version('22.04', '<=')
   tags: [ubuntu-common]
 
+# Screen sharing seems to work fine in Wayland now and now there's a login bug in X11
+# (https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709)
+- name: Enable Wayland on login screen
+  replace:
+    path: /etc/gdm3/custom.conf
+    regexp: '^WaylandEnable=false'
+    replace: '#WaylandEnable=false'
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>')
+  tags: [ubuntu-common]
+
 # Work around this bug: https://bugs.launchpad.net/snap-store-desktop/+bug/1998233
 #
 # See also: https://askubuntu.com/questions/1443069/how-to-prevent-snap-store-from-automatically-starting
