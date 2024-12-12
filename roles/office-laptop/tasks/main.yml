@@ -121,6 +121,10 @@
         key: /org/gnome/shell/extensions/tilingshell/outer-gaps,
         value: 'uint32 0',
       }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/quarter-tiling-threshold,
+        value: 'uint32 1',
+      }
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
