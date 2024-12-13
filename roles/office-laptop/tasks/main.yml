@@ -130,13 +130,22 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [office-laptop]
 
-- name: Disable firmware updater service
-  service:
-    name: fwupd
-    enabled: no
-    state: stopped
+- name: Check if firmware-updater.firmware-notifier service is enabled
+  command: snap services firmware-updater.firmware-notifier
+  register: firmware_notifier_status
+  changed_when: false
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [office-laptop]
+
+  # This disables firmware-updater notifications which happen every day, while still
+  # allowing manual firmware updates through the Firmware Update app
+- name: Disable firmware-updater.firmware-notifier service if enabled
+  command: snap stop --disable firmware-updater.firmware-notifier
   become: yes
   when:
+    - "'enabled' in firmware_notifier_status.stdout"
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
   tags: [office-laptop]
