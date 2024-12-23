@@ -26,6 +26,8 @@
     "*.yaml.j2": "yaml",
     "*.yml.j2": "yaml"
   },
+  // Disable annoying "Ctrl+I to continue with Copilot" prompt in files
+  "inlineChat.lineNaturalLanguageHint": false,
   "js/ts.implicitProjectConfig.checkJs": true,
   "prettier.requireConfig": true,
   "redhat.telemetry.enabled": true,
