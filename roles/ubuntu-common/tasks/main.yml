@@ -101,6 +101,17 @@
   become: yes
   tags: [ubuntu-common]
 
+- name: Uninstall 20.04 HWE kernel
+  apt:
+    name: linux-generic-hwe-20.04
+    state: absent
+    purge: yes
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>=')
+  tags: [ubuntu-common]
+
 - name: Copy .eslintrc
   copy:
     src: .eslintrc
