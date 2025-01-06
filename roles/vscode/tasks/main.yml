@@ -8,10 +8,20 @@
 
 - name: Install VS Code repository
   apt_repository:
-    repo: deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main
+    repo: deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/repos/code stable main
     state: present
     filename: vscode
     update_cache: yes
+  become: yes
+  tags: [vscode]
+
+- name: Remove old repository entries
+  apt_repository:
+    repo: '{{ item }}'
+    state: absent
+    filename: vscode
+  with_items:
+    - 'deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main'
   become: yes
   tags: [vscode]
 
