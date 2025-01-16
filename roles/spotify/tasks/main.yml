@@ -37,7 +37,7 @@
 # NOTE: If this task fails, get the latest key URL from https://www.spotify.com/us/download/linux/
 - name: Install Spotify GPG key
   ansible.builtin.apt_key:
-    url: https://download.spotify.com/debian/pubkey_6224F9941A8AA6D1.gpg
+    url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
     keyring: /etc/apt/trusted.gpg.d/spotify.gpg
   become: yes
   tags: [spotify]
