@@ -149,3 +149,16 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
   tags: [office-laptop]
+
+# TODO: workaround for testing https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709
+- name: Add user-specific command to /etc/gdm/PostSession/Default
+  ansible.builtin.blockinfile:
+    path: /etc/gdm3/PostSession/Default
+    marker: '# {mark} ANSIBLE-MANAGED BLOCK FOR USER LOGOUT'
+    block: |
+      if [ "$USERNAME" = "{{ ansible_user_id }}" ]; then
+        su {{ ansible_user_id }} -c "/usr/bin/gnome-extensions disable tilingshell@ferrarodomenico.com"
+      fi
+    insertafter: '^\#!/bin/sh'
+  become: yes
+  tags: [office-laptop]
