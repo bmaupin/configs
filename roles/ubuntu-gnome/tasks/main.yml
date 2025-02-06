@@ -345,6 +345,7 @@
     - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-gnome]
 
+# TODO: This bug only seems to affect X11, so maybe once we switch to Wayland we can remove this
 # Work around https://github.com/ibus/ibus/issues/2701
 - name: Set ibus emoji picker hotkeys to Ctrl + . and Ctrl + ;
   dconf:
@@ -371,8 +372,8 @@
         '😅', '😄', '😆', '😁', '😂', '🤣', '🙂', '😝', '😊', '😎', '🥳', '🤠', '🤓', '😉', '😘',
         '🙃', '🫠', '😔', '😬', '🤔', '😕', '🤯', '🙄', '😣', '😶', '😑', '😖', '☹️', '🤬',
         '🤷‍♂️', '🤦‍♂️', '👍', '🤞', '👉', '👆', '☝', '🙏',
-        'ⓘ', '⚠️', '💡',
-        '🎉', '🚀', '❤️'
+        'ⓘ', '⚠️', '💡', '📌',
+        '🎉', '🚀', '❤️',
       ]
   when: emoji_picker_favourites is not defined or emoji_picker_favourites.value is none
   tags: [ubuntu-gnome]
