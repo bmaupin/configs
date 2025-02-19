@@ -151,14 +151,21 @@
   tags: [office-laptop]
 
 # TODO: workaround for testing https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709
-- name: Add user-specific command to /etc/gdm/PostSession/Default
-  ansible.builtin.blockinfile:
-    path: /etc/gdm3/PostSession/Default
-    marker: '# {mark} ANSIBLE-MANAGED BLOCK FOR USER LOGOUT'
-    block: |
-      if [ "$USERNAME" = "{{ ansible_user_id }}" ]; then
-        su {{ ansible_user_id }} -c "/usr/bin/gnome-extensions disable tilingshell@ferrarodomenico.com"
-      fi
-    insertafter: '^\#!/bin/sh'
-  become: yes
+- name: Create disable-gnome-extensions service file
+  copy:
+    dest: ~/.config/systemd/user/disable-gnome-extensions.service
+    mode: '0644'
+    content: |
+      [Unit]
+      Description=Disable GNOME Extension on logout and shutdown
+      DefaultDependencies=no
+      Before=shutdown.target reboot.target halt.target exit.target
+
+      [Service]
+      Type=oneshot
+      ExecStart=/bin/bash -c 'rm -rf /home/{{ ansible_user_id }}/.local/share/gnome-shell/extensions/* && /usr/bin/gnome-extensions disable ubuntu-appindicators@ubuntu.com'
+
+      [Install]
+      WantedBy=shutdown.target
+  notify: Enable disable-gnome-extensions
   tags: [office-laptop]
