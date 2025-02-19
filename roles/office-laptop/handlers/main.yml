@@ -8,3 +8,11 @@
     name: pulseaudio
     state: restarted
     scope: user
+
+# TODO: Remove this when the corresponding task is removed
+- name: Enable disable-gnome-extensions
+  systemd:
+    name: disable-gnome-extensions.service
+    daemon_reload: true
+    enabled: yes
+    scope: user
