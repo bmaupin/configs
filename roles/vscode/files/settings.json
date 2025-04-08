@@ -26,9 +26,20 @@
     "*.yaml.j2": "yaml",
     "*.yml.j2": "yaml"
   },
+  "github.copilot.enable": {
+    "*": true,
+    "plaintext": false,
+    "markdown": false,
+    "scminput": false,
+    "c": false,
+    "shellscript": true,
+    "properties": false
+  },
   // Disable annoying "Ctrl+I to continue with Copilot" prompt in files
   "inlineChat.lineNaturalLanguageHint": false,
   "js/ts.implicitProjectConfig.checkJs": true,
+  // Make it so that the Lua extension only diagnoses the currently open file instead of the entire workspace
+  "Lua.workspace.maxPreload": 0,
   "prettier.requireConfig": true,
   "redhat.telemetry.enabled": true,
   "trailing-spaces.deleteModifiedLinesOnly": true,
