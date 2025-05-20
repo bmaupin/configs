@@ -1,86 +1,41 @@
 ---
-# TODO: The Teams app for Linux is being retired "early December" 2022: https://news.ycombinator.com/item?id=32678839
-# Alternatives:
-# - Use this unofficial Teams Electron client: https://github.com/IsmaelMartinez/teams-for-linux
-# - Install the PWA on Chrome once it's ready ("Microsoft will publish a blog post about this change and how to install Teams as a PWA on Edge and Chrome once we are closer to making this feature generally available on Linux in the coming months.")
-#   - This needs to be tested; what are the real practical differences from doing this versus just using it in Firefox as-is?
-# - Use Teams in Firefox as a normal website (Firefox doesn't natively support PWAs)
-#   - What are the limitations of this? Can we still enable desktop notifications?
-#   - ⚠ Based on this, it sounds like it's a buggy mess: https://news.ycombinator.com/item?id=32682483
-# - Use Teams as a PWA in Firefox via https://github.com/filips123/PWAsForFirefox
-#   - ⚠ Sounds like this might be buggy: https://news.ycombinator.com/item?id=32682483
+# NOTE: The Teams app for Linux was retired in favour of a PWA
+# - Teams in Firefox is meh
+#   - A lot of disconnects during video calls
+#   - Status changes to away when the mouse isn't over the Teams tab in the browser
+# - Could try the PWA on Chrome
+# - There's also this unofficial client: https://github.com/IsmaelMartinez/teams-for-linux
 
-- name: Install Microsoft GPG key
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    keyring: /etc/apt/trusted.gpg.d/microsoft.gpg
-  become: yes
-  tags: [teams]
+# TODO: Install teams-for-linux
+# https://github.com/IsmaelMartinez/teams-for-linux
 
-- name: Install Teams repository
-  apt_repository:
-    repo: deb [arch=amd64] https://packages.microsoft.com/repos/ms-teams stable main
-    state: present
-    filename: teams
-    update_cache: yes
-  become: yes
-  tags: [teams]
-
-- name: Install Teams
-  apt:
-    name: teams
-    state: latest
-  become: yes
-  tags: [teams]
-
-- name: Copy custom desktop file
-  copy:
-    src: /usr/share/applications/teams.desktop
-    dest: ~/.local/share/applications/teams.desktop
-    # Don't overwrite the file since we'll modify it in the next step
-    force: no
-  tags: [teams]
-
-# Work around this bug: https://feedbackportal.microsoft.com/feedback/idea/b0668d5e-272e-ec11-b6e6-00224827bbc2
-- name: Disable hardware media key handling when manually opening Teams
-  replace:
-    path: ~/.local/share/applications/teams.desktop
-    regexp: '^Exec=teams %U'
-    replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
-  tags: [teams]
-
-# This actually needs to be set from within the application (3 dots menu > Settings > Auto-start application) but we'll
-# leave it here as a reminder to disable the default Teams autostart, which we need to do because even if we want
-# autostart, we need to use a custom autostart file (see below)
-- name: Disable default autostart
-  file:
-    path: ~/.config/autostart/teams.desktop
-    state: absent
-  tags: [teams]
-
-# We have to use a custom desktop file because the default one (teams.desktop) is managed by the Teams app and will be
-# overwritten
 - name: Copy custom autostart file
   copy:
-    src: /usr/share/applications/teams.desktop
-    dest: ~/.config/autostart/teams-custom.desktop
+    src: /usr/share/applications/teams-for-linux.desktop
+    dest: ~/.config/autostart/teams-for-linux.desktop
     # Don't overwrite the file since we'll modify it in the next step
     force: no
   when: teams_autostart
   tags: [teams]
 
-# Work around this bug: https://feedbackportal.microsoft.com/feedback/idea/b0668d5e-272e-ec11-b6e6-00224827bbc2
-- name: Disable hardware media key handling when Teams is automatically started
-  replace:
+# TODO: Only start Teams on weekdays
+# - name: Disable hardware media key handling when Teams is automatically started
+#   replace:
+#     path: ~/.config/autostart/teams-custom.desktop
+#     regexp: '^Exec=teams %U'
+#     replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
+#   when: teams_autostart
+#   tags: [teams]
+
+- name: Remove old autostart file
+  file:
     path: ~/.config/autostart/teams-custom.desktop
-    regexp: '^Exec=teams %U'
-    replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
-  when: teams_autostart
+    state: absent
   tags: [teams]
 
 - name: Remove custom autostart file
   file:
-    path: ~/.config/autostart/teams-custom.desktop
+    path: ~/.config/autostart/teams-for-linux.desktop
     state: absent
   when: not teams_autostart
   tags: [teams]
