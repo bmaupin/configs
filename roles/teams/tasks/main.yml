@@ -6,6 +6,12 @@
 # - Could try the PWA on Chrome
 # - There's also this unofficial client: https://github.com/IsmaelMartinez/teams-for-linux
 
+- name: Remove old autostart file
+  file:
+    path: ~/.config/autostart/teams-custom.desktop
+    state: absent
+  tags: [teams]
+
 # TODO: Install teams-for-linux
 # https://github.com/IsmaelMartinez/teams-for-linux
 
@@ -18,19 +24,12 @@
   when: teams_autostart
   tags: [teams]
 
-# TODO: Only start Teams on weekdays
-# - name: Disable hardware media key handling when Teams is automatically started
-#   replace:
-#     path: ~/.config/autostart/teams-custom.desktop
-#     regexp: '^Exec=teams %U'
-#     replace: 'Exec=teams --disable-features=HardwareMediaKeyHandling %U'
-#   when: teams_autostart
-#   tags: [teams]
-
-- name: Remove old autostart file
-  file:
-    path: ~/.config/autostart/teams-custom.desktop
-    state: absent
+- name: Only autostart Teams on weekdays
+  replace:
+    path: ~/.config/autostart/teams-for-linux.desktop
+    regexp: '^Exec=/opt/teams-for-linux/teams-for-linux %U'
+    replace: "Exec=bash -c '[[ $(date +%u) -le 5 ]] && exec /opt/teams-for-linux/teams-for-linux %U'"
+  when: teams_autostart
   tags: [teams]
 
 - name: Remove custom autostart file
