@@ -28,7 +28,8 @@
   replace:
     path: ~/.config/autostart/teams-for-linux.desktop
     regexp: '^Exec=.*'
-    replace: "Exec=bash -c 'h=$(date +%-H); [[ $(date +%u) -le 5 && $h -ge 8 && $h -lt 17 ]] && exec /opt/teams-for-linux/teams-for-linux %U'"
+    # NOTE: percent signs (%) must be doubled to be escaped as per the spec (https://specifications.freedesktop.org/desktop-entry-spec/1.5/exec-variables.html)
+    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 8 && $h -lt 17 ]] && exec /opt/teams-for-linux/teams-for-linux'"
   when: teams_autostart
   tags: [teams]
 
