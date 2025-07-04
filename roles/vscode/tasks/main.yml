@@ -1,17 +1,28 @@
 ---
+# NOTE: The key (this task) and repository (next task) files are both managed by vscode.
+#       If they changing, we should manage them differently, for example:
+#       - Only run this task if vscode isn't installed, just for initial setup
+#       - Or create the files manually and never update them
 - name: Install Microsoft GPG key
   apt_key:
     url: https://packages.microsoft.com/keys/microsoft.asc
-    keyring: /etc/apt/trusted.gpg.d/microsoft.gpg
+    keyring: /usr/share/keyrings/microsoft.gpg
   become: yes
   tags: [vscode]
 
 - name: Install VS Code repository
-  apt_repository:
-    repo: deb [arch=amd64,arm64,armhf] https://packages.microsoft.com/repos/code stable main
-    state: present
-    filename: vscode
-    update_cache: yes
+  deb822_repository:
+    name: vscode
+    types: deb
+    uris: https://packages.microsoft.com/repos/code
+    suites: stable
+    components:
+      - main
+    architectures:
+      - amd64
+      - arm64
+      - armhf
+    signed_by: /usr/share/keyrings/microsoft.gpg
   become: yes
   tags: [vscode]
 
