@@ -1,0 +1,22 @@
+---
+- name: Install Safe Eyes
+  apt:
+    name: safeeyes
+    state: present
+  become: yes
+  tags: [safeeyes]
+
+- name: Configure Safe Eyes to autostart
+  copy:
+    src: /usr/share/applications/safeeyes.desktop
+    dest: ~/.config/autostart/safeeyes.desktop
+    # Don't overwrite the file since we'll modify it in the next step
+    force: no
+  tags: [safeeyes]
+
+- name: Only autostart Safe Eyes on weekdays between 8:00 - 17:00
+  replace:
+    path: ~/.config/autostart/safeeyes.desktop
+    regexp: '^Exec=.*'
+    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 8 && $h -lt 17 ]] && env GDK_BACKEND=x11 safeeyes'"
+  tags: [safeeyes]

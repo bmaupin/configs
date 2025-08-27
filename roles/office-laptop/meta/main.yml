@@ -9,6 +9,7 @@ dependencies:
   - git
   - libreoffice
   - office
+  - safeeyes
   - spotify
   - role: teams
     vars:
