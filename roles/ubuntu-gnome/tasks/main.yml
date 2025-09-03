@@ -367,13 +367,14 @@
 - name: Set ibus emoji picker favourites
   dconf:
     key: /desktop/ibus/panel/emoji/favorites
+    # NOTE: The last item in the list cannot contain a trailing comma, otherwise the task will fail
     value: |
       [
         '😅', '😄', '😆', '😁', '😂', '🤣', '🙂', '😝', '😊', '😎', '🥳', '🤠', '🤓', '😉', '😘',
         '🙃', '🫠', '😔', '😬', '🤔', '😕', '🤯', '🙄', '😣', '😶', '😑', '😖', '☹️', '🤬',
         '🤷‍♂️', '🤦‍♂️', '👍', '🤞', '👉', '👆', '☝', '🙏',
         'ⓘ', '⚠️', '💡', '📌',
-        '🎉', '🚀', '❤️',
+        '🎉', '🚀', '❤️'
       ]
   when: emoji_picker_favourites is not defined or emoji_picker_favourites.value is none
   tags: [ubuntu-gnome]
