@@ -1,4 +1,20 @@
 ---
+- name: Run apt update to make sure Chrome repository is healthy
+  command: apt update
+  register: apt_update
+  changed_when: false
+  failed_when: false
+  become: yes
+  tags: [chrome]
+
+- name: Remove chrome if repo is broken
+  apt:
+    name: google-chrome-stable
+    state: absent
+  become: yes
+  when: '"GPG error: https://dl.google.com/linux/chrome/deb stable InRelease: The following signatures couldn''t be verified because the public key is not available: NO_PUBKEY" in apt_update.stderr'
+  tags: [chrome]
+
 - name: Check if Chrome is installed
   shell: dpkg -l google-chrome-stable | grep ^ii
   changed_when: no
