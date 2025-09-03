@@ -46,6 +46,7 @@
   apt:
     name: spotify-client
     state: latest
+    update_cache: yes
   become: yes
   tags: [spotify]
 
