@@ -1,31 +1,5 @@
 ---
-# NOTE: The key (this task) and repository (next task) files are both managed by vscode.
-#       If they changing, we should manage them differently, for example:
-#       - Only run this task if vscode isn't installed, just for initial setup
-#       - Or create the files manually and never update them
-- name: Install Microsoft GPG key
-  apt_key:
-    url: https://packages.microsoft.com/keys/microsoft.asc
-    keyring: /usr/share/keyrings/microsoft.gpg
-  become: yes
-  tags: [vscode]
-
-- name: Install VS Code repository
-  deb822_repository:
-    name: vscode
-    types: deb
-    uris: https://packages.microsoft.com/repos/code
-    suites: stable
-    components:
-      - main
-    architectures:
-      - amd64
-      - arm64
-      - armhf
-    signed_by: /usr/share/keyrings/microsoft.gpg
-  become: yes
-  tags: [vscode]
-
+# TODO: Remove this task once it's been run everywhere
 - name: Remove old repository entries
   apt_repository:
     repo: '{{ item }}'
@@ -36,11 +10,38 @@
   become: yes
   tags: [vscode]
 
+- name: Check if VS Code is installed
+  shell: dpkg -l code | grep ^ii
+  changed_when: false
+  check_mode: false
+  failed_when: false
+  register: result
+  tags: [vscode]
+
 - name: Install VS Code
-  apt:
-    name: code
-    state: latest
-  become: yes
+  block:
+    # TODO: This fails because of https://github.com/ansible/ansible/issues/85807
+    - name: Install VS Code using apt
+      apt:
+        deb: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+      become: true
+
+  rescue:
+    - name: Download VS Code .deb package
+      get_url:
+        url: https://code.visualstudio.com/sha/download?build=stable&os=linux-deb-x64
+        dest: /tmp/code_latest.deb
+        mode: '0644'
+
+    - name: Install VS Code from local .deb
+      command: dpkg -i /tmp/code_latest.deb
+      become: true
+
+    - name: Remove downloaded VS Code .deb package
+      file:
+        path: /tmp/code_latest.deb
+        state: absent
+  when: result.rc is defined and result.rc != 0
   tags: [vscode]
 
 - name: Install extensions
