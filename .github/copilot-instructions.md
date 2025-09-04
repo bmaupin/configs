@@ -1,0 +1,3 @@
+- Use British spelling
+- Use true and false instead of yes and no
+- Only use command or shell as a last resort when no other modules are available
