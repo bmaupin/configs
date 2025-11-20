@@ -4,22 +4,22 @@
   register: apt_update
   changed_when: false
   failed_when: false
-  become: yes
+  become: true
   tags: [chrome]
 
 - name: Remove Chrome if repo is not enabled
   apt:
     name: google-chrome-stable
     state: absent
-  become: yes
-  when: '"https://dl.google.com/linux/chrome/deb" not in apt_update.stderr'
+  become: true
+  when: '"https://dl.google.com/linux/chrome/deb" not in apt_update.stdout'
   tags: [chrome]
 
 - name: Remove Chrome if repo is broken
   apt:
     name: google-chrome-stable
     state: absent
-  become: yes
+  become: true
   when: '"GPG error: https://dl.google.com/linux/chrome/deb stable InRelease: The following signatures couldn''t be verified because the public key is not available: NO_PUBKEY" in apt_update.stderr'
   tags: [chrome]
 
@@ -29,6 +29,19 @@
   check_mode: no
   failed_when: no
   register: result
+  tags: [chrome]
+
+# The repo gets added by the postinstall script at /var/lib/dpkg/info/google-chrome-stable.postinst
+# which creates and calls a cron job at /etc/cron.daily/google-chrome which itself reads
+# values from /etc/default/google-chrome 🤦‍♂️
+- name: Make sure repo gets added if Chrome is to be installed or reinstalled
+  lineinfile:
+    path: /etc/default/google-chrome
+    regexp: '^repo_add_once='
+    line: 'repo_add_once="true"'
+    create: true
+  become: true
+  when: result.rc is defined and result.rc != 0
   tags: [chrome]
 
 - name: Install Google Chrome
@@ -69,5 +82,5 @@
     path: ~/.local/share/applications/google-chrome.desktop
     regexp: '^Exec=.*/usr/bin/google-chrome-stable'
     replace: 'Exec=env LANGUAGE=en_CA /usr/bin/google-chrome-stable'
-    backup: yes
+    backup: true
   tags: [chrome]
