@@ -7,7 +7,15 @@
   become: yes
   tags: [chrome]
 
-- name: Remove chrome if repo is broken
+- name: Remove Chrome if repo is not enabled
+  apt:
+    name: google-chrome-stable
+    state: absent
+  become: yes
+  when: '"https://dl.google.com/linux/chrome/deb" not in apt_update.stderr'
+  tags: [chrome]
+
+- name: Remove Chrome if repo is broken
   apt:
     name: google-chrome-stable
     state: absent
@@ -24,9 +32,28 @@
   tags: [chrome]
 
 - name: Install Google Chrome
-  apt:
-    deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-  become: yes
+  block:
+    # TODO: This fails because of https://github.com/ansible/ansible/issues/85807
+    - name: Install Google Chrome using apt
+      apt:
+        deb: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+      become: true
+
+  rescue:
+    - name: Download Google Chrome .deb package
+      get_url:
+        url: https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+        dest: /tmp/google-chrome-stable_current_amd64.deb
+        mode: '0644'
+
+    - name: Install Google Chrome from local .deb
+      command: dpkg -i /tmp/google-chrome-stable_current_amd64.deb
+      become: true
+
+    - name: Remove downloaded Google Chrome .deb package
+      file:
+        path: /tmp/google-chrome-stable_current_amd64.deb
+        state: absent
   when: result.rc is defined and result.rc != 0
   tags: [chrome]
 
