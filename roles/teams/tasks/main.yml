@@ -24,12 +24,12 @@
   when: teams_autostart
   tags: [teams]
 
-- name: Only autostart Teams on weekdays between 8:00 - 17:00
+- name: Only autostart Teams on weekdays between 7:00 - 17:00
   replace:
     path: ~/.config/autostart/teams-for-linux.desktop
     regexp: '^Exec=.*'
     # NOTE: percent signs (%) must be doubled to be escaped as per the spec (https://specifications.freedesktop.org/desktop-entry-spec/1.5/exec-variables.html)
-    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 8 && $h -lt 17 ]] && exec /opt/teams-for-linux/teams-for-linux'"
+    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 7 && $h -lt 17 ]] && exec /opt/teams-for-linux/teams-for-linux'"
   when: teams_autostart
   tags: [teams]
 
