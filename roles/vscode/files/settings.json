@@ -42,6 +42,8 @@
   "Lua.workspace.maxPreload": 0,
   "prettier.requireConfig": true,
   "redhat.telemetry.enabled": true,
+  // Default terminal history (1000) not enough, e.g. for Ansible
+  "terminal.integrated.scrollback": 2000,
   // Disable terminal tab completions; too different from normal shell behaviour
   "terminal.integrated.suggest.enabled": false,
   "trailing-spaces.deleteModifiedLinesOnly": true,
