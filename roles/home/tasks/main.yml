@@ -23,3 +23,14 @@
           "linux-headers-generic";
   become: true
   tags: [home]
+
+# Workaround for this bug: https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709
+- name: Remove X11 from login screen
+  file:
+    path: /usr/share/xsessions/ubuntu.desktop
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [home]
