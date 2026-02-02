@@ -30,7 +30,7 @@
 #
 # 1. Close all applications while upgrade is running
 #
-# 1. Restore favourite (pinned) apps in the dock
+# 1. After the upgrade, restore favourite (pinned) apps in the dock
 #
 #    gsettings set org.gnome.shell favorite-apps "$(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep favorite-apps | cut -d ' ' -f 3-)"
 #
@@ -38,13 +38,17 @@
 #
 #    gsettings set $(cat ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep picture-uri-dark)
 #
-# 1. Restore deja-dup backup dates
+# 1. (Where applicable) Restore deja-dup backup dates
 #
 #    grep "org.gnome.DejaDup" ~/Desktop/tmp-24.04-upgrade/gsettings-backup-22.04.txt | grep Z\'$ | while read -r line; do echo "gsettings set $line"; gsettings set $line; done
 #
 # 1. Go through all Ansible tasks with version restrictions and update as needed
 #
 #    e.g. ansible_distribution_version is version('22.04', '=')
+#
+# 1. Make sure old HWE packages are uninstalled (should happen automatically during upgrade)
+#
+#    dpkg -l | grep hwe-22.04
 #
 # 1. Save ubuntu-gnome for last as it typically requires the most customisations, e.g.
 #
@@ -62,7 +66,7 @@
 #
 #    ansible-playbook playbooks/... --tags ubuntu-gnome
 #
-# 1. Run backups (if applicable)
+# 1. (Where applicable) Run backups
 ---
 - hosts: 127.0.0.1
 
@@ -73,17 +77,17 @@
           - firefox
           - gir1.2-gtop-2.0
         state: absent
-        purge: yes
-      become: yes
+        purge: true
+      become: true
       when:
         - ansible_distribution == "Ubuntu"
         - ansible_distribution_version is version('22.04', '=')
 
     - name: Apt autoremove
       apt:
-        autoremove: yes
-        purge: yes
-      become: yes
+        autoremove: true
+        purge: true
+      become: true
       register: result
       changed_when: result.stdout.find(' 0 to remove') == -1
       when:
