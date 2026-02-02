@@ -4,7 +4,18 @@
     name:
       - simple-scan
     state: present
-  become: yes
+  become: true
+  tags: [home-desktop]
+
+- name: Remove undesired packages
+  apt:
+    name:
+      # Does this get installed because it's recommended by ubuntu-desktop? Uninstall to
+      # to prevent "Keep your files safe by backing up regularly" notification
+      - deja-dup
+    state: absent
+    purge: true
+  become: true
   tags: [home-desktop]
 
 # Without this, the login screen can be hard to see (e.g. stretched, too small) on some monitors
@@ -15,7 +26,7 @@
     owner: gdm
     group: gdm
     mode: '0644'
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')

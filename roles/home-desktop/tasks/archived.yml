@@ -6,7 +6,7 @@
   lineinfile:
     path: /etc/modprobe.d/alsa-base.conf
     line: options snd-hda-intel dmic_detect=0
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('18.04', '>=')
@@ -19,7 +19,7 @@
   lineinfile:
     path: /etc/modprobe.d/alsa-base.conf
     line: options snd-hda-intel model=alc233-eapd
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('20.04', '=')
@@ -31,7 +31,7 @@
   lineinfile:
     path: /etc/default/grub
     line: GRUB_DISABLE_OS_PROBER=true
-  become: yes
+  become: true
   notify: Update grub
   tags: [home-desktop]
 
@@ -47,6 +47,6 @@
     - { regexp: '^GRUB_TIMEOUT_STYLE', line: 'GRUB_TIMEOUT_STYLE=menu' }
     # Default value is 0
     - { regexp: '^GRUB_TIMEOUT', line: 'GRUB_TIMEOUT=5' }
-  become: yes
+  become: true
   notify: Update grub
   tags: [home-desktop]
