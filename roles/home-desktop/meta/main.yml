@@ -6,6 +6,7 @@ dependencies:
   - git
   - home
   - libreoffice
+  - simple-scan
   - spotify
   - terminator
   - tiling-shell

@@ -1,0 +1,23 @@
+---
+- name: Install simple-scan
+  apt:
+    name: simple-scan
+    state: present
+  become: true
+  register: result
+  tags: [simple-scan]
+
+- name: Set image resolution
+  dconf:
+    key: /org/gnome/simple-scan/photo-dpi
+    value: '1200'
+  # Only set this once when the package is first installed to allow us to change it as needed
+  when: result.changed
+  tags: [simple-scan]
+
+- name: Set text resolution
+  dconf:
+    key: /org/gnome/simple-scan/text-dpi
+    value: '300'
+  when: result.changed
+  tags: [simple-scan]

@@ -50,3 +50,11 @@
   become: true
   notify: Update grub
   tags: [home-desktop]
+
+- name: Install desired packages
+  apt:
+    name:
+      - simple-scan
+    state: present
+  become: true
+  tags: [home-desktop]

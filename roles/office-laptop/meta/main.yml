@@ -10,6 +10,7 @@ dependencies:
   - libreoffice
   - office
   - safeeyes
+  - simple-scan
   - spotify
   - role: teams
     vars:

@@ -1,12 +1,4 @@
 ---
-- name: Install desired packages
-  apt:
-    name:
-      - simple-scan
-    state: present
-  become: true
-  tags: [home-desktop]
-
 - name: Remove undesired packages
   apt:
     name:
