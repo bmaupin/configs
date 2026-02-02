@@ -7,7 +7,7 @@
     filename: vscode
   with_items:
     - 'deb [arch=amd64,arm64,armhf] http://packages.microsoft.com/repos/code stable main'
-  become: yes
+  become: true
   tags: [vscode]
 
 - name: Check if VS Code is installed
@@ -83,7 +83,7 @@
     src: /usr/share/code/bin/code
     dest: /usr/bin/code
     state: link
-  become: yes
+  become: true
   tags: [vscode]
 
 # https://code.visualstudio.com/docs/setup/linux#_visual-studio-code-is-unable-to-watch-for-file-changes-in-this-large-workspace-error-enospc
@@ -92,5 +92,6 @@
     path: /etc/sysctl.conf
     regexp: '^fs.inotify.max_user_watches=.*'
     line: fs.inotify.max_user_watches=524288
-  become: yes
+  become: true
+  when: modify_system_files
   tags: [vscode]

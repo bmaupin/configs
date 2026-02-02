@@ -14,4 +14,8 @@ firewall_add: '{{ vault_firewall_add }}'
 firewall_delete: '{{ vault_firewall_delete }}'
 home_user_1: '{{ vault_home_user_1 }}'
 home_user_2: '{{ vault_home_user_2 }}'
+# When possible, it's better not to modify system files as this can result in the system
+# update process being interrupted with questions, e.g. "Keep local modifications" or
+# "Replace the file with the maintainer's version"
+modify_system_files: false
 office_ca_certificates: '{{ vault_office_ca_certificates }}'
