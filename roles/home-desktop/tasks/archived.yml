@@ -1,0 +1,52 @@
+---
+# https://bugs.launchpad.net/ubuntu/+source/linux-oem-osp1/+bug/1864061
+# In 18.04 I'm not sure if the audio worked at all
+# In 20.04 it works but it doesn't properly detect the headset microphone so we can't set the volume
+- name: Fix audio
+  lineinfile:
+    path: /etc/modprobe.d/alsa-base.conf
+    line: options snd-hda-intel dmic_detect=0
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('18.04', '>=')
+    - ansible_distribution_version is version('20.04', '<=')
+  tags: [home-desktop]
+
+# https://askubuntu.com/a/1233446/18665
+# This allows the headset microphone to be manually set as an input device, although it still isn't automatically set when plugged in
+- name: Fix headset microphone detection
+  lineinfile:
+    path: /etc/modprobe.d/alsa-base.conf
+    line: options snd-hda-intel model=alc233-eapd
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('20.04', '=')
+  tags: [home-desktop]
+
+# Update: Windows has been removed
+# We'll boot to Windows through the system EFI menu, if at all
+- name: Remove Windows from GRUB boot menu
+  lineinfile:
+    path: /etc/default/grub
+    line: GRUB_DISABLE_OS_PROBER=true
+  become: yes
+  notify: Update grub
+  tags: [home-desktop]
+
+# Update: rtl8812bu kernel module seems to be working great
+# This allows us to boot to an older kernel if the rtl8812bu kernel module isn't working
+- name: Enable grub menu with 5 second timeout
+  lineinfile:
+    path: /etc/default/grub
+    regexp: '{{ item.regexp }}'
+    line: '{{ item.line }}'
+  loop:
+    # Default value is hidden
+    - { regexp: '^GRUB_TIMEOUT_STYLE', line: 'GRUB_TIMEOUT_STYLE=menu' }
+    # Default value is 0
+    - { regexp: '^GRUB_TIMEOUT', line: 'GRUB_TIMEOUT=5' }
+  become: yes
+  notify: Update grub
+  tags: [home-desktop]
