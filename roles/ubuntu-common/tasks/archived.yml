@@ -22,3 +22,23 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('14.04', '<=')
   tags: [ubuntu-common]
+
+# Avoid modifying system files when possible, especially since the Grub menu won't be
+# shown most of the time at boot
+- name: Remove grub recovery menu entry
+  replace:
+    path: /etc/default/grub
+    regexp: '^#GRUB_DISABLE_RECOVERY="true"$'
+    replace: 'GRUB_DISABLE_RECOVERY="true"'
+    backup: yes
+  become: yes
+  notify: Update grub
+  tags: [ubuntu-common]
+
+- name: Remove grub memory test menu entry
+  file:
+    path: /etc/grub.d/20_memtest86+
+    mode: 'a-x'
+  become: yes
+  notify: Update grub
+  tags: [ubuntu-common]

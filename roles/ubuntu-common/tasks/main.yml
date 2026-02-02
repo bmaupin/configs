@@ -66,24 +66,6 @@
     line: 'alias grepc="grep --color=always"'
   tags: [ubuntu-common]
 
-- name: Remove grub recovery menu entry
-  replace:
-    path: /etc/default/grub
-    regexp: '^#GRUB_DISABLE_RECOVERY="true"$'
-    replace: 'GRUB_DISABLE_RECOVERY="true"'
-    backup: yes
-  become: yes
-  notify: Update grub
-  tags: [ubuntu-common]
-
-- name: Remove grub memory test menu entry
-  file:
-    path: /etc/grub.d/20_memtest86+
-    mode: 'a-x'
-  become: yes
-  notify: Update grub
-  tags: [ubuntu-common]
-
 # Gets the release number, e.g. 22.04
 - name: Get Ubuntu release number
   shell: lsb_release -rs
