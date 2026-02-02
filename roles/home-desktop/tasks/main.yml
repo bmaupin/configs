@@ -12,6 +12,9 @@
     name:
       # Does this get installed because it's recommended by ubuntu-desktop? Uninstall to
       # to prevent "Keep your files safe by backing up regularly" notification
+      # NOTE: We could just also set the dconf value /org/gnome/deja-dup/prompt-check to
+      #       'disabled' but we'd have to do it for every user. It makes more sense just
+      #       to uninstall it for now.
       - deja-dup
     state: absent
     purge: true
