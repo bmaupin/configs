@@ -8,6 +8,7 @@ dependencies:
   - libreoffice
   - spotify
   - terminator
+  - tiling-shell
   - ubuntu-gnome
   - vscode
   - wine

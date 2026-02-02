@@ -15,6 +15,7 @@ dependencies:
     vars:
       teams_autostart: yes
   - terminator
+  - tiling-shell
   - ubuntu-gnome
   # Vagrant already requires virtualbox as a dependency
   - vagrant

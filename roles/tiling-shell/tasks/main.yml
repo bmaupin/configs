@@ -1,0 +1,58 @@
+---
+- name: Disable Ubuntu Tiling Assistant
+  shell: >
+    if gsettings get org.gnome.shell disabled-extensions | grep -q tiling-assistant@ubuntu.com; then
+      echo "Ubuntu Tiling Assistant already disabled"
+    else
+      gnome-extensions disable tiling-assistant@ubuntu.com
+    fi
+  register: result
+  changed_when: result.stdout.find("Ubuntu Tiling Assistant already disabled") == -1
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [tiling-shell]
+
+- name: Install Tiling Shell extension
+  shell: |
+    gdbus call --session \
+           --dest org.gnome.Shell.Extensions \
+           --object-path /org/gnome/Shell/Extensions \
+           --method org.gnome.Shell.Extensions.InstallRemoteExtension \
+           "tilingshell@ferrarodomenico.com"
+  args:
+    creates: "{{ lookup('env', 'HOME') }}/.local/share/gnome-shell/extensions/tilingshell@ferrarodomenico.com/"
+  register: extension_install
+  until: extension_install.rc == 0
+  retries: 5
+  delay: 10
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [tiling-shell]
+
+- name: Configure Tiling Shell extension
+  dconf:
+    key: '{{ item.key }}'
+    value: '{{ item.value }}'
+  loop:
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/enable-snap-assist,
+        value: 'false',
+      }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/inner-gaps,
+        value: 'uint32 0',
+      }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/outer-gaps,
+        value: 'uint32 0',
+      }
+    - {
+        key: /org/gnome/shell/extensions/tilingshell/quarter-tiling-threshold,
+        value: 'uint32 1',
+      }
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '=')
+  tags: [tiling-shell]
