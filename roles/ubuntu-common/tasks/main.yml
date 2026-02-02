@@ -101,7 +101,10 @@
     backup: yes
   tags: [ubuntu-common]
 
-# Defaults to 4 GB or 10% of disk space
+# NOTE: For now I'm not gating this with modify_system_files; the inconvenience of having
+#       the update process potentially interrupted seems to be a smaller cost than
+#       unnecessarily using an extra 3 GB of space and increasing SSD wear
+# Defaults to 4 GB or 10% of disk space (whichever is smaller)
 # https://www.freedesktop.org/software/systemd/man/journald.conf.html#SystemMaxUse=
 # To see used space: journalctl --disk-usage
 - name: Limit size of systemd journal
@@ -126,6 +129,7 @@
     - ansible_distribution_version is version('22.04', '<=')
   tags: [ubuntu-common]
 
+# TODO: This is the default; archive this once all computers are upgraded to 24.04
 # Screen sharing seems to work fine in Wayland now and the the login bug is less prevalent with Wayland
 # (https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709)
 - name: Enable Wayland on login screen
@@ -136,7 +140,7 @@
   become: yes
   when:
     - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('22.04', '>')
+    - ansible_distribution_version is version('24.04', '=')
   tags: [ubuntu-common]
 
 # Work around this bug: https://bugs.launchpad.net/snap-store-desktop/+bug/1998233
@@ -269,6 +273,7 @@
     content: ''
     dest: /etc/apt/apt.conf.d/20apt-esm-hook.conf
   become: true
+  when: modify_system_files
   tags: [ubuntu-common]
 
 # Ideally this should run after all other apt tasks in this role
