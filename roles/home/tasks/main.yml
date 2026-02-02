@@ -8,29 +8,3 @@
   become: true
   become_user: '{{ home_user_2 }}'
   tags: [home]
-
-# Automatic kernel updates can break things, in particular the wireless adapter. We'll
-# keep the kernel updated manually
-- name: Disable automatic kernel updates
-  blockinfile:
-    path: /etc/apt/apt.conf.d/50unattended-upgrades
-    marker: '// {mark} ANSIBLE MANAGED BLOCK'
-    insertafter: 'Unattended-Upgrade::Package-Blacklist {'
-    # Preserve newlines, ignore first 2 characters of indentation and keep the remaining 4 characters
-    block: |2
-          "linux-generic";
-          "linux-image-generic";
-          "linux-headers-generic";
-  become: true
-  tags: [home]
-
-# Workaround for this bug: https://bugs.launchpad.net/ubuntu/+source/gdm3/+bug/2089709
-- name: Remove X11 from login screen
-  file:
-    path: /usr/share/xsessions/ubuntu.desktop
-    state: absent
-  become: yes
-  when:
-    - ansible_distribution == "Ubuntu"
-    - ansible_distribution_version is version('24.04', '=')
-  tags: [home]
