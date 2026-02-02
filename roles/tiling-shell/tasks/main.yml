@@ -36,22 +36,21 @@
     key: '{{ item.key }}'
     value: '{{ item.value }}'
   loop:
-    - {
-        key: /org/gnome/shell/extensions/tilingshell/enable-snap-assist,
-        value: 'false',
-      }
-    - {
-        key: /org/gnome/shell/extensions/tilingshell/inner-gaps,
-        value: 'uint32 0',
-      }
-    - {
-        key: /org/gnome/shell/extensions/tilingshell/outer-gaps,
-        value: 'uint32 0',
-      }
-    - {
-        key: /org/gnome/shell/extensions/tilingshell/quarter-tiling-threshold,
-        value: 'uint32 1',
-      }
+    - key: /org/gnome/shell/extensions/tilingshell/enable-snap-assist
+      value: 'false'
+    - key: /org/gnome/shell/extensions/tilingshell/inner-gaps
+      value: 'uint32 0'
+    - key: /org/gnome/shell/extensions/tilingshell/layouts-json
+      # The '|' allows us to set a raw value, necessary because the value contains literal single and double quotes
+      # The '-' ensures that the raw value doesn't contain a newline
+      value: |-
+        '[{"id":"Ultrawide","tiles":[{"x":0,"y":0,"width":0.375,"height":1,"groups":[1]},{"x":0.375,"y":0,"width":0.375,"height":1,"groups":[2,1]},{"x":0.75,"y":0,"width":0.250000000000002,"height":1,"groups":[2]}]},{"id":"Fullscreen","tiles":[{"x":0,"y":0,"width":1,"height":1,"groups":[]}]}]'
+    - key: /org/gnome/shell/extensions/tilingshell/outer-gaps
+      value: 'uint32 0'
+    - key: /org/gnome/shell/extensions/tilingshell/quarter-tiling-threshold
+      value: 'uint32 1'
+    - key: /org/gnome/shell/extensions/tilingshell/selected-layouts
+      value: "[['Ultrawide'], ['Fullscreen']]"
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
