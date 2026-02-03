@@ -25,9 +25,9 @@
 
 - name: Check if Chrome is installed
   shell: dpkg -l google-chrome-stable | grep ^ii
-  changed_when: no
-  check_mode: no
-  failed_when: no
+  changed_when: false
+  check_mode: false
+  failed_when: false
   register: result
   tags: [chrome]
 
@@ -74,7 +74,7 @@
   copy:
     src: /usr/share/applications/google-chrome.desktop
     dest: ~/.local/share/applications/google-chrome.desktop
-    force: no
+    force: false
   tags: [chrome]
 
 - name: Set Chrome language
@@ -83,4 +83,11 @@
     regexp: '^Exec=.*/usr/bin/google-chrome-stable'
     replace: 'Exec=env LANGUAGE=en_CA /usr/bin/google-chrome-stable'
     backup: true
+  tags: [chrome]
+
+- name: Enable Chrome automatic updates
+  copy:
+    content: 'Unattended-Upgrade::Origins-Pattern { "site=dl.google.com"; };'
+    dest: /etc/apt/apt.conf.d/51unattended-upgrades-chrome
+  become: true
   tags: [chrome]
