@@ -3,9 +3,10 @@
   apt:
     name: bcmwl-kernel-source
     state: present
-  become: yes
+  become: true
   tags: [home-laptop]
 
+# TODO: Add this to unattended upgrades instead? See firefox/chrome roles
 # unattended-upgrades runs daily and may upgrade the kernel but won't upgrade
 # bcmwl-kernel-source which could leave the wireless adapter in a broken state
 - name: Make sure bcmwl-kernel-source stays updated
@@ -14,16 +15,16 @@
     dest: /etc/cron.daily/update-bcmwl-kernel-source
     mode: 0755
   become: true
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
 - name: Remove undesired packages
   apt:
     name:
       - mlocate
     state: absent
-    purge: yes
-  become: yes
-  tags: [home-laptop]
+    purge: true
+  become: true
+  tags: [home-thinkpad-t430u]
 
 - name: Handle brightness keys with Xfce Power Manager
   shell: >
@@ -45,7 +46,7 @@
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - ansible_distribution == "Ubuntu" and ansible_distribution_version != "16.04"
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
 # For some reason the brightness increments when using Xfce Power Manager are way too big
 - name: Don't handle brightness keys with Xfce Power Manager
@@ -68,42 +69,42 @@
   when:
     - "'ubuntu-xfce' in ansible_role_names"
     - ansible_distribution == "Ubuntu" and ansible_distribution_version == "16.04"
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
 - name: Disable bluetooth auto power on (Gnome)
   lineinfile:
     path: ~/.profile
     line: 'rfkill block bluetooth'
   when: "'ubuntu-gnome' in ansible_role_names"
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
 - name: Disable bluetooth auto power on (Xfce)
   lineinfile:
     key: '/org/blueman/plugins/powermanager/auto-power-on'
     value: 'false'
   when: "'ubuntu-xfce' in ansible_role_names"
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
+# https://unix.stackexchange.com/a/721939
 - name: Disable Gnome Tracker indexing
-  dconf:
-    key: '{{ item.key }}'
-    value: '{{ item.value | string }}'
-  loop:
-    - {
-        key: /org/freedesktop/Tracker/Miner/Files/crawling-interval,
-        value: '-2',
-      }
-    - {
-        key: /org/freedesktop/Tracker/Miner/Files/enable-monitors,
-        value: 'false',
-      }
-  tags: [home-laptop]
+  ansible.builtin.systemd_service:
+    name: '{{ item }}'
+    masked: true
+    scope: global
+  with_items:
+    - tracker-miner-fs-3.service
+    - tracker-xdg-portal-3.service
+  become: true
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('22.04', '>=')
+  tags: [home-thinkpad-t430u]
 
 - name: Allow volume above 100%
   dconf:
     key: /org/gnome/desktop/sound/allow-volume-above-100-percent
     value: 'true'
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
 
 # https://bugs.launchpad.net/ubuntu/+source/linux/+bug/1808418
 - name: Work around boot errors
@@ -124,6 +125,6 @@
     # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="debug nosplash apic=debug"'
     # This is the default setting
     # replace: 'GRUB_CMDLINE_LINUX_DEFAULT="quiet splash"'
-  become: yes
+  become: true
   notify: Update grub
-  tags: [home-laptop]
+  tags: [home-thinkpad-t430u]
