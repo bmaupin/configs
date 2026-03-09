@@ -4,7 +4,7 @@
   snap:
     name: spotify
     state: absent
-  become: yes
+  become: true
   tags: [spotify]
 
 # NOTE: This often doesn't delete keys, possibly a bug with the ansible module
@@ -19,18 +19,30 @@
     - 5E3C45D7B312C643
     - 7A3A762FAFD4A51F
     - 6224F9941A8AA6D1
-  become: yes
+    - C85668DF69375001
+  become: true
   tags: [spotify]
 
-# NOTE: If this task fails:
-#       1. Add the old key ID to the previous task
-#       2. Get the latest key URL from https://www.spotify.com/us/download/linux/ and
-#          update it below
+# It would be nice to only run this when we need it, but the spotify-client package
+# installs without it
+- name: Get the Spotify public key URL
+  ansible.builtin.uri:
+    url: https://www.spotify.com/us/download/linux/
+    return_content: true
+  register: result
+  tags: [spotify]
+
+- name: Set the Spotify public key URL
+  ansible.builtin.set_fact:
+    spotify_key_url: "{{ result.content | regex_search('https://download\\.spotify\\.com/debian/pubkey_.*\\.asc') }}"
+  failed_when: spotify_key_url is none or spotify_key_url == ""
+  tags: [spotify]
+
 - name: Install Spotify GPG key
   ansible.builtin.apt_key:
-    url: https://download.spotify.com/debian/pubkey_C85668DF69375001.gpg
+    url: '{{ spotify_key_url }}'
     keyring: /etc/apt/trusted.gpg.d/spotify.gpg
-  become: yes
+  become: true
   tags: [spotify]
 
 - name: Install Spotify repository
@@ -38,16 +50,16 @@
     repo: deb http://repository.spotify.com stable non-free
     state: present
     filename: spotify
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   tags: [spotify]
 
 - name: Install Spotify
   apt:
     name: spotify-client
     state: latest
-    update_cache: yes
-  become: yes
+    update_cache: true
+  become: true
   tags: [spotify]
 
 # NOTE: If we run into an issue again where Spotify freezes where there probably should've been an ad, use mitmproxy to debug
@@ -70,7 +82,7 @@
   loop:
     - 0.0.0.0 pagead.l.doubleclick.net
     - 0.0.0.0 spclient.wg.spotify.com
-  become: yes
+  become: true
   tags: [spotify]
 
 - name: Install extension to lower volume of ads
