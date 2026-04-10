@@ -99,6 +99,17 @@
     - ansible_distribution_version is version('22.04', '>=')
   tags: [ubuntu-common]
 
+- name: Uninstall 22.04 HWE kernel
+  apt:
+    name: linux-generic-hwe-22.04
+    state: absent
+    purge: true
+  become: true
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '>=')
+  tags: [ubuntu-common]
+
 - name: Copy .eslintrc
   copy:
     src: .eslintrc

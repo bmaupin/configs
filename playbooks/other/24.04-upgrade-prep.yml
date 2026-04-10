@@ -46,7 +46,7 @@
 #
 #    e.g. ansible_distribution_version is version('22.04', '=')
 #
-# 1. Make sure old HWE packages are uninstalled (should happen automatically during upgrade)
+# 1. Make sure old HWE packages are uninstalled (should happen automatically during upgrade, if not create a task in ubuntu-common)
 #
 #    dpkg -l | grep hwe-22.04
 #
