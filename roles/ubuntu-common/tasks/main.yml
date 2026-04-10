@@ -14,27 +14,32 @@
       - empathy
       - evolution
     state: absent
-    purge: yes
-  become: yes
+    purge: true
+  become: true
   tags: [ubuntu-common]
 
 - name: Install desired packages
   apt:
     name:
       - mpv
+      # This is what allows for selecting laptop power profiles (performance, balanced,
+      # power saver). It's a default package but it can get uninstalled if a conflicting
+      # package is installed, e.g. tlp
+      # some testing.
+      - power-profiles-daemon
       # Symlinks /usr/bin/python to python3
       - python-is-python3
       - vim
     state: present
-  become: yes
+  become: true
   tags: [ubuntu-common]
 
 # This happens any time there are crash report files in /var/crash (https://askubuntu.com/a/1161174/18665)
 - name: Disable annoying System program problem detected popup
   service:
     name: apport.service
-    enabled: no
-  become: yes
+    enabled: false
+  become: true
   tags: [ubuntu-common]
 
 # It would still be good to know if there are any crash reports so we can clean them up
@@ -49,7 +54,7 @@
   copy:
     src: .vimrc
     dest: ~/.vimrc
-    backup: yes
+    backup: true
   tags: [ubuntu-common]
 
 # https://unix.stackexchange.com/a/19320/14436
@@ -69,8 +74,8 @@
 # Gets the release number, e.g. 22.04
 - name: Get Ubuntu release number
   shell: lsb_release -rs
-  changed_when: no
-  check_mode: no
+  changed_when: false
+  check_mode: false
   register: release
   tags: [ubuntu-common]
 
@@ -79,16 +84,16 @@
 - name: Install the HWE kernel
   apt:
     name: linux-generic-hwe-{{ release.stdout }}
-    install_recommends: yes
-  become: yes
+    install_recommends: true
+  become: true
   tags: [ubuntu-common]
 
 - name: Uninstall 20.04 HWE kernel
   apt:
     name: linux-generic-hwe-20.04
     state: absent
-    purge: yes
-  become: yes
+    purge: true
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
@@ -98,7 +103,7 @@
   copy:
     src: .eslintrc
     dest: ~/.eslintrc
-    backup: yes
+    backup: true
   tags: [ubuntu-common]
 
 # NOTE: For now I'm not gating this with modify_system_files; the inconvenience of having
@@ -112,7 +117,7 @@
     path: /etc/systemd/journald.conf
     regexp: '^(#)?SystemMaxUse=.*'
     replace: 'SystemMaxUse=1G'
-  become: yes
+  become: true
   tags: [ubuntu-common]
 
 # Among other things, screen sharing on Teams is still broken on Wayland. There's no
@@ -123,7 +128,7 @@
     path: /etc/gdm3/custom.conf
     regexp: '^#WaylandEnable=false'
     replace: 'WaylandEnable=false'
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '<=')
@@ -137,7 +142,7 @@
     path: /etc/gdm3/custom.conf
     regexp: '^WaylandEnable=false'
     replace: '#WaylandEnable=false'
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
@@ -207,7 +212,7 @@
   copy:
     src: stop-snap-store.desktop
     dest: /etc/xdg/autostart/stop-snap-store.desktop
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '<=')
@@ -229,7 +234,7 @@
   file:
     path: /etc/xdg/autostart/stop-snap-store.desktop
     state: absent
-  become: yes
+  become: true
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>')
@@ -238,16 +243,16 @@
 - name: Get the list of kernel headers that can be uninstalled
   shell: dpkg -l | grep linux-header | egrep -v "linux-headers-generic" | egrep -v $(dpkg -l | grep linux-image | grep ^i | awk '{print $2}' | cut -d - -f 3,4 | egrep -v generic | sort -u | head -c -1 | tr '\n' '|') | awk '{ print $2 }'
   register: kernel_headers_to_uninstall
-  changed_when: no
+  changed_when: false
   tags: [ubuntu-common]
 
 - name: Purge old kernel headers
   apt:
     name: '{{ item }}'
     state: absent
-    purge: yes
+    purge: true
   loop: '{{ kernel_headers_to_uninstall.stdout_lines }}'
-  become: yes
+  become: true
   tags: [ubuntu-common]
 
 # We could also just do this in one shell command, e.g. apt -y purge $(dpkg -l | egrep "^ic|^rc" | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" | tr '\n' ' ')
@@ -255,16 +260,16 @@
 - name: Get the list of kernel packages that can be purged
   shell: dpkg -l | egrep "^ic|^rc" | awk '{ print $2 }' | egrep "^linux-image|^linux-modules" || true
   register: kernel_packages_to_purge
-  changed_when: no
+  changed_when: false
   tags: [ubuntu-common]
 
 - name: Purge uninstalled/partially installed kernel packages
   apt:
     name: '{{ item }}'
     state: absent
-    purge: yes
+    purge: true
   loop: '{{ kernel_packages_to_purge.stdout_lines }}'
-  become: yes
+  become: true
   tags: [ubuntu-common]
 
 # https://askubuntu.com/a/1434762/18665
@@ -279,9 +284,9 @@
 # Ideally this should run after all other apt tasks in this role
 - name: Apt autoremove
   apt:
-    autoremove: yes
-    purge: yes
-  become: yes
+    autoremove: true
+    purge: true
+  become: true
   register: result
   changed_when: result.stdout.find(' 0 to remove') == -1
   tags: [ubuntu-common]
