@@ -24,11 +24,13 @@
 #
 #    ansible-playbook playbooks/other/24.04-upgrade-prep.yml
 #
+# 1. Close all applications
+#
 # 1. Upgrade Ubuntu
 #
 #    1. Open Software Updater, and the upgrade prompt should pop up. If not, install updates, reboot, and try again.
 #
-# 1. Close all applications while upgrade is running
+#    ⚠️ Any pending package updates will block the upgrade
 #
 # 1. After the upgrade, restore favourite (pinned) apps in the dock
 #
@@ -50,7 +52,11 @@
 #
 #    dpkg -l | grep hwe-22.04
 #
-# 1. Save ubuntu-gnome for last as it typically requires the most customisations, e.g.
+# 1. If need be, install ansible
+#
+#    sudo apt install ansible
+#
+# 1. Run playbooks, saving ubuntu-gnome for last as it typically requires the most customisations, e.g.
 #
 #    ansible-playbook playbooks/... --skip ubuntu-gnome
 #
@@ -65,6 +71,8 @@
 # 1. Test just the Gnome playbook, e.g.
 #
 #    ansible-playbook playbooks/... --tags ubuntu-gnome
+#
+# 1. Reboot and log in to a Wayland session
 #
 # 1. (Where applicable) Run backups
 ---
@@ -125,7 +133,7 @@
         - ansible_distribution_version is version('22.04', '=')
 
     - name: Back up network settings
-      shell: ifconfig > ~/Desktop/tmp-24.04-upgrade/ifconfig-22.04.txt
+      shell: ip addr > ~/Desktop/tmp-24.04-upgrade/network-22.04.txt
       when:
         - ansible_distribution == "Ubuntu"
         - ansible_distribution_version is version('22.04', '=')
