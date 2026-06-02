@@ -46,6 +46,8 @@
   become: yes
   tags: [virtualbox]
 
+# NOTE: There's no need to explicitly uninstall old versions as this will happen when
+#       newer versions are installed
 - name: Install VirtualBox
   apt:
     name: 'virtualbox-{{ virtualbox_version }}'
