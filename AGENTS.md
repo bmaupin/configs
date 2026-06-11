@@ -1,0 +1,6 @@
+- Be concise
+- Merely provide guidance and do not write to any files unless otherwise requested
+- Use British English spelling
+- Don't use rg, use grep
+- Use true and false instead of yes and no
+- Only use command or shell as a last resort when no other modules are available
