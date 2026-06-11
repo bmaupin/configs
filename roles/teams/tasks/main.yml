@@ -1,10 +1,10 @@
 ---
 # NOTE: The Teams app for Linux was retired in favour of a PWA
+# - The PWA seems to be working well
+# - There's also this unofficial client: https://github.com/IsmaelMartinez/teams-for-linux
 # - Teams in Firefox is meh
 #   - A lot of disconnects during video calls
 #   - Status changes to away when the mouse isn't over the Teams tab in the browser
-# - Could try the PWA on Chrome
-# - There's also this unofficial client: https://github.com/IsmaelMartinez/teams-for-linux
 
 - name: Remove old autostart file
   file:
@@ -12,15 +12,28 @@
     state: absent
   tags: [teams]
 
-# TODO: Install teams-for-linux
-# https://github.com/IsmaelMartinez/teams-for-linux
-
+# NOTE: If the app ID ever changes
+# 1. Check that the PWA exists (and extract appID in same task?), e.g.
+#    $ grep -l 'Name=Microsoft Teams (PWA)' ~/.local/share/applications/*.desktop
+#    /home/bmaupin/.local/share/applications/chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default.desktop
+# 1. If it doesn't, show an error message with instructions
+#    1. Go to teams.microsoft.com in Chrome
+#    1. Make sure ad blocker is disabled (will block presence status)
+#    1. In Notification settings, enable accurate presence
+#    1. Click open in web app (or something like that)
+# 1. (runtime) Get the app ID
+#    - 👉 Do this as part of the same command that checks if the PWA has been created?
+#    - Extract it from the filename (e.g. cifhbcnohmdccbgoicgdjpfamggdegmo)
+# 1. (ahead of time) Update the autostart file to use the new Exec
+#    $ grep Exec "$filename"
+#    Exec=/opt/google/chrome/google-chrome --profile-directory=Default --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo %U
+# 1. (runtime) Insert the app ID into the exec command
 - name: Copy custom autostart file
   copy:
-    src: /usr/share/applications/teams-for-linux.desktop
+    src: ~/.local/share/applications/chrome-cifhbcnohmdccbgoicgdjpfamggdegmo-Default.desktop
     dest: ~/.config/autostart/teams-for-linux.desktop
     # Don't overwrite the file since we'll modify it in the next step
-    force: no
+    force: false
   when: teams_autostart
   tags: [teams]
 
@@ -29,7 +42,7 @@
     path: ~/.config/autostart/teams-for-linux.desktop
     regexp: '^Exec=.*'
     # NOTE: percent signs (%) must be doubled to be escaped as per the spec (https://specifications.freedesktop.org/desktop-entry-spec/1.5/exec-variables.html)
-    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 7 && $h -lt 17 ]] && exec /opt/teams-for-linux/teams-for-linux'"
+    replace: "Exec=bash -c 'h=$(date +%%-H); [[ $(date +%%u) -le 5 && $h -ge 7 && $h -lt 17 ]] && exec /opt/google/chrome/google-chrome --app-id=cifhbcnohmdccbgoicgdjpfamggdegmo'"
   when: teams_autostart
   tags: [teams]
 
