@@ -1,6 +1,6 @@
 ---
 # If this task fails, do: sudo snap refresh snap-store --channel=latest/stable/ubuntu-22.04
-- name: Remove undesired snap packages
+- name: Remove undesired snap packages (Ubuntu 22.04+)
   snap:
     name:
       - core18
@@ -13,6 +13,30 @@
   when:
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('22.04', '>=')
+  tags: [ubuntu-gnome]
+
+- name: Remove undesired snap packages (Ubuntu 24.04+)
+  snap:
+    name:
+      - gnome-3-38-2004
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '>=')
+  tags: [ubuntu-gnome]
+
+# It seems these have to be removed separately because the snaps in the previous task
+# depend on them and either snap or Ansible isn't smart enough to handle this
+- name: Remove core snaps (Ubuntu 24.04+)
+  snap:
+    name:
+      - core20
+    state: absent
+  become: yes
+  when:
+    - ansible_distribution == "Ubuntu"
+    - ansible_distribution_version is version('24.04', '>=')
   tags: [ubuntu-gnome]
 
 - name: Set theme (Ubuntu 22.04)
