@@ -116,6 +116,12 @@
     - ~/.config/autostart/dropbox-fixed.desktop
   tags: [dropbox]
 
+- name: Create ~/.config/autostart directory
+  file:
+    path: ~/.config/autostart
+    state: directory
+  tags: [dropbox]
+
 # We have to use a custom desktop file because the default one (dropbox.desktop) is managed by the Dropbox app and will
 # be deleted or overwritten
 - name: Copy custom autostart file
