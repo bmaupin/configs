@@ -12,7 +12,7 @@
     name: google-chrome-stable
     state: absent
   become: true
-  when: '"https://dl.google.com/linux/chrome/deb" not in apt_update.stdout'
+  when: '"https://dl.google.com/linux/chrome-stable/deb" not in apt_update.stdout'
   tags: [chrome]
 
 - name: Remove Chrome if repo is broken
@@ -20,7 +20,7 @@
     name: google-chrome-stable
     state: absent
   become: true
-  when: '"GPG error: https://dl.google.com/linux/chrome/deb stable InRelease: The following signatures couldn''t be verified because the public key is not available: NO_PUBKEY" in apt_update.stderr'
+  when: '"GPG error: https://dl.google.com/linux/chrome-stable/deb stable InRelease: The following signatures couldn''t be verified because the public key is not available: NO_PUBKEY" in apt_update.stderr'
   tags: [chrome]
 
 - name: Check if Chrome is installed
