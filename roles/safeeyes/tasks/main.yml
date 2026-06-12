@@ -6,10 +6,29 @@
   become: yes
   tags: [safeeyes]
 
-- name: Create ~/.config/safeeyes directory
-  file:
+- name: Check if ~/.config/safeeyes exists
+  stat:
     path: ~/.config/safeeyes
-    state: directory
+  register: result
+  tags: [safeeyes]
+
+# When Safe Eyes is first installed it copies some initial configuration from
+# /usr/lib/python3/dist-packages/safeeyes/config/ to ~/.config/safeeyes. We could do this
+# manually but then it would break if Safe Eyes changes its behaviour. Note that this
+# doesn't seem to properly start Safe Eyes so there's no need to kill it, but it does
+# create the configuration.
+- name: Start Safe Eyes to create initial configuration
+  shell: safeeyes; sleep 1
+  when: not result.stat.exists
+  tags: [safeeyes]
+
+# When Safe Eyes is first launched, it creates a symlink at ~/.config/autostart/safeeyes.desktop
+# which we need to delete first to create our own autostart file
+- name: Delete ~/.config/autostart/safeeyes.desktop symlink
+  file:
+    path: ~/.config/autostart/safeeyes.desktop
+    state: absent
+  when: not result.stat.exists
   tags: [safeeyes]
 
 - name: Copy Safe Eyes configuration
