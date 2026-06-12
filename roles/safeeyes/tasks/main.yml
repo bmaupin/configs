@@ -6,6 +6,18 @@
   become: yes
   tags: [safeeyes]
 
+- name: Create ~/.config/safeeyes directory
+  file:
+    path: ~/.config/safeeyes
+    state: directory
+  tags: [safeeyes]
+
+- name: Copy Safe Eyes configuration
+  copy:
+    src: safeeyes.json
+    dest: ~/.config/safeeyes/safeeyes.json
+  tags: [safeeyes]
+
 - name: Configure Safe Eyes to autostart
   copy:
     src: /usr/share/applications/safeeyes.desktop
