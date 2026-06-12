@@ -403,6 +403,12 @@
   when: emoji_picker_favourites is not defined or emoji_picker_favourites.value is none
   tags: [ubuntu-gnome]
 
+- name: Add Desktop bookmark to file browser
+  lineinfile:
+    path: ~/.config/gtk-3.0/bookmarks
+    line: 'file:///home/{{ ansible_user_id }}/Desktop'
+  tags: [ubuntu-gnome]
+
 # This ensures that Gnome gets restarted even if Ansible aborts due to an error in another role
 - name: Flush handlers
   meta: flush_handlers

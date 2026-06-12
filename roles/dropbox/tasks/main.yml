@@ -141,6 +141,13 @@
   ignore_errors: '{{ ansible_check_mode }}'
   tags: [dropbox]
 
+- name: Add Dropbox bookmark to file browser
+  lineinfile:
+    path: ~/.config/gtk-3.0/bookmarks
+    line: 'file:///home/{{ ansible_user_id }}/Dropbox'
+  when: "'ubuntu-gnome' in ansible_role_names"
+  tags: [dropbox]
+
 # We can't use the ansible find module because it can only filter on the basename portion of the path
 - name: Find node_modules directories
   # Ignore nested node_modules directories
