@@ -13,6 +13,7 @@
     "strings": true
   },
   "editor.rulers": [90],
+  "editor.tabSize": 2,
   "extensions.ignoreRecommendations": true,
   "files.associations": {
     "*.conf.j2": "properties",
@@ -62,24 +63,6 @@
   "xml.format.maxLineWidth": 0,
   // The Feedback icon now needs to be disabled manually by clicking on the bottom bar and unchecking Feedback :/
   // "workbench.statusBar.feedback.visible": false,
-  "[css]": {
-    "editor.tabSize": 2
-  },
-  "[html]": {
-    "editor.tabSize": 2
-  },
-  "[javascript]": {
-    "editor.tabSize": 2
-  },
-  "[json]": {
-    "editor.tabSize": 2
-  },
-  "[jsonc]": {
-    "editor.tabSize": 2
-  },
-  "[typescript]": {
-    "editor.tabSize": 2
-  },
   "[xml]": {
     "editor.defaultFormatter": "redhat.vscode-xml"
   }
