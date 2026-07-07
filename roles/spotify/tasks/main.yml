@@ -47,10 +47,20 @@
 
 - name: Install Spotify repository
   apt_repository:
-    repo: deb http://repository.spotify.com stable non-free
+    repo: deb https://repository.spotify.com stable non-free
     state: present
     filename: spotify
     update_cache: true
+  become: true
+  tags: [spotify]
+
+- name: Remove old repository entries
+  apt_repository:
+    repo: '{{ item }}'
+    state: absent
+    filename: spotify
+  with_items:
+    - 'deb http://repository.spotify.com stable non-free'
   become: true
   tags: [spotify]
 
