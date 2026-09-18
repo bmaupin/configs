@@ -89,6 +89,13 @@
     value: 'false'
   tags: [ubuntu-gnome]
 
+# On rare occasions, Gnome can crash and disable user extensions
+- name: Enable user extensions
+  dconf:
+    key: /org/gnome/shell/disable-user-extensions
+    value: 'false'
+  tags: [ubuntu-gnome]
+
 - name: Configure Desktop Icons NG extension
   dconf:
     key: '{{ item.key }}'
