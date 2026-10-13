@@ -18,3 +18,20 @@
     - ansible_distribution == "Ubuntu"
     - ansible_distribution_version is version('24.04', '=')
   tags: [office-laptop]
+
+- name: Make sure ~/.config/pipewire/pipewire-pulse.conf.d exists
+  file:
+    path: ~/.config/pipewire/pipewire-pulse.conf.d
+    state: directory
+    recurse: yes
+  tags: [office-laptop]
+
+# https://askubuntu.com/a/1525337/18665
+- name: Fix occasional audio dropout
+  copy:
+    content: |
+      pulse.properties = {
+          pulse.min.quantum = 256/48000
+      }
+    dest: ~/.config/pipewire/pipewire-pulse.conf.d/10-quantum.conf
+  tags: [office-laptop]
